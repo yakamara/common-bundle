@@ -1,0 +1,18 @@
+{
+    "name": "yakamara/common-bundle",
+    "type": "symfony-bundle",
+    "description": "Yakamara CommonBundle",
+
+    "autoload": {
+        "psr-4": { "Yakamara\\CommonBundle\\": "" }
+    },
+
+    "require": {
+        "php": ">=5.5"
+    },
+    "require-dev": {
+        "symfony/symfony": "~2.7",
+        "propel/propel": "~2.0@dev",
+        "propel/propel-bundle": "~2.0@dev"
+    }
+}

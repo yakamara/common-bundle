@@ -1,0 +1,26 @@
+services:
+    yakamara_common.datetime:
+        class: Yakamara\CommonBundle\Util\DateTimeUtil
+        arguments: [@translator]
+    yakamara_common.form.type.gender:
+        class: Yakamara\CommonBundle\Form\Type\GenderType
+        tags:
+            - { name: form.type, alias: gender }
+    yakamara_common.form.extension.label:
+        class: Yakamara\CommonBundle\Form\Extension\LabelExtension
+        tags:
+            - { name: form.type_extension, alias: form }
+    yakamara_common.form.extension.date:
+        class: Yakamara\CommonBundle\Form\Extension\DateExtension
+        tags:
+            - { name: form.type_extension, alias: date }
+    yakamara_common.form.extension.model:
+        class: Yakamara\CommonBundle\Form\Extension\ModelExtension
+        tags:
+            - { name: form.type_extension, alias: model }
+    yakamara_common.twig_extension:
+        class: Yakamara\CommonBundle\Twig\Extension
+        arguments: [@service_container]
+        public: false
+        tags:
+            - { name: twig.extension }

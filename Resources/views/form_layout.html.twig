@@ -1,0 +1,70 @@
+{% extends "bootstrap_3_layout.html.twig" %}
+
+{% block number_widget %}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' number')|trim}) -%}
+    {{- block('form_widget_simple') -}}
+{% endblock %}
+
+{% block percent_widget -%}
+    <div class="input-group percent">
+        {{- block('form_widget_simple') -}}
+        <span class="input-group-addon">%</span>
+    </div>
+{%- endblock percent_widget %}
+
+{% block date_widget -%}
+    {% if widget == 'single_text' %}
+        {% set attr = attr|merge({class: (attr.class|default('') ~ ' date')|trim}) %}
+        {{- block('form_widget_simple') -}}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{%- endblock date_widget %}
+
+{% block gender_widget -%}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' gender')|trim}) %}
+    {{- block('choice_widget_collapsed') -}}
+{%- endblock %}
+
+{% block button_widget -%}
+    {%- if label is empty -%}
+        {%- if label_format is not empty -%}
+            {% set label = label_format|replace({
+                '%name%': name,
+                '%id%': id,
+            }) %}
+        {%- else -%}
+            {% set label = 'action.' ~ name %}
+        {%- endif -%}
+    {%- endif -%}
+    {% set attr = attr|merge({class: (attr.class|default('btn-default') ~ ' btn')|trim}) %}
+    <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>
+        {% if icon|default(false) %}{{ icon(icon) }}{% endif %}
+        {{ label|trans({}, translation_domain) }}
+    </button>
+{%- endblock %}
+
+{% block submit_widget -%}
+    {% set attr = attr|merge({class: (attr.class|default('btn-success'))|trim}) %}
+    {% set icon = 'check-circle' %}
+    <div class="text-right">
+        {{- parent() -}}
+    </div>
+{%- endblock %}
+
+{%- block widget_attributes -%}
+    {% set required = false %}
+    {{ parent() }}
+{%- endblock widget_attributes -%}
+
+{% block form_errors -%}
+    {% if errors|length > 0 -%}
+        {% if form.parent %}<span class="help-block">{% else %}<div class="alert alert-danger">{% endif %}
+        <ul class="list-unstyled">
+            {%- for error in errors -%}
+                <li><i class="fa fa-exclamation-triangle"></i> {{ error.message }}</li>
+            {%- endfor -%}
+        </ul>
+        {% if form.parent %}</span>{% else %}</div>{% endif %}
+    {%- endif %}
+{%- endblock form_errors %}

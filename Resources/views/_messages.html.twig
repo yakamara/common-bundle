@@ -1,0 +1,13 @@
+{% for message in app.session.flashbag.get('success') %}
+    <p class="alert alert-success">
+        {{ icon('check-circle') }}
+        {{ message|trans|nl2br }}
+    </p>
+{% endfor %}
+
+{% for message in app.session.flashbag.get('error') %}
+    <p class="alert alert-danger">
+        {{ icon('time-circle') }}
+        {{ message|trans|nl2br }}
+    </p>
+{% endfor %}

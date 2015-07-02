@@ -1,0 +1,29 @@
+<?php
+
+namespace ##NAMESPACE##;
+
+use AppBundle\Model\##MODEL##;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class ##CLASS## extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder##BUILD_CODE##
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => ##MODEL##::class,
+        ]);
+    }
+
+    public function getName()
+    {
+        return '##TYPE_NAME##';
+    }
+}

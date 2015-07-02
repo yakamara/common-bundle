@@ -1,0 +1,12 @@
+label:
+    gender:
+        f: Frau
+        m: Herr
+
+descriptive_datetime:
+    justNow: eben gerade
+    yesterday: gestern %time%
+    today: heute %time%
+    diff:
+        hour: vor einer Stunde|vor %count% Stunden
+        minute: vor einer Minute|vor %count% Minuten
