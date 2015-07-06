@@ -59,7 +59,7 @@ class Extension extends \Twig_Extension
         $datetime = \twig_date_converter($env, $datetime);
         $descriptiveDate = $this->container->get('yakamara_common.datetime')->descriptiveDateTime($datetime, $descriptive);
         if ($descriptive) {
-            $descriptiveDate = '<span data-toggle="tooltip" title="' . $datetime->format('d.m.Y H:i') . '">' . $descriptiveDate . '</span>';
+            $descriptiveDate = '<span data-toggle="tooltip" title="' . $datetime->format('d.m.Y') . '&nbsp;' . $datetime->format('H:i') . '">' . $descriptiveDate . '</span>';
         }
         return $descriptiveDate;
     }
