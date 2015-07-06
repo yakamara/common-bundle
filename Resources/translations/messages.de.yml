@@ -3,6 +3,8 @@ label:
         f: Frau
         m: Herr
 
+select.empty_value: – auswählen –
+
 descriptive_datetime:
     justNow: eben gerade
     yesterday: gestern %time%
