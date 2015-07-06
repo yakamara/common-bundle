@@ -10,8 +10,6 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 class FormGenerateCommand extends \Propel\PropelBundle\Command\FormGenerateCommand
 {
-    const COLUMN_IGNORE = ['created_at', 'updated_at'];
-
     protected function configure()
     {
         parent::configure();
@@ -55,7 +53,7 @@ class FormGenerateCommand extends \Propel\PropelBundle\Command\FormGenerateComma
     {
         $buildCode = '';
         foreach ($table->getColumns() as $column) {
-            if (!$column->isPrimaryKey() && !in_array($column->getName(), self::COLUMN_IGNORE)) {
+            if (!$column->isPrimaryKey() && !in_array($column->getName(), ['created_at', 'updated_at'])) {
                 $buildCode .= sprintf("\n            ->add('%s')", lcfirst($column->getPhpName()));
             }
         }
