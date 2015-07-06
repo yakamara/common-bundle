@@ -19,6 +19,12 @@ class Extension extends \Twig_Extension
             new \Twig_SimpleFilter('percent', [$this, 'percent'], [
                 'needs_environment' => true,
             ]),
+            new \Twig_SimpleFilter('number_format', function (\Twig_Environment $env, $number, $decimal = null, $decimalPoint = null, $thousandSep = null) {
+                return str_replace('-', '−', \twig_number_format_filter($env, $number, $decimal, $decimalPoint, $thousandSep));
+            }, ['needs_environment' => true]),
+            new \Twig_SimpleFilter('break_on_slash', function ($text) {
+                return str_replace('/', '/&#8203;', $text);
+            }, ['pre_escape' => 'html', 'is_safe' => ['html']]),
         ];
     }
 
