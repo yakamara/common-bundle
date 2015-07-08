@@ -1,3 +1,6 @@
+parameters:
+    security.access.decision_manager.class: Yakamara\CommonBundle\Security\AccessDecisionManager
+
 services:
     yakamara_common.datetime:
         class: Yakamara\CommonBundle\Util\DateTimeUtil
