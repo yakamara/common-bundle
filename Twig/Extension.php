@@ -31,6 +31,13 @@ class Extension extends \Twig_Extension
     public function getFunctions()
     {
         return [
+            new \Twig_SimpleFunction('switched_user', function () {
+                return $this->container->get('yakamara_common.switch_user_checker')->isUserSwitched();
+            }),
+            new \Twig_SimpleFunction('switched_user_source', function () {
+                return $this->container->get('yakamara_common.switch_user_checker')->getSwitchedUserSource();
+            }),
+            new \Twig_SimpleFunction('current_url', [$this, 'currentUrl']),
             new \Twig_SimpleFunction('descriptive_date', [$this, 'descriptiveDate'], [
                 'needs_environment' => true,
                 'is_safe' => ['html'],
@@ -39,7 +46,6 @@ class Extension extends \Twig_Extension
                 'pre_escape' => 'html',
                 'is_safe' => ['html'],
             ]),
-            new \Twig_SimpleFunction('current_url', [$this, 'currentUrl']),
             new \Twig_SimpleFunction('email', [$this, 'email'], [
                 'pre_escape' => 'html',
                 'is_safe' => ['html'],
@@ -55,6 +61,16 @@ class Extension extends \Twig_Extension
     public function percent(\Twig_Environment $env, $number, $decimal = null)
     {
         return \twig_number_format_filter($env, $number * 100, $decimal);
+    }
+
+    public function currentUrl(array $parameters)
+    {
+        $parameters = array_merge(
+            $this->container->get('request_stack')->getMasterRequest()->query->all(),
+            $parameters
+        );
+        $parameters = array_filter($parameters);
+        return '?'.http_build_query($parameters, null, '&');
     }
 
     public function descriptiveDate(\Twig_Environment $env, $datetime)
@@ -73,16 +89,6 @@ class Extension extends \Twig_Extension
     public function icon($icon)
     {
         return '<i class="fa fa-'.$icon.'"></i>';
-    }
-
-    public function currentUrl(array $parameters)
-    {
-        $parameters = array_merge(
-            $this->container->get('request_stack')->getMasterRequest()->query->all(),
-            $parameters
-        );
-        $parameters = array_filter($parameters);
-        return '?'.http_build_query($parameters, null, '&');
     }
 
     public function email($email)
