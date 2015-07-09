@@ -26,6 +26,9 @@ class ModelExtension extends AbstractTypeExtension
                 }
                 return false;
             },
+            'data_class' => function (Options $options) {
+                return $options['expanded'] ? $options['class'] : null;
+            },
         ]);
     }
 
