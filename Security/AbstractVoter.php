@@ -22,13 +22,12 @@ abstract class AbstractVoter implements VoterInterface
         return in_array($attribute, $this->getSupportedAttributes());
     }
 
-    public function supportsClass($class)
-    {
-        return true;
-    }
-
     public function vote(TokenInterface $token, $object, array $attributes)
     {
+        if (!$this->supportsClass($object ? get_class($object) : null)) {
+            return self::ACCESS_ABSTAIN;
+        }
+
         // abstain vote by default in case none of the attributes are supported
         $vote = self::ACCESS_ABSTAIN;
 

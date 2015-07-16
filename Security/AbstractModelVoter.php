@@ -11,17 +11,12 @@ abstract class AbstractModelVoter extends AbstractVoter
 {
     public function supportsClass($class)
     {
-        $modelClass = $this->getModelClass();
-        return $modelClass === $class || is_subclass_of($class, $modelClass);
-    }
-
-    public function vote(TokenInterface $token, $object, array $attributes)
-    {
-        if (!$object || !$this->supportsClass(get_class($object))) {
-            return self::ACCESS_ABSTAIN;
+        if (!$class) {
+            return false;
         }
 
-        return parent::vote($token, $object, $attributes);
+        $modelClass = $this->getModelClass();
+        return $modelClass === $class || is_subclass_of($class, $modelClass);
     }
 
     abstract protected function getModelClass();
