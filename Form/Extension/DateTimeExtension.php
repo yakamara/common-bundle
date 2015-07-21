@@ -5,13 +5,14 @@ namespace Yakamara\CommonBundle\Form\Extension;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class DateExtension extends AbstractTypeExtension
+class DateTimeExtension extends AbstractTypeExtension
 {
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'widget' => 'single_text',
-            'format' => 'dd.MM.yyyy',
+            'date_widget' => 'single_text',
+            'date_format' => 'dd.MM.yyyy',
+            'time_widget' => 'single_text',
             'html5' => false,
         ]);
     }

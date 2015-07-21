@@ -20,6 +20,14 @@ services:
         class: Yakamara\CommonBundle\Form\Extension\DateExtension
         tags:
             - { name: form.type_extension, alias: date }
+    yakamara_common.form.extension.time:
+        class: Yakamara\CommonBundle\Form\Extension\TimeExtension
+        tags:
+            - { name: form.type_extension, alias: time }
+    yakamara_common.form.extension.datetime:
+        class: Yakamara\CommonBundle\Form\Extension\DateTimeExtension
+        tags:
+            - { name: form.type_extension, alias: datetime }
     yakamara_common.form.extension.model:
         class: Yakamara\CommonBundle\Form\Extension\ModelExtension
         arguments: [@translator]
