@@ -8,26 +8,22 @@ use Symfony\Component\Security\Core\Role\SwitchUserRole;
 
 class SwitchUserChecker
 {
-    /** @var TokenStorageInterface */
-    private $tokenStorage;
+    /** @var SecurityContext */
+    private $securityContext;
 
-    /** @var AuthorizationCheckerInterface */
-    private $authorizationChecker;
-
-    public function __construct(TokenStorageInterface $tokenStorage, AuthorizationCheckerInterface $authorizationChecker)
+    public function __construct(SecurityContext $securityContext)
     {
-        $this->tokenStorage = $tokenStorage;
-        $this->authorizationChecker = $authorizationChecker;
+        $this->securityContext = $securityContext;
     }
 
     public function isUserSwitched()
     {
-        return $this->authorizationChecker->isGranted('ROLE_PREVIOUS_ADMIN');
+        return $this->securityContext->isGranted('ROLE_PREVIOUS_ADMIN');
     }
 
     public function getSwitchedUserSource()
     {
-        foreach ($this->tokenStorage->getToken()->getRoles() as $role) {
+        foreach ($this->securityContext->getToken()->getRoles() as $role) {
             if ($role instanceof SwitchUserRole) {
                 return $role->getSource()->getUser();
             }

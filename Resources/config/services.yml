@@ -5,9 +5,12 @@ services:
     yakamara_common.datetime:
         class: Yakamara\CommonBundle\Util\DateTimeUtil
         arguments: [@translator]
+    yakamara_common.security_context:
+        class: Yakamara\CommonBundle\Security\SecurityContext
+        arguments: [@security.token_storage, @security.authorization_checker]
     yakamara_common.switch_user_checker:
         class: Yakamara\CommonBundle\Security\SwitchUserChecker
-        arguments: [@security.token_storage, @security.authorization_checker]
+        arguments: [@yakamara_common.security_context]
     yakamara_common.form.type.gender:
         class: Yakamara\CommonBundle\Form\Type\GenderType
         tags:
