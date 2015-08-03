@@ -30,7 +30,6 @@ services:
             - { name: form.type_extension, alias: datetime }
     yakamara_common.form.extension.model:
         class: Yakamara\CommonBundle\Form\Extension\ModelExtension
-        arguments: [@translator]
         tags:
             - { name: form.type_extension, alias: model }
     yakamara_common.twig_extension:
