@@ -47,9 +47,7 @@
 {% block submit_widget -%}
     {% set attr = attr|merge({class: (attr.class|default('btn-success'))|trim}) %}
     {% set icon = 'check-circle' %}
-    <div class="text-right">
-        {{- parent() -}}
-    </div>
+    {{- parent() -}}
 {%- endblock %}
 
 {%- block widget_attributes -%}
@@ -68,3 +66,29 @@
         {% if form.parent %}</span>{% else %}</div>{% endif %}
     {%- endif %}
 {%- endblock form_errors %}
+
+{%- block form_rest -%}
+    {% set buttons = false %}
+    {% for child in form -%}
+        {% if not child.rendered %}
+            {% if 'button' != child.vars.block_prefixes.0 %}
+                {{- form_row(child) -}}
+            {% else %}
+                {% set buttons = true %}
+            {% endif %}
+        {% endif %}
+    {%- endfor %}
+    {% if buttons %}
+        <div class="form-group form-buttons">
+            {% for child in form -%}
+                {% if not child.rendered and 'button' == child.vars.block_prefixes.0 %}
+                    {{- form_widget(child) -}}
+                {% endif %}
+            {%- endfor %}
+        </div>
+    {% endif %}
+{% endblock form_rest %}
+
+{%- block form_rows -%}
+    {{ block('form_rest') }}
+{%- endblock form_rows -%}
