@@ -32,10 +32,10 @@ class Extension extends \Twig_Extension
     {
         return [
             new \Twig_SimpleFunction('switched_user', function () {
-                return $this->container->get('yakamara_common.switch_user_checker')->isUserSwitched();
+                return $this->container->get('yakamara_common.security_context')->isUserSwitched();
             }),
             new \Twig_SimpleFunction('switched_user_source', function () {
-                return $this->container->get('yakamara_common.switch_user_checker')->getSwitchedUserSource();
+                return $this->container->get('yakamara_common.security_context')->getSwitchedUserSource();
             }),
             new \Twig_SimpleFunction('current_url', [$this, 'currentUrl']),
             new \Twig_SimpleFunction('descriptive_date', [$this, 'descriptiveDate'], [

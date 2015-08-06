@@ -8,6 +8,6 @@ abstract class AbstractController extends Controller
 {
     public function isUserSwitched()
     {
-        return $this->get('yakamara_common.switch_user_checker')->isUserSwitched();
+        return $this->get('yakamara_common.security_context')->isUserSwitched();
     }
 }
