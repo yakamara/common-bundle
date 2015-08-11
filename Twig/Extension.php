@@ -3,6 +3,7 @@
 namespace Yakamara\CommonBundle\Twig;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Intl\Intl;
 
 class Extension extends \Twig_Extension
 {
@@ -25,6 +26,11 @@ class Extension extends \Twig_Extension
             new \Twig_SimpleFilter('break_on_slash', function ($text) {
                 return str_replace('/', '/&#8203;', $text);
             }, ['pre_escape' => 'html', 'is_safe' => ['html']]),
+            new \Twig_SimpleFilter('country', function ($country, $displayLocale = null) {
+                if ($country) {
+                    return Intl::getRegionBundle()->getCountryName($country, $displayLocale);
+                }
+            }),
         ];
     }
 
