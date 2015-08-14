@@ -17,12 +17,17 @@ class Extension extends \Twig_Extension
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('percent', [$this, 'percent'], [
+            new \Twig_SimpleFilter('number_format', [$this, 'numberFormat'], [
                 'needs_environment' => true,
             ]),
-            new \Twig_SimpleFilter('number_format', function (\Twig_Environment $env, $number, $decimal = null, $decimalPoint = null, $thousandSep = null) {
-                return str_replace('-', '−', \twig_number_format_filter($env, $number, $decimal, $decimalPoint, $thousandSep));
-            }, ['needs_environment' => true]),
+            new \Twig_SimpleFilter('percent', [$this, 'percent'], [
+                'needs_environment' => true,
+                'is_safe' => ['html'],
+            ]),
+            new \Twig_SimpleFilter('currency', [$this, 'currency'], [
+                'needs_environment' => true,
+                'is_safe' => ['html'],
+            ]),
             new \Twig_SimpleFilter('break_on_slash', function ($text) {
                 return str_replace('/', '/&#8203;', $text);
             }, ['pre_escape' => 'html', 'is_safe' => ['html']]),
@@ -64,9 +69,27 @@ class Extension extends \Twig_Extension
         ];
     }
 
-    public function percent(\Twig_Environment $env, $number, $decimal = null)
+    public function numberFormat(\Twig_Environment $env, $number, $decimal = null, $decimalPoint = null, $thousandSep = null)
     {
-        return \twig_number_format_filter($env, $number * 100, $decimal);
+        return str_replace('-', '−', \twig_number_format_filter($env, $number, $decimal, $decimalPoint, $thousandSep));
+    }
+
+    public function percent(\Twig_Environment $env, $number, $decimal = null, $html = true)
+    {
+        if (null === $number) {
+            return null;
+        }
+
+        return $this->numberFormat($env, $number * 100, $decimal) . ($html ? '&nbsp;' : ' ') . '%';
+    }
+
+    public function currency(\Twig_Environment $env, $number, $decimal = null, $currency = '€', $html = true)
+    {
+        if (null === $number) {
+            return null;
+        }
+
+        return $this->numberFormat($env, $number, $decimal) . ($html ? '&nbsp;' : ' ') . $currency;
     }
 
     public function currentUrl(array $parameters)
