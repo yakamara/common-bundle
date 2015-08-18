@@ -12,6 +12,19 @@
     </div>
 {%- endblock percent_widget %}
 
+{% block money_widget -%}
+    <div class="input-group money">
+        {% set prepend = '{{' == money_pattern[0:2] %}
+        {% if not prepend %}
+            <span class="input-group-addon">{{ money_pattern|replace({ '{{ widget }}':''}) }}</span>
+        {% endif %}
+        {{- block('form_widget_simple') -}}
+        {% if prepend %}
+            <span class="input-group-addon">{{ money_pattern|replace({ '{{ widget }}':''}) }}</span>
+        {% endif %}
+    </div>
+{%- endblock money_widget %}
+
 {% block date_widget -%}
     {% if widget == 'single_text' %}
         {% set attr = attr|merge({class: (attr.class|default('') ~ ' date')|trim}) %}
