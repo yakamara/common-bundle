@@ -12,6 +12,10 @@ services:
         class: Yakamara\CommonBundle\Form\Type\GenderType
         tags:
             - { name: form.type, alias: gender }
+    yakamara_common.form.type.iban:
+        class: Yakamara\CommonBundle\Form\Type\IbanType
+        tags:
+            - { name: form.type, alias: iban }
     yakamara_common.form.extension.label:
         class: Yakamara\CommonBundle\Form\Extension\LabelExtension
         tags:

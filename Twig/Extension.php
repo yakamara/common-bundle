@@ -66,6 +66,9 @@ class Extension extends \Twig_Extension
             ]),
             new \Twig_SimpleFunction('gender', [$this, 'gender']),
             new \Twig_SimpleFunction('gender_name', [$this, 'genderName']),
+            new \Twig_SimpleFunction('iban', [$this, 'iban'], [
+                'is_safe' => ['html'],
+            ]),
         ];
     }
 
@@ -148,6 +151,19 @@ class Extension extends \Twig_Extension
     public function genderName($person)
     {
         return trim($this->gender($person).' '.$person);
+    }
+
+    public function iban($iban)
+    {
+        if (!$iban) {
+            return null;
+        }
+
+        $iban = implode(array_map(function ($part) {
+            return '<span>'.$part.'</span>';
+        }, str_split($iban, 4)));
+
+        return '<span class="iban">'.$iban.'</span>';
     }
 
     public function getName()

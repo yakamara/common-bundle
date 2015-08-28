@@ -39,6 +39,11 @@
     {{- block('choice_widget_collapsed') -}}
 {%- endblock %}
 
+{% block iban_widget -%}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' iban')|trim}) %}
+    {{- block('form_widget_simple') -}}
+{%- endblock %}
+
 {% block button_widget -%}
     {%- if label is empty -%}
         {%- if label_format is not empty -%}
