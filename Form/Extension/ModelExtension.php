@@ -15,7 +15,7 @@ class ModelExtension extends AbstractTypeExtension
             'choice_translation_domain' => false,
             'empty_value' => function (Options $options) {
                 if (!$options['multiple'] && !$options['expanded']) {
-                    return 'select.empty_value';
+                    return 'select.placeholder';
                 }
                 return false;
             },

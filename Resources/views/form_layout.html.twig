@@ -68,6 +68,32 @@
     {{- parent() -}}
 {%- endblock %}
 
+{%- block choice_widget_collapsed -%}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) %}
+
+    {%- if required and placeholder is none and not placeholder_in_choices and not multiple -%}
+        {% set required = false %}
+    {%- endif -%}
+    <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+        {{- block('choice_widget_placeholder') -}}
+        {%- if preferred_choices|length > 0 -%}
+            {% set options = preferred_choices %}
+            {{- block('choice_widget_options') -}}
+            {%- if choices|length > 0 and separator is not none -%}
+                <option disabled="disabled">{{ separator }}</option>
+            {%- endif -%}
+        {%- endif -%}
+        {%- set options = choices -%}
+        {{- block('choice_widget_options') -}}
+    </select>
+{%- endblock choice_widget_collapsed -%}
+
+{%- block choice_widget_placeholder -%}
+    {%- if placeholder is not none -%}
+        <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{% if placeholder != '' %}– {{  placeholder|trans({}, translation_domain) }} –{% endif %}</option>
+    {%- endif -%}
+{%- endblock -%}
+
 {%- block widget_attributes -%}
     {% set required = false %}
     {{ parent() }}
