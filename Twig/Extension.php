@@ -97,12 +97,29 @@ class Extension extends \Twig_Extension
 
     public function currentUrl(array $parameters)
     {
+        $request = $this->container->get('request_stack')->getMasterRequest();
+
         $parameters = array_merge(
-            $this->container->get('request_stack')->getMasterRequest()->query->all(),
+            $request->query->all(),
             $parameters
         );
-        $parameters = array_filter($parameters);
-        return '?'.http_build_query($parameters, null, '&');
+
+        $parameters = array_filter($parameters, function ($value, $key) {
+            if ('' === (string) $value) {
+                return false;
+            }
+            if (1 == $value && ('page' === $key || '-page' === substr($key, -5))) {
+                return false;
+            }
+            return true;
+        }, ARRAY_FILTER_USE_BOTH);
+
+        $url = $request->getBaseUrl().$request->getPathInfo();
+        if ($parameters) {
+            $url .= '?'.http_build_query($parameters, null, '&');
+        }
+
+        return $url;
     }
 
     public function descriptiveDate(\Twig_Environment $env, $datetime)
