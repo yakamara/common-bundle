@@ -17,15 +17,11 @@ class Extension extends \Twig_Extension
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('number_format', [$this, 'numberFormat'], [
-                'needs_environment' => true,
-            ]),
+            new \Twig_SimpleFilter('number', [$this, 'number']),
             new \Twig_SimpleFilter('percent', [$this, 'percent'], [
-                'needs_environment' => true,
                 'is_safe' => ['html'],
             ]),
             new \Twig_SimpleFilter('currency', [$this, 'currency'], [
-                'needs_environment' => true,
                 'is_safe' => ['html'],
             ]),
             new \Twig_SimpleFilter('break_on_slash', function ($text) {
@@ -72,27 +68,19 @@ class Extension extends \Twig_Extension
         ];
     }
 
-    public function numberFormat(\Twig_Environment $env, $number, $decimal = null, $decimalPoint = null, $thousandSep = null)
+    public function number($number, $decimals = null, $decimalPoint = null, $thousandSep = null)
     {
-        return str_replace('-', '−', \twig_number_format_filter($env, $number, $decimal, $decimalPoint, $thousandSep));
+        return $this->container->get('yakamara_common.format')->number($number, $decimals, $decimalPoint, $thousandSep);
     }
 
-    public function percent(\Twig_Environment $env, $number, $decimal = null, $html = true)
+    public function percent($number, $decimals = null, $html = true)
     {
-        if (null === $number) {
-            return null;
-        }
-
-        return $this->numberFormat($env, $number * 100, $decimal) . ($html ? '&nbsp;' : ' ') . '%';
+        return $this->container->get('yakamara_common.format')->percent($number, $decimals, $html);
     }
 
-    public function currency(\Twig_Environment $env, $number, $decimal = null, $currency = '€', $html = true)
+    public function currency($number, $decimals = null, $currency = '€', $html = true)
     {
-        if (null === $number) {
-            return null;
-        }
-
-        return $this->numberFormat($env, $number, $decimal) . ($html ? '&nbsp;' : ' ') . $currency;
+        return $this->container->get('yakamara_common.format')->currency($number, $decimals, $currency, $html);
     }
 
     public function currentUrl(array $parameters)
@@ -158,16 +146,12 @@ class Extension extends \Twig_Extension
 
     public function gender($person)
     {
-        if (!$person->getGender()) {
-            return null;
-        }
-
-        return $this->container->get('translator')->trans('label.gender.'.$person->getGender());
+        return $this->container->get('yakamara_common.format')->gender($person);
     }
 
     public function genderName($person)
     {
-        return trim($this->gender($person).' '.$person);
+        return $this->container->get('yakamara_common.format')->genderName($person);
     }
 
     public function iban($iban)
