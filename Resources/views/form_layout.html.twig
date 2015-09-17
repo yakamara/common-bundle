@@ -94,6 +94,14 @@
     {%- endif -%}
 {%- endblock -%}
 
+{% block checkbox_widget -%}
+    {% if label %}
+        {{- parent() -}}
+    {% else -%}
+        <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+    {%- endif %}
+{%- endblock checkbox_widget %}
+
 {%- block widget_attributes -%}
     {% set required = false %}
     {{ parent() }}
