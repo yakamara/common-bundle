@@ -68,17 +68,17 @@ class Extension extends \Twig_Extension
         ];
     }
 
-    public function number($number, $decimals = null, $decimalPoint = null, $thousandSep = null)
+    public function number($number, $decimals = 2, $decimalPoint = null, $thousandSep = null)
     {
         return $this->container->get('yakamara_common.format')->number($number, $decimals, $decimalPoint, $thousandSep);
     }
 
-    public function percent($number, $decimals = null, $html = true)
+    public function percent($number, $decimals = 2, $html = true)
     {
         return $this->container->get('yakamara_common.format')->percent($number, $decimals, $html);
     }
 
-    public function currency($number, $decimals = null, $currency = '€', $html = true)
+    public function currency($number, $decimals = 2, $currency = '€', $html = true)
     {
         return $this->container->get('yakamara_common.format')->currency($number, $decimals, $currency, $html);
     }
