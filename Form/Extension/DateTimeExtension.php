@@ -3,6 +3,7 @@
 namespace Yakamara\CommonBundle\Form\Extension;
 
 use Symfony\Component\Form\AbstractTypeExtension;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DateTimeExtension extends AbstractTypeExtension
@@ -19,6 +20,6 @@ class DateTimeExtension extends AbstractTypeExtension
 
     public function getExtendedType()
     {
-        return 'date';
+        return DateTimeType::class;
     }
 }

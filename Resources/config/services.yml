@@ -11,31 +11,31 @@ services:
     yakamara_common.form.type.gender:
         class: Yakamara\CommonBundle\Form\Type\GenderType
         tags:
-            - { name: form.type, alias: gender }
+            - { name: form.type }
     yakamara_common.form.type.iban:
         class: Yakamara\CommonBundle\Form\Type\IbanType
         tags:
-            - { name: form.type, alias: iban }
+            - { name: form.type}
     yakamara_common.form.extension.label:
         class: Yakamara\CommonBundle\Form\Extension\LabelExtension
         tags:
-            - { name: form.type_extension, alias: form }
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }
     yakamara_common.form.extension.date:
         class: Yakamara\CommonBundle\Form\Extension\DateExtension
         tags:
-            - { name: form.type_extension, alias: date }
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\DateType }
     yakamara_common.form.extension.time:
         class: Yakamara\CommonBundle\Form\Extension\TimeExtension
         tags:
-            - { name: form.type_extension, alias: time }
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\TimeType }
     yakamara_common.form.extension.datetime:
         class: Yakamara\CommonBundle\Form\Extension\DateTimeExtension
         tags:
-            - { name: form.type_extension, alias: datetime }
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\DateTimeType }
     yakamara_common.form.extension.model:
         class: Yakamara\CommonBundle\Form\Extension\ModelExtension
         tags:
-            - { name: form.type_extension, alias: model }
+            - { name: form.type_extension, extended_type: Propel\PropelBundle\Form\Type\ModelType }
     yakamara_common.twig_extension:
         class: Yakamara\CommonBundle\Twig\Extension
         arguments: [@service_container]

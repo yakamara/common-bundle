@@ -3,6 +3,7 @@
 namespace Yakamara\CommonBundle\Form\Extension;
 
 use Symfony\Component\Form\AbstractTypeExtension;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TimeExtension extends AbstractTypeExtension
@@ -17,6 +18,6 @@ class TimeExtension extends AbstractTypeExtension
 
     public function getExtendedType()
     {
-        return 'time';
+        return TimeType::class;
     }
 }

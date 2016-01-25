@@ -3,6 +3,7 @@
 namespace Yakamara\CommonBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GenderType extends AbstractType
@@ -19,11 +20,6 @@ class GenderType extends AbstractType
 
     public function getParent()
     {
-        return 'choice';
-    }
-
-    public function getName()
-    {
-        return 'gender';
+        return ChoiceType::class;
     }
 }

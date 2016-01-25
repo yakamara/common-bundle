@@ -3,6 +3,7 @@
 namespace Yakamara\CommonBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IbanType extends AbstractType
@@ -16,11 +17,6 @@ class IbanType extends AbstractType
 
     public function getParent()
     {
-        return 'text';
-    }
-
-    public function getName()
-    {
-        return 'iban';
+        return TextType::class;
     }
 }
