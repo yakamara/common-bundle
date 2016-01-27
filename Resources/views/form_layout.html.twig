@@ -6,14 +6,14 @@
 {% endblock %}
 
 {% block percent_widget -%}
-    <div class="input-group percent">
+    <div class="input-group input-percent">
         {{- block('form_widget_simple') -}}
         <span class="input-group-addon">%</span>
     </div>
 {%- endblock percent_widget %}
 
 {% block money_widget -%}
-    <div class="input-group money">
+    <div class="input-group input-money">
         {% set prepend = '{{' == money_pattern[0:2] %}
         {% if not prepend %}
             <span class="input-group-addon">{{ money_pattern|replace({ '{{ widget }}':''}) }}</span>
@@ -27,7 +27,7 @@
 
 {% block date_widget -%}
     {% if widget == 'single_text' %}
-        {% set attr = attr|merge({class: (attr.class|default('') ~ ' date')|trim}) %}
+        {% set attr = attr|merge({class: (attr.class|default('') ~ ' input-date')|trim}) %}
         {{- block('form_widget_simple') -}}
     {% else %}
         {{ parent() }}
@@ -35,12 +35,12 @@
 {%- endblock date_widget %}
 
 {% block gender_widget -%}
-    {% set attr = attr|merge({class: (attr.class|default('') ~ ' gender')|trim}) %}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' input-gender')|trim}) %}
     {{- block('choice_widget_collapsed') -}}
 {%- endblock %}
 
 {% block iban_widget -%}
-    {% set attr = attr|merge({class: (attr.class|default('') ~ ' iban')|trim}) %}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' input-iban')|trim}) %}
     {{- block('form_widget_simple') -}}
 {%- endblock %}
 
@@ -48,8 +48,8 @@
     {%- if label is empty -%}
         {%- if label_format is not empty -%}
             {% set label = label_format|replace({
-                '%name%': name,
-                '%id%': id,
+            '%name%': name,
+            '%id%': id,
             }) %}
         {%- else -%}
             {% set label = 'action.' ~ name %}
@@ -74,8 +74,14 @@
     {%- if required and placeholder is none and not placeholder_in_choices and not multiple -%}
         {% set required = false %}
     {%- endif -%}
+    {%- if placeholder is not none -%}
+        {% set placeholder = placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) %}
+        {% set attr = attr|merge({'data-placeholder': placeholder}) %}
+    {%- endif -%}
     <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
-        {{- block('choice_widget_placeholder') -}}
+        {% if placeholder is not none %}
+            <option value=""{% if required and value is empty %} selected="selected"{% endif %} class="placeholder">{{ placeholder }}</option>
+        {% endif %}
         {%- if preferred_choices|length > 0 -%}
             {% set options = preferred_choices %}
             {{- block('choice_widget_options') -}}
@@ -87,12 +93,6 @@
         {{- block('choice_widget_options') -}}
     </select>
 {%- endblock choice_widget_collapsed -%}
-
-{%- block choice_widget_placeholder -%}
-    {%- if placeholder is not none -%}
-        <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{% if placeholder != '' %}– {{  placeholder|trans({}, translation_domain) }} –{% endif %}</option>
-    {%- endif -%}
-{%- endblock -%}
 
 {% block checkbox_widget -%}
     {% if label %}
