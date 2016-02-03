@@ -83,7 +83,7 @@ class Extension extends \Twig_Extension
         return $this->container->get('yakamara_common.format')->currency($number, $decimals, $currency, $html);
     }
 
-    public function currentUrl(array $parameters)
+    public function currentUrl(array $parameters, $removePattern = null)
     {
         $request = $this->container->get('request_stack')->getMasterRequest();
 
@@ -92,11 +92,14 @@ class Extension extends \Twig_Extension
             $parameters
         );
 
-        $parameters = array_filter($parameters, function ($value, $key) {
+        $parameters = array_filter($parameters, function ($value, $key) use ($removePattern) {
             if ('' === (string) $value) {
                 return false;
             }
             if (1 == $value && ('page' === $key || '-page' === substr($key, -5))) {
+                return false;
+            }
+            if ($removePattern && preg_match($removePattern, $key)) {
                 return false;
             }
             return true;
