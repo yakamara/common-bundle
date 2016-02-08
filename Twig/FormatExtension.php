@@ -58,7 +58,7 @@ class FormatExtension extends \Twig_Extension
         ];
     }
 
-    public function number($number, $decimals = 2, $decimalPoint = null, $thousandSep = null)
+    public function number($number, $decimals = 2, $decimalPoint = ',', $thousandSep = '.')
     {
         return $this->format->number($number, $decimals, $decimalPoint, $thousandSep);
     }
