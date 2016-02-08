@@ -4,14 +4,15 @@ namespace Yakamara\CommonBundle\Twig;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Intl\Intl;
+use Yakamara\CommonBundle\Util\FormatUtil;
 
-class Extension extends \Twig_Extension
+class FormatExtension extends \Twig_Extension
 {
-    protected $container;
+    protected $format;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(FormatUtil $format)
     {
-        $this->container = $container;
+        $this->format = $format;
     }
 
     public function getFilters()
@@ -38,17 +39,6 @@ class Extension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('switched_user', function () {
-                return $this->container->get('yakamara_common.security_context')->isUserSwitched();
-            }),
-            new \Twig_SimpleFunction('switched_user_source', function () {
-                return $this->container->get('yakamara_common.security_context')->getSwitchedUserSource();
-            }),
-            new \Twig_SimpleFunction('current_url', [$this, 'currentUrl']),
-            new \Twig_SimpleFunction('descriptive_date', [$this, 'descriptiveDate'], [
-                'needs_environment' => true,
-                'is_safe' => ['html'],
-            ]),
             new \Twig_SimpleFunction('icon', [$this, 'icon'], [
                 'pre_escape' => 'html',
                 'is_safe' => ['html'],
@@ -70,60 +60,17 @@ class Extension extends \Twig_Extension
 
     public function number($number, $decimals = 2, $decimalPoint = null, $thousandSep = null)
     {
-        return $this->container->get('yakamara_common.format')->number($number, $decimals, $decimalPoint, $thousandSep);
+        return $this->format->number($number, $decimals, $decimalPoint, $thousandSep);
     }
 
     public function percent($number, $decimals = 2, $html = true)
     {
-        return $this->container->get('yakamara_common.format')->percent($number, $decimals, $html);
+        return $this->format->percent($number, $decimals, $html);
     }
 
     public function currency($number, $decimals = 2, $currency = '€', $html = true)
     {
-        return $this->container->get('yakamara_common.format')->currency($number, $decimals, $currency, $html);
-    }
-
-    public function currentUrl(array $parameters, $removePattern = null)
-    {
-        $request = $this->container->get('request_stack')->getMasterRequest();
-
-        $parameters = array_merge(
-            $request->query->all(),
-            $parameters
-        );
-
-        $parameters = array_filter($parameters, function ($value, $key) use ($removePattern) {
-            if ('' === (string) $value) {
-                return false;
-            }
-            if (1 == $value && ('page' === $key || '-page' === substr($key, -5))) {
-                return false;
-            }
-            if ($removePattern && preg_match($removePattern, $key)) {
-                return false;
-            }
-            return true;
-        }, ARRAY_FILTER_USE_BOTH);
-
-        $url = $request->getBaseUrl().$request->getPathInfo();
-        if ($parameters) {
-            $url .= '?'.http_build_query($parameters, null, '&');
-        }
-
-        return $url;
-    }
-
-    public function descriptiveDate(\Twig_Environment $env, $datetime)
-    {
-        if (!$datetime) {
-            return '';
-        }
-        $datetime = \twig_date_converter($env, $datetime);
-        $descriptiveDate = $this->container->get('yakamara_common.datetime')->descriptiveDateTime($datetime, $descriptive);
-        if ($descriptive) {
-            $descriptiveDate = '<span data-toggle="tooltip" title="' . $datetime->format('d.m.Y') . '&nbsp;' . $datetime->format('H:i') . '">' . $descriptiveDate . '</span>';
-        }
-        return $descriptiveDate;
+        return $this->format->currency($number, $decimals, $currency, $html);
     }
 
     public function icon($icon)
@@ -149,12 +96,12 @@ class Extension extends \Twig_Extension
 
     public function gender($person)
     {
-        return $this->container->get('yakamara_common.format')->gender($person);
+        return $this->format->gender($person);
     }
 
     public function genderName($person)
     {
-        return $this->container->get('yakamara_common.format')->genderName($person);
+        return $this->format->genderName($person);
     }
 
     public function iban($iban)
@@ -172,6 +119,6 @@ class Extension extends \Twig_Extension
 
     public function getName()
     {
-        return 'yakamara_extension';
+        return 'yakamara_format_extension';
     }
 }

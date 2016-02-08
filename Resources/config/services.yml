@@ -36,9 +36,27 @@ services:
         class: Yakamara\CommonBundle\Form\Extension\ModelExtension
         tags:
             - { name: form.type_extension, extended_type: Propel\PropelBundle\Form\Type\ModelType }
-    yakamara_common.twig_extension:
-        class: Yakamara\CommonBundle\Twig\Extension
-        arguments: ['@service_container']
+    yakamara_common.twig.extension.datetime:
+        class: Yakamara\CommonBundle\Twig\DateTimeExtension
+        arguments: ['@yakamara_common.datetime']
+        public: false
+        tags:
+            - { name: twig.extension }
+    yakamara_common.twig.extension.format:
+        class: Yakamara\CommonBundle\Twig\FormatExtension
+        arguments: ['@yakamara_common.format']
+        public: false
+        tags:
+            - { name: twig.extension }
+    yakamara_common.twig.extension.security:
+        class: Yakamara\CommonBundle\Twig\SecurityExtension
+        arguments: ['@yakamara_common.security_context']
+        public: false
+        tags:
+            - { name: twig.extension }
+    yakamara_common.twig.extension.url:
+        class: Yakamara\CommonBundle\Twig\UrlExtension
+        arguments: ['@request_stack']
         public: false
         tags:
             - { name: twig.extension }
