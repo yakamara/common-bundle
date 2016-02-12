@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
-class FormGenerateCommand extends \Propel\PropelBundle\Command\FormGenerateCommand
+class FormGenerateCommand extends \Propel\Bundle\PropelBundle\Command\FormGenerateCommand
 {
     protected function configure()
     {

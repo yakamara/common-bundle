@@ -35,7 +35,7 @@ services:
     yakamara_common.form.extension.model:
         class: Yakamara\CommonBundle\Form\Extension\ModelExtension
         tags:
-            - { name: form.type_extension, extended_type: Propel\PropelBundle\Form\Type\ModelType }
+            - { name: form.type_extension, extended_type: Propel\Bundle\PropelBundle\Form\Type\ModelType }
     yakamara_common.twig.extension.datetime:
         class: Yakamara\CommonBundle\Twig\DateTimeExtension
         arguments: ['@yakamara_common.datetime']
