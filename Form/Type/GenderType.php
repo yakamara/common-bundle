@@ -12,9 +12,10 @@ class GenderType extends AbstractType
     {
         $resolver->setDefaults([
             'choices' => [
-                'f' => 'label.gender.f',
-                'm' => 'label.gender.m',
+                'label.gender.f' => 'f',
+                'label.gender.m' => 'm',
             ],
+            'choices_as_values' => true,
         ]);
     }
 
