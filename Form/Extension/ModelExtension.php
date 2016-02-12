@@ -13,7 +13,7 @@ class ModelExtension extends AbstractTypeExtension
     {
         $resolver->setDefaults([
             'choice_translation_domain' => false,
-            'empty_value' => function (Options $options) {
+            'placeholder' => function (Options $options) {
                 if (!$options['multiple'] && !$options['expanded']) {
                     return 'select.placeholder';
                 }
