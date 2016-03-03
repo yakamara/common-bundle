@@ -37,6 +37,16 @@ class FormatUtil
         return $this->number($number, $decimal) . ($html ? '&nbsp;' : ' ') . $currency;
     }
 
+    public function date(\DateTime $date, $format = 'd.m.Y')
+    {
+        return $date->format($format);
+    }
+
+    public function datetime(\DateTime $datetime, $format = 'd.m.Y H:i')
+    {
+        return $datetime->format($format);
+    }
+
     public function gender($person)
     {
         /** @noinspection PhpUndefinedMethodInspection */

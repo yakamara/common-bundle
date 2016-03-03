@@ -25,6 +25,12 @@ class FormatExtension extends \Twig_Extension
             new \Twig_SimpleFilter('currency', [$this, 'currency'], [
                 'is_safe' => ['html'],
             ]),
+            new \Twig_SimpleFilter('date', [$this, 'date'], [
+                'needs_environment' => true,
+            ]),
+            new \Twig_SimpleFilter('datetime', [$this, 'datetime'], [
+                'needs_environment' => true,
+            ]),
             new \Twig_SimpleFilter('break_on_slash', function ($text) {
                 return str_replace('/', '/&#8203;', $text);
             }, ['pre_escape' => 'html', 'is_safe' => ['html']]),
@@ -71,6 +77,28 @@ class FormatExtension extends \Twig_Extension
     public function currency($number, $decimals = 2, $currency = '€', $html = true)
     {
         return $this->format->currency($number, $decimals, $currency, $html);
+    }
+
+    public function date(\Twig_Environment $env, $date, $format = 'd.m.Y')
+    {
+        if (!$date) {
+            return null;
+        }
+
+        $date = \twig_date_converter($env, $date);
+
+        return $this->format->date($date, $format);
+    }
+
+    public function datetime(\Twig_Environment $env, $datetime, $format = 'd.m.Y H:i')
+    {
+        if (!$datetime) {
+            return null;
+        }
+
+        $datetime = \twig_date_converter($env, $datetime);
+
+        return $this->format->datetime($datetime, $format);
     }
 
     public function icon($icon)
