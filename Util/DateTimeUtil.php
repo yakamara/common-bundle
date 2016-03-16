@@ -14,7 +14,7 @@ class DateTimeUtil
         $this->translator = $translator;
     }
 
-    public function descriptiveDateTime(\DateTime $timestamp, &$descriptive = null)
+    public function descriptiveDateTime(\DateTimeInterface $timestamp, &$descriptive = null)
     {
         $diff = $timestamp->diff(new \DateTime());
         $yesterdayDay = (new \DateTime('yesterday'))->format('d');
@@ -44,7 +44,7 @@ class DateTimeUtil
         return $this->translator->trans('descriptive_datetime.justNow');
     }
 
-    public static function descriptiveRange(\DateTime $start, \DateTime $end)
+    public static function descriptiveRange(\DateTimeInterface $start, \DateTimeInterface $end)
     {
         $range = $start->format('d.m.Y') .' – '.$end->format('d.m.Y');
         if (1 != $start->format('j')) {
@@ -61,21 +61,21 @@ class DateTimeUtil
         return strftime('%B %Y', $start->getTimestamp());
     }
 
-    public function addWeekdays(\DateTime $date, $days)
+    public function addWeekdays(\DateTimeInterface $date, $days)
     {
         $interval = new \DateInterval('P1D');
         $method = $days < 0 ? 'sub' : 'add';
         $days = abs($days);
         for ($i = 0; $i < $days; ++$i) {
             do {
-                $date->$method($interval);
+                $date = $date->$method($interval);
             } while (!$this->isWeekday($date));
         }
 
         return $date;
     }
 
-    public function isWeekday(\DateTime $date)
+    public function isWeekday(\DateTimeInterface $date)
     {
         $day = $date->format('w');
         if (0 == $day || 6 == $day) {
@@ -89,16 +89,14 @@ class DateTimeUtil
         return true;
     }
 
-    public function diffWeekdays(\DateTime $date1, \DateTime $date2)
+    public function diffWeekdays(\DateTimeInterface $date1, \DateTimeInterface $date2)
     {
         if ($date1 < $date2) {
             return -$this->diffWeekdays($date2, $date1);
         }
 
-        $date1 = clone $date1;
-        $date2 = clone $date2;
-        $date1->setTime(0, 0, 0);
-        $date2->setTime(0, 0, 0);
+        $date1 = new \DateTime($date1->format('Y-m-d').' 00:00:00');
+        $date2 = new \DateTime($date2->format('Y-m-d').' 00:00:00');
         $i = 0;
         while ($date2 < $date1) {
             $this->addWeekdays($date2, 1);
