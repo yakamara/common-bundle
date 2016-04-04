@@ -32,6 +32,10 @@ services:
         class: Yakamara\CommonBundle\Form\Extension\DateTimeExtension
         tags:
             - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\DateTimeType }
+    yakamara_common.form.extension.choice:
+        class: Yakamara\CommonBundle\Form\Extension\ChoiceExtension
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\ChoiceType }
     yakamara_common.form.extension.model:
         class: Yakamara\CommonBundle\Form\Extension\ModelExtension
         tags:
