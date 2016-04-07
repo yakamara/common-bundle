@@ -1,14 +1,46 @@
 {% extends "bootstrap_3_layout.html.twig" %}
 
+{% block text_widget %}
+    {% if prepend is defined %}
+        <div class="input-group">
+            <span class="input-group-addon">{{ prepend }}</span>
+            {{- block('form_widget_simple') -}}
+        </div>
+    {% elseif append is defined %}
+        <div class="input-group">
+            {{- block('form_widget_simple') -}}
+            <span class="input-group-addon">{{ append }}</span>
+        </div>
+    {% else %}
+        {{- block('form_widget_simple') -}}
+    {% endif %}
+{% endblock %}
+
 {% block number_widget %}
     {% set attr = attr|merge({class: (attr.class|default('') ~ ' number')|trim}) -%}
     {{- block('form_widget_simple') -}}
 {% endblock %}
 
+{% block integer_widget -%}
+    {% if prepend is defined %}
+        <div class="input-group input-number">
+            <span class="input-group-addon">{{ prepend }}</span>
+            {{- parent() -}}
+        </div>
+    {% elseif append is defined %}
+        <div class="input-group input-number">
+            {{- parent() -}}
+            <span class="input-group-addon">{{ append }}</span>
+        </div>
+    {% else %}
+        {{- parent() -}}
+    {% endif %}
+{%- endblock %}
+
 {% block percent_widget -%}
     <div class="input-group input-percent">
         {{- block('form_widget_simple') -}}
-        <span class="input-group-addon">%</span>
+        <span class="input-group-addon">{{ append|default('%') }}</span>
     </div>
 {%- endblock percent_widget %}
 
