@@ -15,11 +15,23 @@ class UrlExtension extends \Twig_Extension
         $this->requestStack = $requestStack;
     }
 
+    public function getFilters()
+    {
+        return [
+            new \Twig_SimpleFilter('url_decode', [$this, 'urlDecode']),
+        ];
+    }
+
     public function getFunctions()
     {
         return [
             new \Twig_SimpleFunction('current_url', [$this, 'currentUrl']),
         ];
+    }
+
+    public function urlDecode($url)
+    {
+        return rawurldecode($url);
     }
 
     public function currentUrl(array $parameters = [], $removePattern = null)
