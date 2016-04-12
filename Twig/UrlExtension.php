@@ -22,7 +22,7 @@ class UrlExtension extends \Twig_Extension
         ];
     }
 
-    public function currentUrl(array $parameters, $removePattern = null)
+    public function currentUrl(array $parameters = [], $removePattern = null)
     {
         $request = $this->requestStack->getMasterRequest();
 
@@ -32,7 +32,10 @@ class UrlExtension extends \Twig_Extension
         );
 
         $parameters = array_filter($parameters, function ($value, $key) use ($removePattern) {
-            if ('' === (string) $value) {
+            if (!is_array($value) && '' === (string) $value) {
+                return false;
+            }
+            if ('_pjax' === $key) {
                 return false;
             }
             if (1 == $value && ('page' === $key || '-page' === substr($key, -5))) {
