@@ -10,8 +10,8 @@
     "require": {
         "php": ">=5.5",
 
-        "symfony/symfony": "~2.8",
-        "propel/propel": "~2.0@dev",
-        "propel/propel-bundle": "~2.0@dev"
+        "symfony/symfony": "^2.8",
+        "propel/propel": "^2.0@dev",
+        "propel/propel-bundle": "^3.0@dev"
     }
 }
