@@ -10,21 +10,16 @@ use Symfony\Component\Security\Core\User\UserInterface;
 abstract class AbstractVoter implements VoterInterface
 {
     /** @var AccessDecisionManagerInterface */
-    protected $accessDecisionManager;
+    private $decisionManager;
 
-    public function __construct(AccessDecisionManagerInterface $accessDecisionManager)
+    public function __construct(AccessDecisionManagerInterface $decisionManager)
     {
-        $this->accessDecisionManager = $accessDecisionManager;
-    }
-
-    public function supportsAttribute($attribute)
-    {
-        return in_array($attribute, $this->getSupportedAttributes());
+        $this->decisionManager = $decisionManager;
     }
 
     public function vote(TokenInterface $token, $object, array $attributes)
     {
-        if (!$this->supportsClass($object ? get_class($object) : null)) {
+        if (!$this->supportsObject($object)) {
             return self::ACCESS_ABSTAIN;
         }
 
@@ -32,14 +27,14 @@ abstract class AbstractVoter implements VoterInterface
         $vote = self::ACCESS_ABSTAIN;
 
         foreach ($attributes as $attribute) {
-            if (!$this->supportsAttribute($attribute)) {
+            if (!in_array($attribute, $this->getSupportedAttributes())) {
                 continue;
             }
 
             // as soon as at least one attribute is supported, default is to deny access
             $vote = self::ACCESS_DENIED;
 
-            $method = 'isGranted'.strtr(ucwords(strtr($attribute, '_', ' ')), [' ' => '']);
+            $method = 'can'.strtr(ucwords(strtr($attribute, '_', ' ')), [' ' => '']);
             if ($token->getUser() instanceof UserInterface && $this->$method($token, $object)) {
                 // grant access as soon as at least one voter returns a positive response
                 return self::ACCESS_GRANTED;
@@ -49,10 +44,12 @@ abstract class AbstractVoter implements VoterInterface
         return $vote;
     }
 
+    abstract protected function supportsObject($object);
+
     abstract protected function getSupportedAttributes();
 
     protected function isGranted(TokenInterface $token, $attributes, $object = null)
     {
-        return $this->accessDecisionManager->decide($token, (array) $attributes, $object);
+        return $this->decisionManager->decide($token, (array) $attributes, $object);
     }
 }
