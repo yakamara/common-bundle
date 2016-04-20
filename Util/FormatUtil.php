@@ -16,6 +16,10 @@ class FormatUtil
 
     public function number($number, $decimals = 2, $decimalPoint = ',', $thousandSep = '.')
     {
+        if (null === $number) {
+            return null;
+        }
+
         return str_replace('-', '−', number_format($number, $decimals, $decimalPoint, $thousandSep));
     }
 
@@ -37,18 +41,26 @@ class FormatUtil
         return $this->number($number, $decimal) . ($html ? '&nbsp;' : ' ') . $currency;
     }
 
-    public function date(\DateTimeInterface $date, $format = 'd.m.Y')
+    public function date(\DateTimeInterface $date = null, $format = 'd.m.Y')
     {
-        return $date->format($format);
+        return $this->datetime($date, $format);
     }
 
-    public function datetime(\DateTimeInterface $datetime, $format = 'd.m.Y H:i')
+    public function datetime(\DateTimeInterface $datetime = null, $format = 'd.m.Y H:i')
     {
+        if (null === $datetime) {
+            return null;
+        }
+
         return $datetime->format($format);
     }
 
     public function gender($person)
     {
+        if (null === $person) {
+            return null;
+        }
+
         /** @noinspection PhpUndefinedMethodInspection */
         $gender = $person->getGender();
 
@@ -61,6 +73,10 @@ class FormatUtil
 
     public function genderName($person)
     {
+        if (null === $person) {
+            return null;
+        }
+
         return trim($this->gender($person).' '.$person);
     }
 }
