@@ -15,7 +15,6 @@ class GenderType extends AbstractType
                 'label.gender.f' => 'f',
                 'label.gender.m' => 'm',
             ],
-            'choices_as_values' => true,
         ]);
     }
 
