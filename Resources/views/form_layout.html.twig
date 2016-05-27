@@ -141,13 +141,13 @@
 
 {% block form_errors -%}
     {% if errors|length > 0 -%}
-        {% if form.parent %}<span class="help-block">{% else %}<div class="alert alert-danger">{% endif %}
-        <ul class="list-unstyled">
-            {%- for error in errors -%}
-                <li><i class="fa fa-exclamation-triangle"></i> {{ error.message }}</li>
-            {%- endfor -%}
-        </ul>
-        {% if form.parent %}</span>{% else %}</div>{% endif %}
+        <span class="help-block">
+            <ul class="list-unstyled">
+                {%- for error in errors -%}
+                    <li><i class="fa fa-exclamation-triangle"></i> {{ error.message }}</li>
+                {%- endfor -%}
+            </ul>
+        </span>
     {%- endif %}
 {%- endblock form_errors %}
 
