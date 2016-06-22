@@ -77,6 +77,7 @@ class FormatUtil
             return null;
         }
 
-        return trim($this->gender($person).' '.$person);
+        /** @noinspection PhpUndefinedMethodInspection */
+        return trim($this->gender($person).' '.$person->getReverseFullName());
     }
 }
