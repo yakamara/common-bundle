@@ -19,6 +19,7 @@ class FormatExtension extends \Twig_Extension
     {
         return [
             new \Twig_SimpleFilter('number', [$this, 'number']),
+            new \Twig_SimpleFilter('decimal', [$this, 'decimal']),
             new \Twig_SimpleFilter('percent', [$this, 'percent'], [
                 'is_safe' => ['html'],
             ]),
@@ -67,6 +68,11 @@ class FormatExtension extends \Twig_Extension
     public function number($number, $decimals = 2, $decimalPoint = ',', $thousandSep = '.')
     {
         return $this->format->number($number, $decimals, $decimalPoint, $thousandSep);
+    }
+
+    public function decimal($number, $decimals = 2)
+    {
+        return $this->format->decimal($number, $decimals);
     }
 
     public function percent($number, $decimals = 2, $html = true)

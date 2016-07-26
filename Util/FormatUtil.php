@@ -23,6 +23,15 @@ class FormatUtil
         return str_replace('-', '−', number_format($number, $decimals, $decimalPoint, $thousandSep));
     }
 
+    public function decimal($number, $decimals = 2)
+    {
+        if (null === $number) {
+            return null;
+        }
+
+        return number_format($number, $decimals, '.', '');
+    }
+
     public function percent($number, $decimal = 2, $html = false)
     {
         if (null === $number) {
