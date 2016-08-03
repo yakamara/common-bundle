@@ -42,7 +42,6 @@ class FormGenerateCommand extends \Propel\Bundle\PropelBundle\Command\FormGenera
         $formTypeContent = str_replace('##NAMESPACE##', $bundle->getNamespace() . str_replace('/', '\\', self::DEFAULT_FORM_TYPE_DIRECTORY), $formTypeContent);
         $formTypeContent = str_replace('##CLASS##', $modelName . 'Type', $formTypeContent);
         $formTypeContent = str_replace('##MODEL##', $modelName, $formTypeContent);
-        $formTypeContent = str_replace('##TYPE_NAME##', $table->getName(), $formTypeContent);
         $formTypeContent = $this->addFields($table, $formTypeContent);
 
         file_put_contents($file->getPathName(), $formTypeContent);

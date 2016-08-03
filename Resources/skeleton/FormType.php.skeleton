@@ -6,6 +6,7 @@ use AppBundle\Model\##MODEL##;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class ##CLASS## extends AbstractType
 {
@@ -20,10 +21,5 @@ class ##CLASS## extends AbstractType
         $resolver->setDefaults([
             'data_class' => ##MODEL##::class,
         ]);
-    }
-
-    public function getName()
-    {
-        return '##TYPE_NAME##';
     }
 }
