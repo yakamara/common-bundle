@@ -12,19 +12,26 @@ abstract class AbstractVoter implements VoterInterface
     /** @var AccessDecisionManagerInterface */
     private $decisionManager;
 
+    private $supportedClass;
+
     public function __construct(AccessDecisionManagerInterface $decisionManager)
     {
         $this->decisionManager = $decisionManager;
     }
 
-    public function vote(TokenInterface $token, $object, array $attributes)
+    public function vote(TokenInterface $token, $subject, array $attributes)
     {
-        if (!$this->supportsObject($object)) {
+        if (!$this->supports($subject)) {
             return self::ACCESS_ABSTAIN;
         }
 
         // abstain vote by default in case none of the attributes are supported
         $vote = self::ACCESS_ABSTAIN;
+
+        $arguments = [$token];
+        if (is_object($subject)) {
+            $arguments[] = $subject;
+        }
 
         foreach ($attributes as $attribute) {
             if (!in_array($attribute, $this->getSupportedAttributes())) {
@@ -35,7 +42,7 @@ abstract class AbstractVoter implements VoterInterface
             $vote = self::ACCESS_DENIED;
 
             $method = 'can'.strtr(ucwords(strtr($attribute, '_', ' ')), [' ' => '']);
-            if ($token->getUser() instanceof UserInterface && $this->$method($token, $object)) {
+            if ($token->getUser() instanceof UserInterface && $this->$method(...$arguments)) {
                 // grant access as soon as at least one voter returns a positive response
                 return self::ACCESS_GRANTED;
             }
@@ -44,12 +51,37 @@ abstract class AbstractVoter implements VoterInterface
         return $vote;
     }
 
-    abstract protected function supportsObject($object);
-
-    abstract protected function getSupportedAttributes();
-
-    protected function isGranted(TokenInterface $token, $attributes, $object = null)
+    /**
+     * @param string|object $subject
+     *
+     * @return bool
+     */
+    protected function supports($subject): bool
     {
-        return $this->decisionManager->decide($token, (array) $attributes, $object);
+        $class = $this->getSupportedClass();
+
+        if (is_string($subject)) {
+            return $subject === $class || is_subclass_of($subject, $class);
+        }
+
+        return $subject instanceof $class;
+    }
+
+    protected function getSupportedClass(): string
+    {
+        if (!$this->supportedClass) {
+            $pos = strrpos(get_class($this), '\\');
+            $pos = false === $pos ? 0 : $pos + 1;
+            $this->supportedClass = '\\AppBundle\\Model\\'.substr(get_class($this), $pos, -5);
+        }
+
+        return $this->supportedClass;
+    }
+
+    abstract protected function getSupportedAttributes(): array;
+
+    protected function isGranted(TokenInterface $token, $attributes, $subject = null): bool
+    {
+        return $this->decisionManager->decide($token, (array) $attributes, $subject);
     }
 }
