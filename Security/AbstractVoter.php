@@ -60,11 +60,23 @@ abstract class AbstractVoter implements VoterInterface
     {
         $class = $this->getSupportedClass();
 
-        if (is_string($subject)) {
-            return $subject === $class || is_subclass_of($subject, $class);
+        if (is_object($subject)) {
+            return $subject instanceof $class;
         }
 
-        return $subject instanceof $class;
+        if (!is_string($subject)) {
+            return false;
+        }
+
+        $subject = strtolower($subject);
+
+        if ($subject === $class || is_subclass_of($subject, $class)) {
+            return true;
+        }
+
+        $subject = '\\appbundle\\model\\'.$subject;
+
+        return $subject === $class || is_subclass_of($subject, $class);
     }
 
     protected function getSupportedClass(): string
@@ -72,7 +84,7 @@ abstract class AbstractVoter implements VoterInterface
         if (!$this->supportedClass) {
             $pos = strrpos(get_class($this), '\\');
             $pos = false === $pos ? 0 : $pos + 1;
-            $this->supportedClass = '\\AppBundle\\Model\\'.substr(get_class($this), $pos, -5);
+            $this->supportedClass = '\\appbundle\\model\\'.strtolower(substr(get_class($this), $pos, -5));
         }
 
         return $this->supportedClass;
