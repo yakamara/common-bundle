@@ -20,13 +20,12 @@ class FormatExtension extends \Twig_Extension
         return [
             new \Twig_SimpleFilter('number', [$this, 'number']),
             new \Twig_SimpleFilter('decimal', [$this, 'decimal']),
-            new \Twig_SimpleFilter('percent', [$this, 'percent'], [
-                'is_safe' => ['html'],
-            ]),
-            new \Twig_SimpleFilter('currency', [$this, 'currency'], [
-                'is_safe' => ['html'],
-            ]),
+            new \Twig_SimpleFilter('percent', [$this, 'percent']),
+            new \Twig_SimpleFilter('currency', [$this, 'currency']),
             new \Twig_SimpleFilter('date', [$this, 'date'], [
+                'needs_environment' => true,
+            ]),
+            new \Twig_SimpleFilter('time', [$this, 'time'], [
                 'needs_environment' => true,
             ]),
             new \Twig_SimpleFilter('datetime', [$this, 'datetime'], [
@@ -65,9 +64,9 @@ class FormatExtension extends \Twig_Extension
         ];
     }
 
-    public function number($number, $decimals = 2, $decimalPoint = ',', $thousandSep = '.')
+    public function number($number, $decimals = 2)
     {
-        return $this->format->number($number, $decimals, $decimalPoint, $thousandSep);
+        return $this->format->number($number, $decimals);
     }
 
     public function decimal($number, $decimals = 2)
@@ -75,17 +74,17 @@ class FormatExtension extends \Twig_Extension
         return $this->format->decimal($number, $decimals);
     }
 
-    public function percent($number, $decimals = 2, $html = true)
+    public function percent($number, $decimals = 2)
     {
-        return $this->format->percent($number, $decimals, $html);
+        return $this->format->percent($number, $decimals);
     }
 
-    public function currency($number, $decimals = 2, $currency = '€', $html = true)
+    public function currency($number, $decimals = 2, $currency = 'EUR')
     {
-        return $this->format->currency($number, $decimals, $currency, $html);
+        return $this->format->currency($number, $decimals, $currency);
     }
 
-    public function date(\Twig_Environment $env, $date, $format = 'd.m.Y')
+    public function date(\Twig_Environment $env, $date, $format = null)
     {
         if (!$date) {
             return null;
@@ -96,7 +95,18 @@ class FormatExtension extends \Twig_Extension
         return $this->format->date($date, $format);
     }
 
-    public function datetime(\Twig_Environment $env, $datetime, $format = 'd.m.Y H:i')
+    public function time(\Twig_Environment $env, $time, $format = null)
+    {
+        if (!$time) {
+            return null;
+        }
+
+        $time = \twig_date_converter($env, $time);
+
+        return $this->format->date($time, $format);
+    }
+
+    public function datetime(\Twig_Environment $env, $datetime, $format = null)
     {
         if (!$datetime) {
             return null;

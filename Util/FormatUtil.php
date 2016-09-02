@@ -14,13 +14,17 @@ class FormatUtil
         $this->translator = $translator;
     }
 
-    public function number($number, $decimals = 2, $decimalPoint = ',', $thousandSep = '.')
+    public function number($number, $decimals = 2)
     {
         if (null === $number) {
             return null;
         }
 
-        return str_replace('-', '−', number_format($number, $decimals, $decimalPoint, $thousandSep));
+        $formatter = new \NumberFormatter(\Locale::getDefault(), \NumberFormatter::DECIMAL);
+        $formatter->setSymbol(\NumberFormatter::MINUS_SIGN_SYMBOL, '−');
+        $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, $decimals);
+
+        return $formatter->format($number);
     }
 
     public function decimal($number, $decimals = 2)
@@ -32,36 +36,60 @@ class FormatUtil
         return number_format($number, $decimals, '.', '');
     }
 
-    public function percent($number, $decimal = 2, $html = false)
+    public function percent($number, $decimals = 2)
     {
         if (null === $number) {
             return null;
         }
 
-        return $this->number($number * 100, $decimal) . ($html ? '&nbsp;' : ' ') . '%';
+        $formatter = new \NumberFormatter(\Locale::getDefault(), \NumberFormatter::PERCENT);
+        $formatter->setSymbol(\NumberFormatter::MINUS_SIGN_SYMBOL, '−');
+        $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, $decimals);
+
+        return $formatter->format($number);
     }
 
-    public function currency($number, $decimal = 2, $currency = '€', $html = false)
+    public function currency($number, $decimals = 2, $currency = 'EUR')
     {
         if (null === $number) {
             return null;
         }
 
-        return $this->number($number, $decimal) . ($html ? '&nbsp;' : ' ') . $currency;
+        $formatter = new \NumberFormatter(\Locale::getDefault(), \NumberFormatter::CURRENCY);
+        $formatter->setSymbol(\NumberFormatter::MINUS_SIGN_SYMBOL, '−');
+        $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, $decimals);
+
+        return $formatter->formatCurrency($number, $currency);
     }
 
-    public function date(\DateTimeInterface $date = null, $format = 'd.m.Y')
+    public function date(\DateTimeInterface $date = null, $format = null)
     {
+        if (null === $format) {
+            $format = '%x';
+        }
+
         return $this->datetime($date, $format);
     }
 
-    public function datetime(\DateTimeInterface $datetime = null, $format = 'd.m.Y H:i')
+    public function time(\DateTimeInterface $time = null, $format = null)
+    {
+        if (null === $format) {
+            $format = '%H:%M';
+        }
+
+        return $this->datetime($time, $format);
+    }
+
+    public function datetime(\DateTimeInterface $datetime = null, $format = null)
     {
         if (null === $datetime) {
             return null;
         }
+        if (null === $format) {
+            $format = '%x %H:%M';
+        }
 
-        return $datetime->format($format);
+        return strftime($format, $datetime->getTimestamp());
     }
 
     public function gender($person)

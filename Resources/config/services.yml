@@ -1,10 +1,10 @@
 services:
-    yakamara_common.datetime:
-        class: Yakamara\CommonBundle\Util\DateTimeUtil
-        arguments: ['@translator']
     yakamara_common.format:
         class: Yakamara\CommonBundle\Util\FormatUtil
         arguments: ['@translator']
+    yakamara_common.datetime:
+        class: Yakamara\CommonBundle\Util\DateTimeUtil
+        arguments: ['@translator', '@yakamara_common.format']
     yakamara_common.security_context:
         class: Yakamara\CommonBundle\Security\SecurityContext
         arguments: ['@security.token_storage', '@security.authorization_checker']
