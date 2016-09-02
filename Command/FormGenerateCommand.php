@@ -22,16 +22,15 @@ class FormGenerateCommand extends \Propel\Bundle\PropelBundle\Command\FormGenera
         $this->getDefinition()->setArguments($arguments);
     }
 
-    protected function initialize(InputInterface $input, OutputInterface $output)
+    protected function getBundle(InputInterface $input, OutputInterface $output)
     {
-        parent::initialize($input, $output);
+        $kernel = $this->getContainer()->get('kernel');
 
         if ($input->hasOption('bundle') && '@' === substr($input->getOption('bundle'), 0, 1)) {
-            $this->bundle = $this
-                ->getContainer()
-                ->get('kernel')
-                ->getBundle(substr($input->getOption('bundle'), 1));
+            return $kernel->getBundle(substr($input->getOption('bundle'), 1));
         }
+
+        return $kernel->getBundle('AppBundle');
     }
 
     protected function writeFormType(BundleInterface $bundle, Table $table, \SplFileInfo $file, $force, OutputInterface $output)
