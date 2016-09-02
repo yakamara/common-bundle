@@ -32,6 +32,8 @@ class SecurityContext
         return $this->tokenStorage->getToken();
     }
 
+    /** @noinspection PhpUndefinedNamespaceInspection */
+    /** @noinspection PhpUndefinedClassInspection */
     /**
      * Returns a user representation.
      *
@@ -67,6 +69,8 @@ class SecurityContext
         return $this->isGranted('ROLE_PREVIOUS_ADMIN');
     }
 
+    /** @noinspection PhpUndefinedNamespaceInspection */
+    /** @noinspection PhpUndefinedClassInspection */
     /**
      * Returns the orignal user
      *
