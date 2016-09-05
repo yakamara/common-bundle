@@ -38,7 +38,7 @@ services:
             - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\ChoiceType }
     yakamara_common.twig.extension.datetime:
         class: Yakamara\CommonBundle\Twig\DateTimeExtension
-        arguments: ['@yakamara_common.datetime']
+        arguments: ['@yakamara_common.datetime', '@yakamara_common.format']
         public: false
         tags:
             - { name: twig.extension }

@@ -5,14 +5,17 @@ namespace Yakamara\CommonBundle\Twig;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Intl\Intl;
 use Yakamara\CommonBundle\Util\DateTimeUtil;
+use Yakamara\CommonBundle\Util\FormatUtil;
 
 class DateTimeExtension extends \Twig_Extension
 {
-    protected $dateTimeUtil;
+    private $dateTimeUtil;
+    private $format;
 
-    public function __construct(DateTimeUtil $dateTimeUtil)
+    public function __construct(DateTimeUtil $dateTimeUtil, FormatUtil $format)
     {
         $this->dateTimeUtil = $dateTimeUtil;
+        $this->format = $format;
     }
 
     public function getFunctions()
@@ -33,7 +36,7 @@ class DateTimeExtension extends \Twig_Extension
         $datetime = \twig_date_converter($env, $datetime);
         $descriptiveDate = $this->dateTimeUtil->descriptiveDateTime($datetime, $descriptive);
         if ($descriptive) {
-            $descriptiveDate = '<span data-toggle="tooltip" title="' . $datetime->format('d.m.Y') . '&nbsp;' . $datetime->format('H:i') . '">' . $descriptiveDate . '</span>';
+            $descriptiveDate = '<span data-toggle="tooltip" title="' . $this->format->date($datetime) . '&nbsp;' . $this->format->time($datetime) . '">' . $descriptiveDate . '</span>';
         }
         return $descriptiveDate;
     }
