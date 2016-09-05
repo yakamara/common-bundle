@@ -12,7 +12,6 @@ class DateTimeExtension extends AbstractTypeExtension
     {
         $resolver->setDefaults([
             'date_widget' => 'single_text',
-            'date_format' => 'dd.MM.yyyy',
             'time_widget' => 'single_text',
             'html5' => false,
         ]);
