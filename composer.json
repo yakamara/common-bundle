@@ -12,6 +12,7 @@
 
         "symfony/symfony": "^3.0",
         "propel/propel": "^2.0@dev",
-        "propel/propel-bundle": "^3.0@dev"
+        "propel/propel-bundle": "^3.0@dev",
+        "yakamara/datetime": "@dev"
     }
 }
