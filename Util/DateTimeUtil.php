@@ -3,6 +3,9 @@
 namespace Yakamara\CommonBundle\Util;
 
 use Symfony\Component\Translation\TranslatorInterface;
+use Yakamara\Date;
+use Yakamara\DateTime;
+use Yakamara\DateTimeInterface;
 
 class DateTimeUtil
 {
@@ -18,25 +21,24 @@ class DateTimeUtil
         $this->format = $format;
     }
 
-    public function descriptiveDateTime(\DateTimeInterface $timestamp, &$descriptive = null)
+    public function descriptiveDateTime(DateTimeInterface $dateTime, &$descriptive = null)
     {
-        $diff = $timestamp->diff(new \DateTime());
-        $yesterdayDay = (new \DateTime('yesterday'))->format('d');
+        $diff = $dateTime->diff(new DateTime());
 
-        if ($diff->days > 1 || $diff->days == 1 && $timestamp->format('d') != $yesterdayDay) {
+        if ($diff->days > 1 || $diff->days == 1 && $dateTime->getDay() !== Date::yesterday()->getDay()) {
             $descriptive = false;
-            return $this->format->datetime($timestamp);
+            return $this->format->datetime($dateTime);
         }
 
         $descriptive = true;
 
         if ($diff->days || $diff->h > 5) {
-            $day = $timestamp->format('d');
-            if ($day == $yesterdayDay) {
-                return $this->translator->trans('descriptive_datetime.yesterday', ['%time%' => $this->format->time($timestamp)]);
+            $day = $dateTime->getDay();
+            if ($day === Date::yesterday()->getDay()) {
+                return $this->translator->trans('descriptive_datetime.yesterday', ['%time%' => $this->format->time($dateTime)]);
             }
-            if ($day == (new \DateTime('today'))->format('d')) {
-                return $this->translator->trans('descriptive_datetime.today', ['%time%' => $this->format->time($timestamp)]);
+            if ($day === Date::today()->getDay()) {
+                return $this->translator->trans('descriptive_datetime.today', ['%time%' => $this->format->time($dateTime)]);
             }
             return null;
         }
@@ -52,22 +54,21 @@ class DateTimeUtil
         return $this->translator->trans('descriptive_datetime.justNow');
     }
 
-    public function descriptiveRange(\DateTimeInterface $start, \DateTimeInterface $end)
+    public function descriptiveRange(DateTimeInterface $start, DateTimeInterface $end)
     {
         $range = $this->format->date($start) .' – '.$this->format->date($end);
 
-        if (1 != $start->format('j')) {
+        if (1 !== $start->getDay()) {
             return $range;
         }
 
-        $end2 = clone $end;
-        $end2->modify('+1day');
+        $end2 = $end->addDays(1);
 
-        if (1 != $end2->format('j')) {
+        if (1 !== $end2->getDay()) {
             return $range;
         }
 
-        if ($start->format('Y-m') != $end->format('Y-m')) {
+        if ($start->format('Y-m') !== $end->format('Y-m')) {
             return $range;
         }
 

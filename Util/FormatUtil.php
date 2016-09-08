@@ -3,6 +3,7 @@
 namespace Yakamara\CommonBundle\Util;
 
 use Symfony\Component\Translation\TranslatorInterface;
+use Yakamara\DateTimeInterface;
 
 class FormatUtil
 {
@@ -62,7 +63,7 @@ class FormatUtil
         return $formatter->formatCurrency($number, $currency);
     }
 
-    public function date(\DateTimeInterface $date = null, $format = null)
+    public function date(DateTimeInterface $date = null, $format = null)
     {
         if (null === $format) {
             $format = '%x';
@@ -71,7 +72,7 @@ class FormatUtil
         return $this->datetime($date, $format);
     }
 
-    public function time(\DateTimeInterface $time = null, $format = null)
+    public function time(DateTimeInterface $time = null, $format = null)
     {
         if (null === $format) {
             $format = '%H:%M';
@@ -80,7 +81,7 @@ class FormatUtil
         return $this->datetime($time, $format);
     }
 
-    public function datetime(\DateTimeInterface $datetime = null, $format = null)
+    public function datetime(DateTimeInterface $datetime = null, $format = null)
     {
         if (null === $datetime) {
             return null;
@@ -89,7 +90,7 @@ class FormatUtil
             $format = '%x %H:%M';
         }
 
-        return strftime($format, $datetime->getTimestamp());
+        return $datetime->formatLocalized($format);
     }
 
     public function gender($person)

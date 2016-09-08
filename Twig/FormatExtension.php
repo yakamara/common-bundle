@@ -2,8 +2,8 @@
 
 namespace Yakamara\CommonBundle\Twig;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Intl\Intl;
+use Yakamara\AbstractDateTime;
 use Yakamara\CommonBundle\Util\FormatUtil;
 
 class FormatExtension extends \Twig_Extension
@@ -22,15 +22,9 @@ class FormatExtension extends \Twig_Extension
             new \Twig_SimpleFilter('decimal', [$this, 'decimal']),
             new \Twig_SimpleFilter('percent', [$this, 'percent']),
             new \Twig_SimpleFilter('currency', [$this, 'currency']),
-            new \Twig_SimpleFilter('date', [$this, 'date'], [
-                'needs_environment' => true,
-            ]),
-            new \Twig_SimpleFilter('time', [$this, 'time'], [
-                'needs_environment' => true,
-            ]),
-            new \Twig_SimpleFilter('datetime', [$this, 'datetime'], [
-                'needs_environment' => true,
-            ]),
+            new \Twig_SimpleFilter('date', [$this, 'date']),
+            new \Twig_SimpleFilter('time', [$this, 'time']),
+            new \Twig_SimpleFilter('datetime', [$this, 'datetime']),
             new \Twig_SimpleFilter('break_on_slash', function ($text) {
                 return str_replace('/', '/&#8203;', $text);
             }, ['pre_escape' => 'html', 'is_safe' => ['html']]),
@@ -84,35 +78,35 @@ class FormatExtension extends \Twig_Extension
         return $this->format->currency($number, $decimals, $currency);
     }
 
-    public function date(\Twig_Environment $env, $date, $format = null)
+    public function date($date, $format = null)
     {
         if (!$date) {
             return null;
         }
 
-        $date = \twig_date_converter($env, $date);
+        $date = AbstractDateTime::createFromUnknown($date);
 
         return $this->format->date($date, $format);
     }
 
-    public function time(\Twig_Environment $env, $time, $format = null)
+    public function time($time, $format = null)
     {
         if (!$time) {
             return null;
         }
 
-        $time = \twig_date_converter($env, $time);
+        $time = AbstractDateTime::createFromUnknown($time);
 
         return $this->format->date($time, $format);
     }
 
-    public function datetime(\Twig_Environment $env, $datetime, $format = null)
+    public function datetime($datetime, $format = null)
     {
         if (!$datetime) {
             return null;
         }
 
-        $datetime = \twig_date_converter($env, $datetime);
+        $datetime = AbstractDateTime::createFromUnknown($datetime);
 
         return $this->format->datetime($datetime, $format);
     }

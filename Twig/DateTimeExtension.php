@@ -2,10 +2,10 @@
 
 namespace Yakamara\CommonBundle\Twig;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Intl\Intl;
+use Yakamara\AbstractDateTime;
 use Yakamara\CommonBundle\Util\DateTimeUtil;
 use Yakamara\CommonBundle\Util\FormatUtil;
+use Yakamara\DateTime;
 
 class DateTimeExtension extends \Twig_Extension
 {
@@ -22,22 +22,25 @@ class DateTimeExtension extends \Twig_Extension
     {
         return [
             new \Twig_SimpleFunction('descriptive_date', [$this, 'descriptiveDate'], [
-                'needs_environment' => true,
                 'is_safe' => ['html'],
             ]),
         ];
     }
 
-    public function descriptiveDate(\Twig_Environment $env, $datetime)
+    public function descriptiveDate($datetime)
     {
         if (!$datetime) {
             return '';
         }
-        $datetime = \twig_date_converter($env, $datetime);
+
+        $datetime = AbstractDateTime::createFromUnknown($datetime);
+
         $descriptiveDate = $this->dateTimeUtil->descriptiveDateTime($datetime, $descriptive);
+
         if ($descriptive) {
             $descriptiveDate = '<span data-toggle="tooltip" title="' . $this->format->date($datetime) . '&nbsp;' . $this->format->time($datetime) . '">' . $descriptiveDate . '</span>';
         }
+
         return $descriptiveDate;
     }
 
