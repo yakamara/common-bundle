@@ -3,9 +3,11 @@
 namespace Yakamara\CommonBundle\Propel;
 
 use Propel\Generator\Model\Column;
+use Propel\Generator\Model\IdMethod;
 use Propel\Generator\Model\PropelTypes;
 use Propel\Generator\Platform\MysqlPlatform;
 use Propel\Generator\Platform\OraclePlatform;
+use Propel\Generator\Platform\PlatformInterface;
 
 class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
 {
@@ -121,6 +123,80 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
         } catch (Exception \$e) {
             throw new PropelException(sprintf('Error populating %s object', ".var_export($this->getStubObjectBuilder()->getClassName(), true).'), 0, $e);
         }';
+    }
+
+    protected function addDoInsertBodyRaw()
+    {
+        $table = $this->getTable();
+        $platform = $this->getPlatform();
+        $primaryKeyMethodInfo = '';
+        if ($table->getIdMethodParameters()) {
+            $params = $table->getIdMethodParameters();
+            $imp = $params[0];
+            $primaryKeyMethodInfo = $imp->getValue();
+        } elseif ($table->getIdMethod() == IdMethod::NATIVE && ($platform->getNativeIdMethod() == PlatformInterface::SEQUENCE || $platform->getNativeIdMethod() == PlatformInterface::SERIAL)) {
+            $primaryKeyMethodInfo = $platform->getSequenceName($table);
+        }
+
+        $script = '';
+
+        foreach ($table->getPrimaryKey() as $column) {
+            if (!$column->isAutoIncrement()) {
+                continue;
+            }
+            $constantName = $this->getColumnConstant($column);
+            if ($platform->supportsInsertNullPk()) {
+                $script .= "
+        \$this->modifiedColumns[$constantName] = true;";
+            }
+            $columnProperty = $column->getLowercasedName();
+            if (!$table->isAllowPkInsert()) {
+                $script .= "
+        if (null !== \$this->{$columnProperty}) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . $constantName . ')');
+        }";
+            } elseif (!$platform->supportsInsertNullPk()) {
+                $script .= "
+        // add primary key column only if it is not null since this database does not accept that
+        if (null !== \$this->{$columnProperty}) {
+            \$this->modifiedColumns[$constantName] = true;
+        }";
+            }
+        }
+
+        $script .= '
+
+        $criteria = $this->buildCriteria();
+        $criteria->setIdentifierQuoting(true);
+        $criteria->doInsert($con);
+';
+
+        // if auto-increment, get the id after
+        if ($platform->isNativeIdMethodAutoIncrement() && $table->getIdMethod() == "native") {
+            $script .= "
+        try {";
+            $script .= $platform->getIdentifierPhp('$pk', '$con', $primaryKeyMethodInfo);
+            $script .= "
+        } catch (Exception \$e) {
+            throw new PropelException('Unable to get autoincrement id.', 0, \$e);
+        }";
+            $column = $table->getFirstPrimaryKeyColumn();
+            if ($column) {
+                if ($table->isAllowPkInsert()) {
+                    $script .= "
+        if (\$pk !== null) {
+            \$this->set".$column->getPhpName()."(\$pk);
+        }";
+                } else {
+                    $script .= "
+        \$this->set".$column->getPhpName()."(\$pk);";
+                }
+            }
+            $script .= "
+";
+        }
+
+        return $script;
     }
 
     protected function getDateTimeClass(Column $column)
