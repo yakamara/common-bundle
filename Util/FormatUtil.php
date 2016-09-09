@@ -3,7 +3,7 @@
 namespace Yakamara\CommonBundle\Util;
 
 use Symfony\Component\Translation\TranslatorInterface;
-use Yakamara\DateTimeInterface;
+use Yakamara\DateTime\DateTimeInterface;
 
 class FormatUtil
 {

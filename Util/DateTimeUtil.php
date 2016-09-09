@@ -3,9 +3,9 @@
 namespace Yakamara\CommonBundle\Util;
 
 use Symfony\Component\Translation\TranslatorInterface;
-use Yakamara\Date;
-use Yakamara\DateTime;
-use Yakamara\DateTimeInterface;
+use Yakamara\DateTime\Date;
+use Yakamara\DateTime\DateTime;
+use Yakamara\DateTime\DateTimeInterface;
 
 class DateTimeUtil
 {

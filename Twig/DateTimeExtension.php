@@ -2,10 +2,9 @@
 
 namespace Yakamara\CommonBundle\Twig;
 
-use Yakamara\AbstractDateTime;
+use Yakamara\DateTime\AbstractDateTime;
 use Yakamara\CommonBundle\Util\DateTimeUtil;
 use Yakamara\CommonBundle\Util\FormatUtil;
-use Yakamara\DateTime;
 
 class DateTimeExtension extends \Twig_Extension
 {

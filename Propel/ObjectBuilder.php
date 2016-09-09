@@ -67,10 +67,10 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
             } else {";
                     if ($col->getType() === PropelTypes::DATE) {
                         $script .= "
-                \$this->$clo = new \\Yakamara\\Date(\$col);";
+                \$this->$clo = new \\Yakamara\\DateTime\\Date(\$col);";
                     } else {
                         $script .= "
-                \$this->$clo = \\Yakamara\\DateTime::createFromUtc(\$col);";
+                \$this->$clo = \\Yakamara\\DateTime\\DateTime::createFromUtc(\$col);";
                     }
                     $script .= '
             }';
@@ -206,9 +206,9 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
         }
 
         if (PropelTypes::DATE === $column->getType()) {
-            return '\\Yakamara\\Date';
+            return '\\Yakamara\\DateTime\\Date';
         }
 
-        return '\\Yakamara\\DateTime';
+        return '\\Yakamara\\DateTime\\DateTime';
     }
 }

@@ -3,7 +3,7 @@
 namespace Yakamara\CommonBundle\Twig;
 
 use Symfony\Component\Intl\Intl;
-use Yakamara\AbstractDateTime;
+use Yakamara\DateTime\AbstractDateTime;
 use Yakamara\CommonBundle\Util\FormatUtil;
 
 class FormatExtension extends \Twig_Extension
