@@ -8,6 +8,10 @@ services:
     yakamara_common.security_context:
         class: Yakamara\CommonBundle\Security\SecurityContext
         arguments: ['@security.token_storage', '@security.authorization_checker']
+    yakamara_common.param_converter.datetime:
+        class: Yakamara\CommonBundle\Request\DateTimeParamConverter
+        tags:
+            - { name: request.param_converter }
     yakamara_common.form.type.gender:
         class: Yakamara\CommonBundle\Form\Type\GenderType
         tags:
