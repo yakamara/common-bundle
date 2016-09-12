@@ -6,6 +6,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Yakamara\DateTime\Date;
+use Yakamara\DateTime\DateTime;
 use Yakamara\DateTime\DateTimeInterface;
 
 class DateTimeParamConverter implements ParamConverterInterface
@@ -28,20 +30,21 @@ class DateTimeParamConverter implements ParamConverterInterface
         $class = $configuration->getClass();
 
         if (isset($options['format'])) {
-            $date = $class::createFromFormat($options['format'], $value);
+            $class = DateTimeInterface::class === $class ? DateTime::class : $class;
+            $dateTime = $class::createFromFormat($options['format'], $value);
 
-            if (!$date) {
+            if (!$dateTime) {
                 throw new NotFoundHttpException('Invalid date given.');
             }
         } else {
-            if (false === strtotime($value)) {
-                throw new NotFoundHttpException('Invalid date given.');
+            if (DateTimeInterface::class === $class) {
+                $class = preg_match('/^\d{4}-\d{2}-\d{2}$/', $value) ? Date::class : DateTime::class;
             }
 
-            $date = new $class($value);
+            $dateTime = $this->isSubclass($class, Date::class) ? new $class($value) : $class::createFromFormat('Y-m-d-H-i-s', $value);
         }
 
-        $request->attributes->set($param, $date);
+        $request->attributes->set($param, $dateTime);
 
         return true;
     }
@@ -52,6 +55,11 @@ class DateTimeParamConverter implements ParamConverterInterface
             return false;
         }
 
-        return is_subclass_of($configuration->getClass(), DateTimeInterface::class);
+        return $this->isSubclass($configuration->getClass(), DateTimeInterface::class);
+    }
+
+    private function isSubclass(string $class1, string $class2): bool
+    {
+        return $class1 === $class2 || is_subclass_of($class1, $class2);
     }
 }
