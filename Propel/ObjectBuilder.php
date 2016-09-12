@@ -68,6 +68,9 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
                     if ($col->getType() === PropelTypes::DATE) {
                         $script .= "
                 \$this->$clo = new \\Yakamara\\DateTime\\Date(\$col);";
+                    } elseif ($col->getType() === PropelTypes::TIME) {
+                        $script .= "
+                \$this->$clo = \\Yakamara\\DateTime\\DateTime::createUtc(\$col);";
                     } else {
                         $script .= "
                 \$this->$clo = \\Yakamara\\DateTime\\DateTime::createFromUtc(\$col);";
