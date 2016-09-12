@@ -202,6 +202,53 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
         return $script;
     }
 
+    protected function addTemporalMutator(&$script, Column $col)
+    {
+        $clo = $col->getLowercasedName();
+
+        $dateTimeClass = $this->getDateTimeClass($col);
+
+        $this->addTemporalMutatorComment($script, $col);
+        $this->addMutatorOpenOpen($script, $col);
+        $this->addMutatorOpenBody($script, $col);
+
+        $fmt = var_export($this->getTemporalFormatter($col), true);
+
+        $script .= "
+        \$dt = null === \$v ? null : $dateTimeClass::createFromUnknown(\$v);
+
+        if (\$this->$clo !== null || \$dt !== null) {";
+
+        if (($def = $col->getDefaultValue()) !== null && !$def->isExpression()) {
+            $defaultValue = $this->getDefaultValueString($col);
+            $script .= "
+            if ( (\$dt != \$this->{$clo}) // normalized values don't match
+                || (\$dt->format($fmt) === $defaultValue) // or the entered value matches the default
+                 ) {";
+        } else {
+            switch ($col->getType()) {
+                case 'DATE':
+                    $format = 'Y-m-d';
+                    break;
+                case 'TIME':
+                    $format = 'H:i:s.u';
+                    break;
+                default:
+                    $format = 'Y-m-d H:i:s.u';
+            }
+            $script .= "
+            if (\$this->{$clo} === null || \$dt === null || \$dt->format(\"$format\") !== \$this->{$clo}->format(\"$format\")) {";
+        }
+
+        $script .= "
+                \$this->$clo = \$dt;
+                \$this->modifiedColumns[".$this->getColumnConstant($col).'] = true;
+            }
+        } // if either are not null
+';
+        $this->addMutatorClose($script, $col);
+    }
+
     protected function getDateTimeClass(Column $column)
     {
         if (PropelTypes::isPhpObjectType($column->getPhpType())) {
