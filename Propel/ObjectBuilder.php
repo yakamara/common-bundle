@@ -1,5 +1,14 @@
 <?php declare(strict_types=1);
 
+/*
+ * This file is part of the common-bundle package.
+ *
+ * (c) Yakamara Media GmbH & Co. KG
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Yakamara\CommonBundle\Propel;
 
 use Propel\Generator\Model\Column;
@@ -175,9 +184,9 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
 ';
 
         // if auto-increment, get the id after
-        if ($platform->isNativeIdMethodAutoIncrement() && $table->getIdMethod() == "native") {
-            $script .= "
-        try {";
+        if ($platform->isNativeIdMethodAutoIncrement() && $table->getIdMethod() == 'native') {
+            $script .= '
+        try {';
             $script .= $platform->getIdentifierPhp('$pk', '$con', $primaryKeyMethodInfo);
             $script .= "
         } catch (Exception \$e) {
@@ -186,17 +195,17 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
             $column = $table->getFirstPrimaryKeyColumn();
             if ($column) {
                 if ($table->isAllowPkInsert()) {
-                    $script .= "
-        if (\$pk !== null) {
-            \$this->set".$column->getPhpName()."(\$pk);
-        }";
+                    $script .= '
+        if ($pk !== null) {
+            $this->set'.$column->getPhpName().'($pk);
+        }';
                 } else {
-                    $script .= "
-        \$this->set".$column->getPhpName()."(\$pk);";
+                    $script .= '
+        $this->set'.$column->getPhpName().'($pk);';
                 }
             }
-            $script .= "
-";
+            $script .= '
+';
         }
 
         return $script;

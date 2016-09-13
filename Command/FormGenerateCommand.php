@@ -1,4 +1,13 @@
-<?php
+<?php declare(strict_types=1);
+
+/*
+ * This file is part of the common-bundle package.
+ *
+ * (c) Yakamara Media GmbH & Co. KG
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Yakamara\CommonBundle\Command;
 
@@ -36,15 +45,15 @@ class FormGenerateCommand extends \Propel\Bundle\PropelBundle\Command\FormGenera
     protected function writeFormType(BundleInterface $bundle, Table $table, \SplFileInfo $file, $force, OutputInterface $output)
     {
         $modelName = $table->getPhpName();
-        $formTypeContent = file_get_contents(__DIR__ . '/../Resources/skeleton/FormType.php.skeleton');
+        $formTypeContent = file_get_contents(__DIR__.'/../Resources/skeleton/FormType.php.skeleton');
 
-        $formTypeContent = str_replace('##NAMESPACE##', $bundle->getNamespace() . str_replace('/', '\\', self::DEFAULT_FORM_TYPE_DIRECTORY), $formTypeContent);
-        $formTypeContent = str_replace('##CLASS##', $modelName . 'Type', $formTypeContent);
+        $formTypeContent = str_replace('##NAMESPACE##', $bundle->getNamespace().str_replace('/', '\\', self::DEFAULT_FORM_TYPE_DIRECTORY), $formTypeContent);
+        $formTypeContent = str_replace('##CLASS##', $modelName.'Type', $formTypeContent);
         $formTypeContent = str_replace('##MODEL##', $modelName, $formTypeContent);
         $formTypeContent = $this->addFields($table, $formTypeContent);
 
         file_put_contents($file->getPathName(), $formTypeContent);
-        $this->writeNewFile($output, $this->getRelativeFileName($file) . ($force ? ' (forced)' : ''));
+        $this->writeNewFile($output, $this->getRelativeFileName($file).($force ? ' (forced)' : ''));
     }
 
     protected function addFields(Table $table, $formTypeContent)

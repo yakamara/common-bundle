@@ -1,4 +1,13 @@
-<?php
+<?php declare(strict_types=1);
+
+/*
+ * This file is part of the common-bundle package.
+ *
+ * (c) Yakamara Media GmbH & Co. KG
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Yakamara\CommonBundle\Util;
 
@@ -56,7 +65,7 @@ class DateTimeUtil
 
     public function descriptiveRange(DateTimeInterface $start, DateTimeInterface $end)
     {
-        $range = $this->format->date($start) .' – '.$this->format->date($end);
+        $range = $this->format->date($start).' – '.$this->format->date($end);
 
         if (1 !== $start->getDay()) {
             return $range;

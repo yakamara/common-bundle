@@ -1,4 +1,13 @@
-<?php
+<?php declare(strict_types=1);
+
+/*
+ * This file is part of the common-bundle package.
+ *
+ * (c) Yakamara Media GmbH & Co. KG
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Yakamara\CommonBundle\Validator\Constraints;
 
@@ -13,7 +22,7 @@ class UniquePropertyValidator extends ConstraintValidator
     {
         $object = $this->context->getRoot()->getData();
         $class = get_class($object);
-        $queryClass = $class . 'Query';
+        $queryClass = $class.'Query';
         $tableMapClass = $class::TABLE_MAP;
 
         if (!preg_match('/^children\[([^\]]*)\].data$/', $this->context->getPropertyPath(), $match)) {
