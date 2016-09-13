@@ -46,13 +46,13 @@ class DateTimeParamConverter implements ParamConverterInterface
                 throw new NotFoundHttpException('Invalid date given.');
             }
         } else {
-            $isDateFormat = preg_match('/^\d{4}-\d{2}-\d{2}$/', $value);
+            $isDateTimeFormat = preg_match('/^\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}$/', $value);
 
             if (DateTimeInterface::class === $class) {
-                $class = $isDateFormat ? Date::class : DateTime::class;
+                $class = $isDateTimeFormat || 'now' === $value ? DateTime::class : Date::class;
             }
 
-            $dateTime = $isDateFormat ? new $class($value) : $class::createFromFormat('Y-m-d-H-i-s', $value);
+            $dateTime = $isDateTimeFormat ? $class::createFromFormat('Y-m-d-H-i-s', $value) : new $class($value);
         }
 
         $request->attributes->set($param, $dateTime);
