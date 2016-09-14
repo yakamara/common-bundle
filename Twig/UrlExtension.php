@@ -68,7 +68,7 @@ class UrlExtension extends \Twig_Extension
 
         $url = $request->getBaseUrl().$request->getPathInfo();
         if ($parameters) {
-            $url .= '?'.http_build_query($parameters, null, '&');
+            $url .= '?'.http_build_query($parameters, '', '&');
         }
 
         return $url;
