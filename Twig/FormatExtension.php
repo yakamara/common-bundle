@@ -109,7 +109,7 @@ class FormatExtension extends \Twig_Extension
         return $this->format->date($time, $format);
     }
 
-    public function datetime($datetime, $format = null)
+    public function datetime($datetime, $format = null, $timeFormat = null)
     {
         if (!$datetime) {
             return null;
@@ -117,7 +117,7 @@ class FormatExtension extends \Twig_Extension
 
         $datetime = AbstractDateTime::createFromUnknown($datetime);
 
-        return $this->format->datetime($datetime, $format);
+        return $this->format->datetime($datetime, $format, $timeFormat);
     }
 
     public function icon($icon)

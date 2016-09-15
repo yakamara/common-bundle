@@ -16,6 +16,14 @@ use Yakamara\DateTime\DateTimeInterface;
 
 class FormatUtil
 {
+    const INTL_DATE_FORMAT = [
+        'none' => \IntlDateFormatter::NONE,
+        'full' => \IntlDateFormatter::FULL,
+        'long' => \IntlDateFormatter::LONG,
+        'medium' => \IntlDateFormatter::MEDIUM,
+        'short' => \IntlDateFormatter::SHORT,
+    ];
+
     /** @var TranslatorInterface */
     private $translator;
 
@@ -78,7 +86,7 @@ class FormatUtil
             $format = '%x';
         }
 
-        return $this->datetime($date, $format);
+        return $this->datetime($date, $format, 'none');
     }
 
     public function time(DateTimeInterface $time = null, $format = null)
@@ -87,19 +95,28 @@ class FormatUtil
             $format = '%H:%M';
         }
 
+        if (array_key_exists($format, self::INTL_DATE_FORMAT)) {
+            return $this->datetime($time, 'none', $format);
+        }
+
         return $this->datetime($time, $format);
     }
 
-    public function datetime(DateTimeInterface $datetime = null, $format = null)
+    public function datetime(DateTimeInterface $datetime = null, $format = null, $timeFormat = null)
     {
         if (null === $datetime) {
             return null;
         }
+
         if (null === $format) {
             $format = '%x %H:%M';
         }
 
-        return $datetime->formatLocalized($format);
+        if (!array_key_exists($format, self::INTL_DATE_FORMAT)) {
+            return $datetime->formatLocalized($format);
+        }
+
+        return $datetime->formatIntl(self::INTL_DATE_FORMAT[$format], self::INTL_DATE_FORMAT[$timeFormat] ?? null);
     }
 
     public function gender($person)
