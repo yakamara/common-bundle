@@ -109,7 +109,7 @@ class FormatUtil
         }
 
         if (null === $format) {
-            $format = '%x %H:%M';
+            $format = '%x, %H:%M';
         }
 
         if (!array_key_exists($format, self::INTL_DATE_FORMAT)) {
