@@ -34,14 +34,9 @@ class FormatExtension extends \Twig_Extension
             new \Twig_SimpleFilter('date', [$this, 'date']),
             new \Twig_SimpleFilter('time', [$this, 'time']),
             new \Twig_SimpleFilter('datetime', [$this, 'datetime']),
-            new \Twig_SimpleFilter('break_on_slash', function ($text) {
-                return str_replace('/', '/&#8203;', $text);
-            }, ['pre_escape' => 'html', 'is_safe' => ['html']]),
-            new \Twig_SimpleFilter('country', function ($country, $displayLocale = null) {
-                if ($country) {
-                    return Intl::getRegionBundle()->getCountryName($country, $displayLocale);
-                }
-            }),
+            new \Twig_SimpleFilter('break_on_slash', [$this, 'breakOnSlash'], ['pre_escape' => 'html', 'is_safe' => ['html']]),
+            new \Twig_SimpleFilter('country', [$this, 'country']),
+            new \Twig_SimpleFilter('locale', [$this, 'locale']),
         ];
     }
 
@@ -118,6 +113,29 @@ class FormatExtension extends \Twig_Extension
         $datetime = AbstractDateTime::createFromUnknown($datetime);
 
         return $this->format->datetime($datetime, $format, $timeFormat);
+    }
+
+    public function breakOnSlash($text)
+    {
+        return str_replace('/', '/&#8203;', $text);
+    }
+
+    public function country($country, $displayLocale = null)
+    {
+        if (!$country) {
+            return null;
+        }
+
+        return Intl::getRegionBundle()->getCountryName($country, $displayLocale);
+    }
+
+    public function locale($locale, $displayLocale = null)
+    {
+        if (!$locale) {
+            return null;
+        }
+
+        return Intl::getLocaleBundle()->getLocaleName($locale, $displayLocale);
     }
 
     public function icon($icon)
