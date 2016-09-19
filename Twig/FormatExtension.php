@@ -101,7 +101,7 @@ class FormatExtension extends \Twig_Extension
 
         $time = AbstractDateTime::createFromUnknown($time);
 
-        return $this->format->date($time, $format);
+        return $this->format->time($time, $format);
     }
 
     public function datetime($datetime, $format = null, $timeFormat = null)
