@@ -34,6 +34,7 @@ class FormatExtension extends \Twig_Extension
             new \Twig_SimpleFilter('date', [$this, 'date']),
             new \Twig_SimpleFilter('time', [$this, 'time']),
             new \Twig_SimpleFilter('datetime', [$this, 'datetime']),
+            new \Twig_SimpleFilter('bytes', [$this, 'bytes']),
             new \Twig_SimpleFilter('break_on_slash', [$this, 'breakOnSlash'], ['pre_escape' => 'html', 'is_safe' => ['html']]),
             new \Twig_SimpleFilter('country', [$this, 'country']),
             new \Twig_SimpleFilter('locale', [$this, 'locale']),
@@ -113,6 +114,15 @@ class FormatExtension extends \Twig_Extension
         $datetime = AbstractDateTime::createFromUnknown($datetime);
 
         return $this->format->datetime($datetime, $format, $timeFormat);
+    }
+
+    public function bytes($bytes)
+    {
+        if (null === $bytes) {
+            return null;
+        }
+
+        return $this->format->bytes($bytes);
     }
 
     public function breakOnSlash($text)

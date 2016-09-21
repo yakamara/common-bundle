@@ -119,6 +119,40 @@ class FormatUtil
         return $datetime->formatIntl(self::INTL_DATE_FORMAT[$format], self::INTL_DATE_FORMAT[$timeFormat] ?? null);
     }
 
+    public function bytes(int $bytes)
+    {
+        $unit = 'B';
+
+        if ($bytes >= 1000) {
+            $bytes /= 1000;
+            $unit = 'kB';
+        }
+        if ($bytes >= 1000) {
+            $bytes /= 1000;
+            $unit = 'MB';
+        }
+        if ($bytes >= 1000) {
+            $bytes /= 1000;
+            $unit = 'GB';
+        }
+        if ($bytes >= 1000) {
+            $bytes /= 1000;
+            $unit = 'TB';
+        }
+
+        if ($bytes >= 100) {
+            return sprintf('%d %s', $bytes, $unit);
+        }
+
+        $decimals = $bytes >= 10 ? 1 : 2;
+
+        $formatter = new \NumberFormatter(\Locale::getDefault(), \NumberFormatter::DECIMAL);
+        $formatter->setSymbol(\NumberFormatter::MINUS_SIGN_SYMBOL, '−');
+        $formatter->setAttribute(\NumberFormatter::MAX_FRACTION_DIGITS, $decimals);
+
+        return $formatter->format($bytes).' '.$unit;
+    }
+
     public function gender($person)
     {
         if (null === $person) {
