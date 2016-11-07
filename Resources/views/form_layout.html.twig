@@ -17,7 +17,7 @@
 {% endblock %}
 
 {% block number_widget %}
-    {% set attr = attr|merge({class: (attr.class|default('') ~ ' number')|trim}) -%}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' input-number')|trim}) -%}
     {{- block('form_widget_simple') -}}
 {% endblock %}
 
