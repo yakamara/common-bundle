@@ -42,7 +42,7 @@ class FormatUtil
         $formatter->setSymbol(\NumberFormatter::MINUS_SIGN_SYMBOL, '−');
         $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, $decimals);
 
-        return $formatter->format($number);
+        return $formatter->format((float) $number);
     }
 
     public function decimal($number, $decimals = 2)
@@ -51,7 +51,7 @@ class FormatUtil
             return null;
         }
 
-        return number_format($number, $decimals, '.', '');
+        return number_format((float) $number, $decimals, '.', '');
     }
 
     public function percent($number, $decimals = 2)
@@ -64,7 +64,7 @@ class FormatUtil
         $formatter->setSymbol(\NumberFormatter::MINUS_SIGN_SYMBOL, '−');
         $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, $decimals);
 
-        return $formatter->format($number);
+        return $formatter->format((float) $number);
     }
 
     public function currency($number, $decimals = 2, $currency = 'EUR')
@@ -77,7 +77,7 @@ class FormatUtil
         $formatter->setSymbol(\NumberFormatter::MINUS_SIGN_SYMBOL, '−');
         $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, $decimals);
 
-        return $formatter->formatCurrency($number, $currency);
+        return $formatter->formatCurrency((float) $number, $currency);
     }
 
     public function date(DateTimeInterface $date = null, $format = null)
