@@ -76,13 +76,13 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
             } else {";
                     if ($col->getType() === PropelTypes::DATE) {
                         $script .= "
-                \$this->$clo = new \\Yakamara\\DateTime\\Date(\$col);";
+                \$this->$clo = {$this->createDateFromDb('$col')};";
                     } elseif ($col->getType() === PropelTypes::TIME) {
                         $script .= "
-                \$this->$clo = \\Yakamara\\DateTime\\DateTime::createUtc(\$col);";
+                \$this->$clo = {$this->createTimeFromDb('$col')};";
                     } else {
                         $script .= "
-                \$this->$clo = \\Yakamara\\DateTime\\DateTime::createFromUtc(\$col);";
+                \$this->$clo = {$this->createDateTimeFromDb('$col')};";
                     }
                     $script .= '
             }';
@@ -135,6 +135,21 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
         } catch (Exception \$e) {
             throw new PropelException(sprintf('Error populating %s object', ".var_export($this->getStubObjectBuilder()->getClassName(), true).'), 0, $e);
         }';
+    }
+
+    protected function createDateFromDb($var): string
+    {
+        return 'new \\Yakamara\\DateTime\\Date('.$var.')';
+    }
+
+    protected function createTimeFromDb($var): string
+    {
+        return 'new \\Yakamara\\DateTime\\DateTime('.$var.')';
+    }
+
+    protected function createDateTimeFromDb($var): string
+    {
+        return 'new \\Yakamara\\DateTime\\DateTime('.$var.')';
     }
 
     protected function addDoInsertBodyRaw()
