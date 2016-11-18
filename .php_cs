@@ -27,7 +27,7 @@ return PhpCsFixer\Config::create()
         'header_comment' => ['header' => $header],
         'no_useless_else' => true,
         'ordered_imports' => true,
-        'short_array_syntax' => true,
+        'array_syntax' => ['syntax' => 'short'],
     ])
-    ->finder($finder)
+    ->setFinder($finder)
 ;
