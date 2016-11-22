@@ -32,6 +32,16 @@ class SecurityContext
     }
 
     /**
+     * Returns the token storage
+     *
+     * @return TokenStorageInterface
+     */
+    public function getTokenStorage(): TokenStorageInterface
+    {
+        return $this->tokenStorage;
+    }
+
+    /**
      * Returns the current security token.
      *
      * @return TokenInterface|null A TokenInterface instance or null if no authentication information is available
@@ -61,7 +71,7 @@ class SecurityContext
      *
      * @return bool
      */
-    public function isGranted($attributes, $object = null)
+    public function isGranted($attributes, $object = null): bool
     {
         return $this->authorizationChecker->isGranted($attributes, $object);
     }
@@ -71,7 +81,7 @@ class SecurityContext
      *
      * @return bool
      */
-    public function isUserSwitched()
+    public function isUserSwitched(): bool
     {
         return $this->isGranted('ROLE_PREVIOUS_ADMIN');
     }
