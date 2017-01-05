@@ -19,16 +19,24 @@ trait PersonTrait
 
     public function getFullName()
     {
+        if (!$this->getLastName() && !$this->getFirstName()) {
+            return null;
+        }
+
         return trim($this->getFirstName().' '.$this->getLastName());
     }
 
     public function getReverseFullName()
     {
-        return $this->getLastName().', '.$this->getFirstName();
+        if (!$this->getLastName() && !$this->getFirstName()) {
+            return null;
+        }
+
+        return trim($this->getLastName().', '.$this->getFirstName(), ' ,');
     }
 
     public function __toString()
     {
-        return $this->getReverseFullName();
+        return $this->getReverseFullName() ?: '';
     }
 }
