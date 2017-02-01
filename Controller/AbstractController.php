@@ -27,7 +27,7 @@ abstract class AbstractController extends Controller
      *
      * @return string The translated string
      */
-    protected function trans($id, array $parameters = [], $domain = null, $locale = null): string
+    protected function trans(string $id, array $parameters = [], string $domain = null, string $locale = null): string
     {
         return $this->get('translator')->trans($id, $parameters, $domain, $locale);
     }
@@ -45,7 +45,7 @@ abstract class AbstractController extends Controller
      *
      * @return string The translated string
      */
-    protected function transChoice($id, $number, array $parameters = [], $domain = null, $locale = null): string
+    protected function transChoice(string $id, int $number, array $parameters = [], string $domain = null, string $locale = null): string
     {
         return $this->get('translator')->transChoice($id, $number, $parameters, $domain, $locale);
     }

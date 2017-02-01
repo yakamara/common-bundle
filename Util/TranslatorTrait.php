@@ -35,7 +35,7 @@ trait TranslatorTrait
      *
      * @return string The translated string
      */
-    protected function trans($id, array $parameters = [], $domain = null, $locale = null)
+    protected function trans(string $id, array $parameters = [], string $domain = null, string $locale = null)
     {
         return $this->translator->trans($id, $parameters, $domain, $locale);
     }
@@ -53,7 +53,7 @@ trait TranslatorTrait
      *
      * @return string The translated string
      */
-    protected function transChoice($id, $number, array $parameters = [], $domain = null, $locale = null)
+    protected function transChoice(string $id, int $number, array $parameters = [], string $domain = null, string $locale = null)
     {
         return $this->translator->transChoice($id, $number, $parameters, $domain, $locale);
     }

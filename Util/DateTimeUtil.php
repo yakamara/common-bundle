@@ -30,7 +30,7 @@ class DateTimeUtil
         $this->format = $format;
     }
 
-    public function descriptiveDateTime(DateTimeInterface $dateTime, &$descriptive = null)
+    public function descriptiveDateTime(DateTimeInterface $dateTime, &$descriptive = null): ?string
     {
         $diff = $dateTime->diff(new DateTime());
 
@@ -63,7 +63,7 @@ class DateTimeUtil
         return $this->translator->trans('descriptive_datetime.justNow');
     }
 
-    public function descriptiveRange(DateTimeInterface $start, DateTimeInterface $end)
+    public function descriptiveRange(DateTimeInterface $start, DateTimeInterface $end): ?string
     {
         $range = $this->format->date($start).' – '.$this->format->date($end);
 

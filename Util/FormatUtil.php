@@ -32,7 +32,7 @@ class FormatUtil
         $this->translator = $translator;
     }
 
-    public function number($number, $decimals = 2)
+    public function number($number, int $decimals = 2): ?string
     {
         if (null === $number) {
             return null;
@@ -45,7 +45,7 @@ class FormatUtil
         return $formatter->format((float) $number);
     }
 
-    public function decimal($number, $decimals = 2)
+    public function decimal($number, int $decimals = 2): ?string
     {
         if (null === $number) {
             return null;
@@ -54,7 +54,7 @@ class FormatUtil
         return number_format((float) $number, $decimals, '.', '');
     }
 
-    public function percent($number, $decimals = 2)
+    public function percent($number, int $decimals = 2): ?string
     {
         if (null === $number) {
             return null;
@@ -67,7 +67,7 @@ class FormatUtil
         return $formatter->format((float) $number);
     }
 
-    public function currency($number, $decimals = 2, $currency = 'EUR')
+    public function currency($number, int $decimals = 2, string $currency = 'EUR'): ?string
     {
         if (null === $number) {
             return null;
@@ -80,7 +80,7 @@ class FormatUtil
         return $formatter->formatCurrency((float) $number, $currency);
     }
 
-    public function date(DateTimeInterface $date = null, $format = null)
+    public function date(DateTimeInterface $date = null, string $format = null): ?string
     {
         if (null === $format) {
             $format = '%x';
@@ -89,7 +89,7 @@ class FormatUtil
         return $this->datetime($date, $format, 'none');
     }
 
-    public function time(DateTimeInterface $time = null, $format = null)
+    public function time(DateTimeInterface $time = null, string $format = null): ?string
     {
         if (null === $format) {
             $format = '%H:%M';
@@ -102,7 +102,7 @@ class FormatUtil
         return $this->datetime($time, $format);
     }
 
-    public function datetime(DateTimeInterface $datetime = null, $format = null, $timeFormat = null)
+    public function datetime(DateTimeInterface $datetime = null, string $format = null, string $timeFormat = null): ?string
     {
         if (null === $datetime) {
             return null;
@@ -119,7 +119,7 @@ class FormatUtil
         return $datetime->formatIntl(self::INTL_DATE_FORMAT[$format], self::INTL_DATE_FORMAT[$timeFormat] ?? null);
     }
 
-    public function bytes(int $bytes)
+    public function bytes(int $bytes): string
     {
         $unit = 'B';
 
@@ -153,7 +153,7 @@ class FormatUtil
         return $formatter->format($bytes).' '.$unit;
     }
 
-    public function gender($person)
+    public function gender($person): ?string
     {
         if (null === $person) {
             return null;
@@ -169,7 +169,7 @@ class FormatUtil
         return $this->translator->trans('label.gender.'.$gender);
     }
 
-    public function genderName($person)
+    public function genderName($person): ?string
     {
         if (null === $person) {
             return null;
