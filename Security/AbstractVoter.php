@@ -83,7 +83,7 @@ abstract class AbstractVoter implements VoterInterface
             return true;
         }
 
-        $subject = '\\appbundle\\model\\'.$subject;
+        $subject = 'appbundle\\model\\'.$subject;
 
         return $subject === $class || is_subclass_of($subject, $class);
     }
@@ -93,7 +93,7 @@ abstract class AbstractVoter implements VoterInterface
         if (!$this->supportedClass) {
             $pos = strrpos(get_class($this), '\\');
             $pos = false === $pos ? 0 : $pos + 1;
-            $this->supportedClass = '\\appbundle\\model\\'.strtolower(substr(get_class($this), $pos, -5));
+            $this->supportedClass = 'appbundle\\model\\'.strtolower(substr(get_class($this), $pos, -5));
         }
 
         return $this->supportedClass;
