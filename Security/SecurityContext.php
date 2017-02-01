@@ -32,7 +32,7 @@ class SecurityContext
     }
 
     /**
-     * Returns the token storage
+     * Returns the token storage.
      *
      * @return TokenStorageInterface
      */

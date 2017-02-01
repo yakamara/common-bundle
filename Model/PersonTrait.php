@@ -13,6 +13,11 @@ namespace Yakamara\CommonBundle\Model;
 
 trait PersonTrait
 {
+    public function __toString()
+    {
+        return $this->getReverseFullName() ?: '';
+    }
+
     abstract public function getFirstName();
 
     abstract public function getLastName();
@@ -33,10 +38,5 @@ trait PersonTrait
         }
 
         return trim($this->getLastName().', '.$this->getFirstName(), ' ,');
-    }
-
-    public function __toString()
-    {
-        return $this->getReverseFullName() ?: '';
     }
 }
