@@ -8,10 +8,10 @@
     },
 
     "require": {
-        "php": ">=7.0",
+        "php": ">=7.1",
 
-        "symfony/symfony": "^3.0",
-        "sensio/framework-extra-bundle": "^3.0.2",
+        "symfony/symfony": "^3.2",
+        "sensio/framework-extra-bundle": "^3.0.19",
         "propel/propel": "^2.0@dev",
         "propel/propel-bundle": "^3.0@dev",
         "yakamara/datetime": "@dev"
