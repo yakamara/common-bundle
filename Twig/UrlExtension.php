@@ -12,14 +12,17 @@
 namespace Yakamara\CommonBundle\Twig;
 
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\RouterInterface;
 
 class UrlExtension extends \Twig_Extension
 {
-    protected $requestStack;
+    private $requestStack;
+    private $router;
 
-    public function __construct(RequestStack $requestStack)
+    public function __construct(RequestStack $requestStack, RouterInterface $router)
     {
         $this->requestStack = $requestStack;
+        $this->router = $router;
     }
 
     public function getFilters()
@@ -46,6 +49,7 @@ class UrlExtension extends \Twig_Extension
         $request = $this->requestStack->getMasterRequest();
 
         $parameters = array_merge(
+            $request->attributes->get('_route_params'),
             $request->query->all(),
             $parameters
         );
@@ -54,7 +58,7 @@ class UrlExtension extends \Twig_Extension
             if (!is_array($value) && '' === (string) $value) {
                 return false;
             }
-            if ('_pjax' === $key) {
+            if ('_pjax' === $key || '_ajax' === $key) {
                 return false;
             }
             if (1 == $value && ('page' === $key || '-page' === substr($key, -5))) {
@@ -66,12 +70,7 @@ class UrlExtension extends \Twig_Extension
             return true;
         }, ARRAY_FILTER_USE_BOTH);
 
-        $url = $request->getBaseUrl().$request->getPathInfo();
-        if ($parameters) {
-            $url .= '?'.http_build_query($parameters, '', '&');
-        }
-
-        return $url;
+        return $this->router->generate($request->attributes->get('_route'), $parameters);
     }
 
     public function getName()

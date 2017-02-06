@@ -60,7 +60,7 @@ services:
             - { name: twig.extension }
     yakamara_common.twig.extension.url:
         class: Yakamara\CommonBundle\Twig\UrlExtension
-        arguments: ['@request_stack']
+        arguments: ['@request_stack', '@router']
         public: false
         tags:
             - { name: twig.extension }
