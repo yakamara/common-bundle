@@ -1,4 +1,9 @@
 services:
+    yakamara_common.listener.command_exception:
+        class: Yakamara\CommonBundle\EventListener\ConsoleExceptionListener
+        arguments: ['@logger']
+        tags:
+            - { name: kernel.event_listener, event: console.exception }
     yakamara_common.format:
         class: Yakamara\CommonBundle\Util\FormatUtil
         arguments: ['@translator']
