@@ -14,6 +14,8 @@ namespace Yakamara\CommonBundle\Security;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
+use Symfony\Component\Security\Core\Role\RoleHierarchy;
+use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 abstract class AbstractVoter implements VoterInterface
@@ -21,11 +23,15 @@ abstract class AbstractVoter implements VoterInterface
     /** @var AccessDecisionManagerInterface */
     private $decisionManager;
 
+    /** @var null|RoleHierarchy */
+    private $roleHierarchie;
+
     private $supportedClass;
 
-    public function __construct(AccessDecisionManagerInterface $decisionManager)
+    public function __construct(AccessDecisionManagerInterface $decisionManager, ?RoleHierarchyInterface $roleHierarchy = null)
     {
         $this->decisionManager = $decisionManager;
+        $this->roleHierarchie = $roleHierarchy;
     }
 
     public function vote(TokenInterface $token, $subject, array $attributes)
@@ -104,5 +110,22 @@ abstract class AbstractVoter implements VoterInterface
     protected function isGranted(TokenInterface $token, $attributes, $subject = null): bool
     {
         return $this->decisionManager->decide($token, (array) $attributes, $subject);
+    }
+
+    protected function hasRole(TokenInterface $token, $roles): bool
+    {
+        if (!$this->roleHierarchie) {
+            throw new \RuntimeException('Missing role hierarchy service.');
+        }
+
+        foreach ((array) $roles as $role) {
+            foreach ($this->roleHierarchie->getReachableRoles($token->getRoles()) as $grantedRole) {
+                if ($role === $grantedRole->getRole()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
