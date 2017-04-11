@@ -39,12 +39,12 @@ class UrlExtension extends \Twig_Extension
         ];
     }
 
-    public function urlDecode($url)
+    public function urlDecode($url): string
     {
-        return rawurldecode($url);
+        return rawurldecode((string) $url);
     }
 
-    public function currentUrl(array $parameters = [], $removePattern = null)
+    public function currentUrl(array $parameters = [], ?string $removePattern = null): string
     {
         $request = $this->requestStack->getMasterRequest();
 

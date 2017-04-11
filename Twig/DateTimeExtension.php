@@ -35,10 +35,10 @@ class DateTimeExtension extends \Twig_Extension
         ];
     }
 
-    public function descriptiveDate($datetime)
+    public function descriptiveDate($datetime): ?string
     {
         if (!$datetime) {
-            return '';
+            return null;
         }
 
         $datetime = AbstractDateTime::createFromUnknown($datetime);

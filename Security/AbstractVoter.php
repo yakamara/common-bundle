@@ -90,7 +90,7 @@ abstract class AbstractVoter implements VoterInterface
         return lcfirst(substr(get_class($this), $pos, -5));
     }
 
-    protected function getSupportedMethods()
+    protected function getSupportedMethods(): array
     {
         $methods = [];
         foreach (get_class_methods($this) as $method) {

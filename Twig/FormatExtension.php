@@ -63,27 +63,27 @@ class FormatExtension extends \Twig_Extension
         ];
     }
 
-    public function number($number, $decimals = 2)
+    public function number($number, int $decimals = 2): ?string
     {
         return $this->format->number($number, $decimals);
     }
 
-    public function decimal($number, $decimals = 2)
+    public function decimal($number, int $decimals = 2): ?string
     {
         return $this->format->decimal($number, $decimals);
     }
 
-    public function percent($number, $decimals = 2)
+    public function percent($number, int $decimals = 2): ?string
     {
         return $this->format->percent($number, $decimals);
     }
 
-    public function currency($number, $decimals = 2, $currency = 'EUR')
+    public function currency($number, int $decimals = 2, string $currency = 'EUR'): ?string
     {
         return $this->format->currency($number, $decimals, $currency);
     }
 
-    public function date($date, $format = null)
+    public function date($date, ?string $format = null): ?string
     {
         if (!$date) {
             return null;
@@ -94,7 +94,7 @@ class FormatExtension extends \Twig_Extension
         return $this->format->date($date, $format);
     }
 
-    public function time($time, $format = null)
+    public function time($time, ?string $format = null): ?string
     {
         if (!$time) {
             return null;
@@ -105,7 +105,7 @@ class FormatExtension extends \Twig_Extension
         return $this->format->time($time, $format);
     }
 
-    public function datetime($datetime, $format = null, $timeFormat = null)
+    public function datetime($datetime, ?string $format = null, ?string $timeFormat = null): ?string
     {
         if (!$datetime) {
             return null;
@@ -116,7 +116,7 @@ class FormatExtension extends \Twig_Extension
         return $this->format->datetime($datetime, $format, $timeFormat);
     }
 
-    public function bytes($bytes)
+    public function bytes($bytes): ?string
     {
         if (null === $bytes) {
             return null;
@@ -125,12 +125,16 @@ class FormatExtension extends \Twig_Extension
         return $this->format->bytes($bytes);
     }
 
-    public function breakOnSlash($text)
+    public function breakOnSlash($text): string
     {
+        if (!$text) {
+            return $text;
+        }
+
         return str_replace('/', '/&#8203;', $text);
     }
 
-    public function country($country, $displayLocale = null)
+    public function country($country, ?string $displayLocale = null): ?string
     {
         if (!$country) {
             return null;
@@ -139,7 +143,7 @@ class FormatExtension extends \Twig_Extension
         return Intl::getRegionBundle()->getCountryName($country, $displayLocale);
     }
 
-    public function locale($locale, $displayLocale = null)
+    public function locale($locale, ?string $displayLocale = null): ?string
     {
         if (!$locale) {
             return null;
@@ -148,12 +152,12 @@ class FormatExtension extends \Twig_Extension
         return Intl::getLocaleBundle()->getLocaleName($locale, $displayLocale);
     }
 
-    public function icon($icon)
+    public function icon(string $icon): string
     {
         return '<i class="fa fa-'.$icon.'"></i>';
     }
 
-    public function email($email)
+    public function email($email): ?string
     {
         if (!$email) {
             return '';
@@ -161,25 +165,25 @@ class FormatExtension extends \Twig_Extension
         return '<a href="mailto:'.$email.'">'.$email.'</a>';
     }
 
-    public function address($address)
+    public function address($address): ?string
     {
         if (!$address) {
-            return '';
+            return null;
         }
         return $address->getStreet().'<br>'.$address->getZip().' '.$address->getCity();
     }
 
-    public function gender($person)
+    public function gender($person): ?string
     {
         return $this->format->gender($person);
     }
 
-    public function genderName($person)
+    public function genderName($person): ?string
     {
         return $this->format->genderName($person);
     }
 
-    public function iban($iban)
+    public function iban($iban): ?string
     {
         if (!$iban) {
             return null;

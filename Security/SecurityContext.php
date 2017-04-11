@@ -46,7 +46,7 @@ class SecurityContext
      *
      * @return TokenInterface|null A TokenInterface instance or null if no authentication information is available
      */
-    public function getToken()
+    public function getToken(): ?TokenInterface
     {
         return $this->tokenStorage->getToken();
     }

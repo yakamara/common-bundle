@@ -95,7 +95,7 @@ class FormatUtil
         return $formatter->formatCurrency((float) $number, $currency);
     }
 
-    public function date(DateTimeInterface $date = null, string $format = null): ?string
+    public function date(DateTimeInterface $date = null, ?string $format = null): ?string
     {
         if (null === $format) {
             $format = '%x';
@@ -104,7 +104,7 @@ class FormatUtil
         return $this->datetime($date, $format, 'none');
     }
 
-    public function time(DateTimeInterface $time = null, string $format = null): ?string
+    public function time(DateTimeInterface $time = null, ?string $format = null): ?string
     {
         if (null === $format) {
             $format = '%H:%M';
@@ -117,7 +117,7 @@ class FormatUtil
         return $this->datetime($time, $format);
     }
 
-    public function datetime(DateTimeInterface $datetime = null, string $format = null, string $timeFormat = null): ?string
+    public function datetime(DateTimeInterface $datetime = null, ?string $format = null, ?string $timeFormat = null): ?string
     {
         if (null === $datetime) {
             return null;

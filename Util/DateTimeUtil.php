@@ -30,7 +30,7 @@ class DateTimeUtil
         $this->format = $format;
     }
 
-    public function descriptiveDateTime(DateTimeInterface $dateTime, &$descriptive = null): ?string
+    public function descriptiveDateTime(DateTimeInterface $dateTime, ?bool &$descriptive = null): ?string
     {
         $diff = $dateTime->diff(new DateTime());
 
