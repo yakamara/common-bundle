@@ -58,7 +58,6 @@ abstract class AbstractVoter implements VoterInterface
             $arguments[] = $subject;
         }
 
-
         foreach ($attributes as $attribute) {
             if (!isset($methods[$attribute])) {
                 continue;
@@ -75,6 +74,19 @@ abstract class AbstractVoter implements VoterInterface
         }
 
         return $vote;
+    }
+
+    /** @noinspection PhpUndefinedNamespaceInspection */
+    /** @noinspection PhpUndefinedClassInspection */
+
+    /**
+     * @return null|UserInterface|\AppBundle\Model\User
+     */
+    public function getUser(TokenInterface $token)
+    {
+        $user = $token->getUser();
+
+        return $user instanceof UserInterface ? $user : null;
     }
 
     protected function getSupportedClass(): string
