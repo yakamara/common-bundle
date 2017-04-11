@@ -21,8 +21,6 @@ abstract class AbstractVoter implements VoterInterface
     /** @var AccessDecisionManagerInterface */
     private $decisionManager;
 
-    private $supportedClass;
-
     public function __construct(AccessDecisionManagerInterface $decisionManager)
     {
         $this->decisionManager = $decisionManager;
@@ -30,8 +28,26 @@ abstract class AbstractVoter implements VoterInterface
 
     public function vote(TokenInterface $token, $subject, array $attributes)
     {
-        if (!$this->supports($subject)) {
+        if (null === $subject) {
             return self::ACCESS_ABSTAIN;
+        }
+
+        static $class;
+        static $name;
+
+        if (null === $class) {
+            $class = $this->getSupportedClass();
+            $name = $this->getSupportedName();
+        }
+
+        if (!$subject instanceof $class && $subject !== $class && $subject !== $name) {
+            return self::ACCESS_ABSTAIN;
+        }
+
+        static $methods;
+
+        if (null === $methods) {
+            $methods = $this->getSupportedMethods();
         }
 
         // abstain vote by default in case none of the attributes are supported
@@ -42,15 +58,16 @@ abstract class AbstractVoter implements VoterInterface
             $arguments[] = $subject;
         }
 
+
         foreach ($attributes as $attribute) {
-            if (!in_array($attribute, $this->getSupportedAttributes())) {
+            if (!isset($methods[$attribute])) {
                 continue;
             }
 
             // as soon as at least one attribute is supported, default is to deny access
             $vote = self::ACCESS_DENIED;
 
-            $method = 'can'.strtr(ucwords(strtr($attribute, '_', ' ')), [' ' => '']);
+            $method = $methods[$attribute];
             if ($token->getUser() instanceof UserInterface && $this->$method(...$arguments)) {
                 // grant access as soon as at least one voter returns a positive response
                 return self::ACCESS_GRANTED;
@@ -60,46 +77,44 @@ abstract class AbstractVoter implements VoterInterface
         return $vote;
     }
 
-    /**
-     * @param string|object $subject
-     *
-     * @return bool
-     */
-    protected function supports($subject): bool
-    {
-        $class = $this->getSupportedClass();
-
-        if (is_object($subject)) {
-            return $subject instanceof $class;
-        }
-
-        if (!is_string($subject)) {
-            return false;
-        }
-
-        $subject = strtolower($subject);
-
-        if ($subject === $class || is_subclass_of($subject, $class)) {
-            return true;
-        }
-
-        $subject = 'appbundle\\model\\'.$subject;
-
-        return $subject === $class || is_subclass_of($subject, $class);
-    }
-
     protected function getSupportedClass(): string
     {
-        if (!$this->supportedClass) {
-            $pos = strrpos(get_class($this), '\\');
-            $pos = false === $pos ? 0 : $pos + 1;
-            $this->supportedClass = 'appbundle\\model\\'.strtolower(substr(get_class($this), $pos, -5));
-        }
-
-        return $this->supportedClass;
+        return 'AppBundle\\Model\\'.ucfirst($this->getSupportedName());
     }
 
-    abstract protected function getSupportedAttributes(): array;
+    protected function getSupportedName(): string
+    {
+        $pos = strrpos(get_class($this), '\\');
+        $pos = false === $pos ? 0 : $pos + 1;
+
+        return lcfirst(substr(get_class($this), $pos, -5));
+    }
+
+    protected function getSupportedMethods()
+    {
+        $methods = [];
+        foreach (get_class_methods($this) as $method) {
+            if ('can' !== substr($method, 0, 3)) {
+                continue;
+            }
+
+            $name = lcfirst(substr($method, 3));
+            $attribute = '';
+
+            $len = strlen($name);
+            for ($i = 0; $i < $len; ++$i) {
+                if (ctype_upper($name[$i])) {
+                    $attribute .= '_'.strtolower($name[$i]);
+                } else {
+                    $attribute .= $name[$i];
+                }
+            }
+
+            $methods[$attribute] = $method;
+        }
+
+        return $methods;
+    }
 
     protected function isGranted(TokenInterface $token, $attributes, $subject = null): bool
     {
