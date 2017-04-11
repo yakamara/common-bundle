@@ -38,8 +38,13 @@ class FormatUtil
             return null;
         }
 
-        $formatter = new \NumberFormatter(\Locale::getDefault(), \NumberFormatter::DECIMAL);
-        $formatter->setSymbol(\NumberFormatter::MINUS_SIGN_SYMBOL, '−');
+        static $formatter;
+
+        if (null === $formatter) {
+            $formatter = new \NumberFormatter(\Locale::getDefault(), \NumberFormatter::DECIMAL);
+            $formatter->setSymbol(\NumberFormatter::MINUS_SIGN_SYMBOL, '−');
+        }
+
         $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, $decimals);
 
         return $formatter->format((float) $number);
@@ -60,8 +65,13 @@ class FormatUtil
             return null;
         }
 
-        $formatter = new \NumberFormatter(\Locale::getDefault(), \NumberFormatter::PERCENT);
-        $formatter->setSymbol(\NumberFormatter::MINUS_SIGN_SYMBOL, '−');
+        static $formatter;
+
+        if (null === $formatter) {
+            $formatter = new \NumberFormatter(\Locale::getDefault(), \NumberFormatter::PERCENT);
+            $formatter->setSymbol(\NumberFormatter::MINUS_SIGN_SYMBOL, '−');
+        }
+
         $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, $decimals);
 
         return $formatter->format((float) $number);
@@ -73,8 +83,13 @@ class FormatUtil
             return null;
         }
 
-        $formatter = new \NumberFormatter(\Locale::getDefault(), \NumberFormatter::CURRENCY);
-        $formatter->setSymbol(\NumberFormatter::MINUS_SIGN_SYMBOL, '−');
+        static $formatter;
+
+        if (null === $formatter) {
+            $formatter = new \NumberFormatter(\Locale::getDefault(), \NumberFormatter::CURRENCY);
+            $formatter->setSymbol(\NumberFormatter::MINUS_SIGN_SYMBOL, '−');
+        }
+
         $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, $decimals);
 
         return $formatter->formatCurrency((float) $number, $currency);
@@ -146,8 +161,13 @@ class FormatUtil
 
         $decimals = $bytes >= 10 ? 1 : 2;
 
-        $formatter = new \NumberFormatter(\Locale::getDefault(), \NumberFormatter::DECIMAL);
-        $formatter->setSymbol(\NumberFormatter::MINUS_SIGN_SYMBOL, '−');
+        static $formatter;
+
+        if (null === $formatter) {
+            $formatter = new \NumberFormatter(\Locale::getDefault(), \NumberFormatter::DECIMAL);
+            $formatter->setSymbol(\NumberFormatter::MINUS_SIGN_SYMBOL, '−');
+        }
+
         $formatter->setAttribute(\NumberFormatter::MAX_FRACTION_DIGITS, $decimals);
 
         return $formatter->format($bytes).' '.$unit;
