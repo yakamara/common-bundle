@@ -63,6 +63,12 @@ services:
         public: false
         tags:
             - { name: twig.extension }
+    yakamara_common.twig.extension.text:
+        class: Yakamara\CommonBundle\Twig\TextExtension
+        autowire: true
+        public: false
+        tags:
+            - { name: twig.extension }
     yakamara_common.twig.extension.url:
         class: Yakamara\CommonBundle\Twig\UrlExtension
         arguments: ['@request_stack', '@router']
