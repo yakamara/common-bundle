@@ -11,8 +11,6 @@
 
 namespace Yakamara\CommonBundle\Twig;
 
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 
 class TextExtension extends \Twig_Extension
