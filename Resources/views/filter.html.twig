@@ -1,0 +1,69 @@
+{% macro search(search, right = true) %}
+    {# @var search \Yakamara\CommonBundle\ModelFilter\SearchFilter #}
+    {% set reset_button %}
+        <span class="input-group-btn">
+            <a class="btn btn-default" data-escape href="{{ current_url({page: 1, (search.key): null}) }}" title="{{ 'action.search_cancel'|trans }}" data-toggle="tooltip">
+                {{ icon('times') }}
+            </a>
+        </span>
+    {% endset %}
+    <div class="input-group" data-search="{{ current_url({page: 1, (search.key): null}) }}">
+        {% if search.current and right %}{{ reset_button }}{% endif %}
+        <input type="text" placeholder="{{ 'action.search'|trans }}" class="form-control" name="{{ search.key }}" value="{{ search.current }}">
+        <div class="input-group-btn">
+            <button class="btn btn-default">{{ icon('search') }}</button>
+        </div>
+        {% if search.current and not right %}{{ reset_button }}{% endif %}
+    </div>
+{% endmacro %}
+
+{% macro dropdown(filter, label, emptyLabel) %}
+    {# @var filter \Yakamara\CommonBundle\Filter\SimpleFilter #}
+    <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <small>{{ label ?: ('label.' ~ filter.key)|trans }}:</small>
+            {% if filter.current %}
+                {{ filter.translationPrefix ? (filter.translationPrefix ~ filter.currentData)|trans : filter.currentData }}
+            {% elseif filter.current is null %}
+                {{ 'label.all'|trans }}
+            {% else %}
+                {{ emptyLabel ?: ('no.' ~ filter.key)|trans }}
+            {% endif %}
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li{% if filter.current is null %} class="active"{% endif %}>
+                <a href="{{ current_url({(filter.key): null}) }}">{{ 'label.all'|trans }}</a>
+            </li>
+            <li class="divider"></li>
+            {% if filter.hasEmptyChoice|default(false) %}
+                <li{% if filter.current is same as(0) %} class="active"{% endif %}>
+                    <a href="{{ current_url({(filter.key): 0}) }}">{{ emptyLabel ?: ('no.' ~ filter.key)|trans }}</a>
+                </li>
+                <li class="divider"></li>
+            {% endif %}
+            {% for id, label in filter.choices %}
+                <li{% if filter.current == id %} class="active"{% endif %}>
+                    <a href="{{ current_url({(filter.key): id}) }}">{{ filter.translationPrefix ? (filter.translationPrefix ~ label)|trans : label }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endmacro %}
+
+{% macro dateRange(filter, label) %}
+    {# @var filter \Yakamara\CommonBundle\ModelFilter\DateRangeFilter #}
+    {% set current = filter.current %}
+    <button type="button" class="btn btn-default dropdown-toggle" data-daterangepicker
+        {% if current %}data-start="{{ current.start|date }}" data-end="{{ current.end|date }}"{% endif %}
+        data-range-reset="{{ 'label.all'|trans }}"
+        data-uri-template="{{ current_url({(filter.key): '{range}'})|url_decode }}">
+        <small>{{ label ?: ('label.' ~ filter.key)|trans }}:</small>
+        {% if current %}
+            {{ current.start|date }} – {{ current.end|date }}
+        {% else %}
+            {{ 'label.all'|trans }}
+        {% endif %}
+        <span class="caret"></span>
+    </button>
+{% endmacro %}

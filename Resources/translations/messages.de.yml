@@ -1,7 +1,12 @@
 label:
+    all: Alle
     gender:
         f: Frau
         m: Herr
+
+action:
+    search: Suchen
+    search_cancel: Suche aufheben
 
 select.placeholder: auswählen
 
