@@ -17,9 +17,9 @@ class TextExtension extends \Twig_Extension
 {
     private $converter;
 
-    public function __construct(CamelCaseToSnakeCaseNameConverter $converter)
+    public function __construct()
     {
-        $this->converter = $converter;
+        $this->converter = new CamelCaseToSnakeCaseNameConverter();
     }
 
     public function getFilters()

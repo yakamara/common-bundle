@@ -1,77 +1,14 @@
 services:
-    yakamara_common.listener.command_exception:
-        class: Yakamara\CommonBundle\EventListener\ConsoleExceptionListener
-        arguments: ['@logger']
-        tags:
-            - { name: kernel.event_listener, event: console.exception }
-    yakamara_common.format:
-        class: Yakamara\CommonBundle\Util\FormatUtil
-        arguments: ['@translator']
-    yakamara_common.datetime:
-        class: Yakamara\CommonBundle\Util\DateTimeUtil
-        arguments: ['@translator', '@yakamara_common.format']
-    yakamara_common.security_context:
-        class: Yakamara\CommonBundle\Security\SecurityContext
-        arguments: ['@security.token_storage', '@security.authorization_checker']
-    yakamara_common.param_converter.datetime:
-        class: Yakamara\CommonBundle\Request\DateTimeParamConverter
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Yakamara\CommonBundle\:
+        resource: '../../{EventSubscriber,Form,Twig,Util}'
+
+    Yakamara\CommonBundle\Security\SecurityContext: ~
+
+    Yakamara\CommonBundle\Request\DateTimeParamConverter:
         tags:
             - { name: request.param_converter }
-    yakamara_common.form.type.gender:
-        class: Yakamara\CommonBundle\Form\Type\GenderType
-        tags:
-            - { name: form.type }
-    yakamara_common.form.type.iban:
-        class: Yakamara\CommonBundle\Form\Type\IbanType
-        tags:
-            - { name: form.type}
-    yakamara_common.form.extension.label:
-        class: Yakamara\CommonBundle\Form\Extension\LabelExtension
-        tags:
-            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }
-    yakamara_common.form.extension.date:
-        class: Yakamara\CommonBundle\Form\Extension\DateExtension
-        tags:
-            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\DateType }
-    yakamara_common.form.extension.time:
-        class: Yakamara\CommonBundle\Form\Extension\TimeExtension
-        tags:
-            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\TimeType }
-    yakamara_common.form.extension.datetime:
-        class: Yakamara\CommonBundle\Form\Extension\DateTimeExtension
-        tags:
-            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\DateTimeType }
-    yakamara_common.form.extension.choice:
-        class: Yakamara\CommonBundle\Form\Extension\ChoiceExtension
-        tags:
-            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\ChoiceType }
-    yakamara_common.twig.extension.datetime:
-        class: Yakamara\CommonBundle\Twig\DateTimeExtension
-        arguments: ['@yakamara_common.datetime', '@yakamara_common.format']
-        public: false
-        tags:
-            - { name: twig.extension }
-    yakamara_common.twig.extension.format:
-        class: Yakamara\CommonBundle\Twig\FormatExtension
-        arguments: ['@yakamara_common.format']
-        public: false
-        tags:
-            - { name: twig.extension }
-    yakamara_common.twig.extension.security:
-        class: Yakamara\CommonBundle\Twig\SecurityExtension
-        arguments: ['@yakamara_common.security_context']
-        public: false
-        tags:
-            - { name: twig.extension }
-    yakamara_common.twig.extension.text:
-        class: Yakamara\CommonBundle\Twig\TextExtension
-        autowire: true
-        public: false
-        tags:
-            - { name: twig.extension }
-    yakamara_common.twig.extension.url:
-        class: Yakamara\CommonBundle\Twig\UrlExtension
-        arguments: ['@request_stack', '@router']
-        public: false
-        tags:
-            - { name: twig.extension }
