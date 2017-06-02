@@ -7,6 +7,27 @@ services:
     Yakamara\CommonBundle\:
         resource: '../../{EventSubscriber,Form,Twig,Util}'
 
+
+    Yakamara\CommonBundle\Form\Extension\LabelExtension:
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }
+
+    Yakamara\CommonBundle\Form\Extension\DateExtension:
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\DateType }
+
+    Yakamara\CommonBundle\Form\Extension\TimeExtension:
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\TimeType }
+
+    Yakamara\CommonBundle\Form\Extension\DateTimeExtension:
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\DateTimeType }
+
+    Yakamara\CommonBundle\Form\Extension\ChoiceExtension:
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\ChoiceType }
+
     Yakamara\CommonBundle\Security\SecurityContext: ~
 
     Yakamara\CommonBundle\Request\DateTimeParamConverter:
