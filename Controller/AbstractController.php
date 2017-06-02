@@ -13,8 +13,6 @@ namespace Yakamara\CommonBundle\Controller;
 
 use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as SymfonyAbstractController;
-use Symfony\Bundle\FrameworkBundle\Controller\ControllerTrait;
-use Symfony\Component\DependencyInjection\ServiceSubscriberInterface;
 use Yakamara\CommonBundle\Security\SecurityContext;
 
 abstract class AbstractController extends SymfonyAbstractController

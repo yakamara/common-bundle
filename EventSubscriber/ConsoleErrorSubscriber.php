@@ -14,7 +14,6 @@ namespace Yakamara\CommonBundle\EventSubscriber;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleErrorEvent;
-use Symfony\Component\Console\Event\ConsoleExceptionEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ConsoleErrorSubscriber implements EventSubscriberInterface
