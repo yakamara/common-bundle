@@ -19,6 +19,9 @@ trait TokenStorageAwareTrait
     /** @var TokenStorageInterface */
     protected $tokenStorage;
 
+    /**
+     * @required
+     */
     public function setTokenStorage(TokenStorageInterface $tokenStorage)
     {
         $this->tokenStorage = $tokenStorage;

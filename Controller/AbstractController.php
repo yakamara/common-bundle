@@ -11,10 +11,34 @@
 
 namespace Yakamara\CommonBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Psr\Container\ContainerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as SymfonyAbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\ControllerTrait;
+use Symfony\Component\DependencyInjection\ServiceSubscriberInterface;
+use Yakamara\CommonBundle\Security\SecurityContext;
 
-abstract class AbstractController extends Controller
+abstract class AbstractController extends SymfonyAbstractController
 {
+    /** @var ContainerInterface */
+    protected $container;
+
+    /**
+     * @required
+     */
+    public function setContainer(ContainerInterface $container)
+    {
+        $this->container = $container;
+
+        return parent::setContainer($container);
+    }
+
+    public static function getSubscribedServices()
+    {
+        return array_merge(parent::getSubscribedServices(), [
+            '?'.SecurityContext::class,
+        ]);
+    }
+
     /**
      * Translates the given message.
      *
@@ -29,7 +53,7 @@ abstract class AbstractController extends Controller
      */
     protected function trans(string $id, array $parameters = [], string $domain = null, string $locale = null): string
     {
-        return $this->get('translator')->trans($id, $parameters, $domain, $locale);
+        return $this->container->get('translator')->trans($id, $parameters, $domain, $locale);
     }
 
     /**
@@ -47,7 +71,7 @@ abstract class AbstractController extends Controller
      */
     protected function transChoice(string $id, int $number, array $parameters = [], string $domain = null, string $locale = null): string
     {
-        return $this->get('translator')->transChoice($id, $number, $parameters, $domain, $locale);
+        return $this->container->get('translator')->transChoice($id, $number, $parameters, $domain, $locale);
     }
 
     /** @noinspection PhpUndefinedNamespaceInspection */
@@ -58,20 +82,11 @@ abstract class AbstractController extends Controller
      */
     protected function getUser()
     {
-        if (null === $token = $this->container->get('security.token_storage')->getToken()) {
-            return null;
-        }
-
-        if (!is_object($user = $token->getUser())) {
-            // e.g. anonymous authentication
-            return null;
-        }
-
-        return $user;
+        return $this->container->get(SecurityContext::class)->getUser();
     }
 
     protected function isUserSwitched(): bool
     {
-        return $this->get('yakamara_common.security_context')->isUserSwitched();
+        return $this->container->get(SecurityContext::class)->isUserSwitched();
     }
 }
