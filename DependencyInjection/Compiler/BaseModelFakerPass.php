@@ -34,8 +34,6 @@ class BaseModelFakerPass implements CompilerPassInterface
             return;
         }
 
-        eval('namespace AppBundle\\Model\\Base; class '.$class.' {}');
-
-        include $dir.'/'.$class.'.php';
+        eval('namespace AppBundle\\Model; class '.$class.' {}');
     }
 }
