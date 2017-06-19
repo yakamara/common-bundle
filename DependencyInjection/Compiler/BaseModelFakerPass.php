@@ -30,7 +30,7 @@ class BaseModelFakerPass implements CompilerPassInterface
         $class = substr($class, 16);
         $dir = __DIR__.'/../../../../../src/Model';
 
-        if (file_exists($dir.'/Base/'.$class.'.php') || !file_exists($dir.'/'.$class.'.php')) {
+        if (file_exists($dir.'/Base/'.$class.'.php') || !file_exists($dir.'/'.$class.'.php') || !file_exists($dir.'/'.$class.'Query.php')) {
             return;
         }
 
