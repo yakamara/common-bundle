@@ -13,6 +13,7 @@ namespace Yakamara\CommonBundle\Controller;
 
 use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as SymfonyAbstractController;
+use Symfony\Component\Translation\TranslatorInterface;
 use Yakamara\CommonBundle\Security\SecurityContext;
 
 abstract class AbstractController extends SymfonyAbstractController
@@ -33,6 +34,7 @@ abstract class AbstractController extends SymfonyAbstractController
     public static function getSubscribedServices()
     {
         return array_merge(parent::getSubscribedServices(), [
+            'translator' => '?'.TranslatorInterface::class,
             '?'.SecurityContext::class,
         ]);
     }
