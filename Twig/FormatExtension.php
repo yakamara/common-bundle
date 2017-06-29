@@ -27,37 +27,37 @@ class FormatExtension extends \Twig_Extension
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('number', [$this, 'number']),
-            new \Twig_SimpleFilter('decimal', [$this, 'decimal']),
-            new \Twig_SimpleFilter('percent', [$this, 'percent']),
-            new \Twig_SimpleFilter('currency', [$this, 'currency']),
-            new \Twig_SimpleFilter('date', [$this, 'date']),
-            new \Twig_SimpleFilter('time', [$this, 'time']),
-            new \Twig_SimpleFilter('datetime', [$this, 'datetime']),
-            new \Twig_SimpleFilter('bytes', [$this, 'bytes']),
-            new \Twig_SimpleFilter('break_on_slash', [$this, 'breakOnSlash'], ['pre_escape' => 'html', 'is_safe' => ['html']]),
-            new \Twig_SimpleFilter('country', [$this, 'country']),
-            new \Twig_SimpleFilter('locale', [$this, 'locale']),
+            new \Twig_Filter('number', [$this, 'number']),
+            new \Twig_Filter('decimal', [$this, 'decimal']),
+            new \Twig_Filter('percent', [$this, 'percent']),
+            new \Twig_Filter('currency', [$this, 'currency']),
+            new \Twig_Filter('date', [$this, 'date']),
+            new \Twig_Filter('time', [$this, 'time']),
+            new \Twig_Filter('datetime', [$this, 'datetime']),
+            new \Twig_Filter('bytes', [$this, 'bytes']),
+            new \Twig_Filter('break_on_slash', [$this, 'breakOnSlash'], ['pre_escape' => 'html', 'is_safe' => ['html']]),
+            new \Twig_Filter('country', [$this, 'country']),
+            new \Twig_Filter('locale', [$this, 'locale']),
         ];
     }
 
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('icon', [$this, 'icon'], [
+            new \Twig_Function('icon', [$this, 'icon'], [
                 'pre_escape' => 'html',
                 'is_safe' => ['html'],
             ]),
-            new \Twig_SimpleFunction('email', [$this, 'email'], [
+            new \Twig_Function('email', [$this, 'email'], [
                 'pre_escape' => 'html',
                 'is_safe' => ['html'],
             ]),
-            new \Twig_SimpleFunction('address', [$this, 'address'], [
+            new \Twig_Function('address', [$this, 'address'], [
                 'is_safe' => ['html'],
             ]),
-            new \Twig_SimpleFunction('gender', [$this, 'gender']),
-            new \Twig_SimpleFunction('gender_name', [$this, 'genderName']),
-            new \Twig_SimpleFunction('iban', [$this, 'iban'], [
+            new \Twig_Function('gender', [$this, 'gender']),
+            new \Twig_Function('gender_name', [$this, 'genderName']),
+            new \Twig_Function('iban', [$this, 'iban'], [
                 'is_safe' => ['html'],
             ]),
         ];

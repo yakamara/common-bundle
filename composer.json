@@ -15,6 +15,7 @@
         "sensio/framework-extra-bundle": "^3.0.19",
         "propel/propel": "^2.0@dev",
         "propel/propel-bundle": "^3.0@dev",
+        "twig/twig": "^2.4",
         "yakamara/datetime": "@dev"
     }
 }

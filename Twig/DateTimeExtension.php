@@ -29,7 +29,7 @@ class DateTimeExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('descriptive_date', [$this, 'descriptiveDate'], [
+            new \Twig_Function('descriptive_date', [$this, 'descriptiveDate'], [
                 'is_safe' => ['html'],
             ]),
         ];

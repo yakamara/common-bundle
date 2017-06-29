@@ -28,14 +28,14 @@ class UrlExtension extends \Twig_Extension
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('url_decode', [$this, 'urlDecode']),
+            new \Twig_Filter('url_decode', [$this, 'urlDecode']),
         ];
     }
 
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('current_url', [$this, 'currentUrl']),
+            new \Twig_Function('current_url', [$this, 'currentUrl']),
         ];
     }
 

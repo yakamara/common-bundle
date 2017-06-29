@@ -25,10 +25,10 @@ class SecurityExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('switched_user', function () {
+            new \Twig_Function('switched_user', function () {
                 return $this->security->isUserSwitched();
             }),
-            new \Twig_SimpleFunction('switched_user_source', function () {
+            new \Twig_Function('switched_user_source', function () {
                 return $this->security->getSwitchedUserSource();
             }),
         ];

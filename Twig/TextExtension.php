@@ -25,8 +25,8 @@ class TextExtension extends \Twig_Extension
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('snake_case', [$this->converter, 'normalize']),
-            new \Twig_SimpleFilter('camel_case', [$this->converter, 'denormalize']),
+            new \Twig_Function('snake_case', [$this->converter, 'normalize']),
+            new \Twig_Function('camel_case', [$this->converter, 'denormalize']),
         ];
     }
 
