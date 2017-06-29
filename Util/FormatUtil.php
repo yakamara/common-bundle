@@ -13,6 +13,8 @@ namespace Yakamara\CommonBundle\Util;
 
 use Symfony\Component\Translation\TranslatorInterface;
 use Yakamara\DateTime\DateTimeInterface;
+use Yakamara\DateTime\Range\DateRange;
+use Yakamara\DateTime\Range\DateTimeRangeInterface;
 
 class FormatUtil
 {
@@ -132,6 +134,39 @@ class FormatUtil
         }
 
         return $datetime->formatIntl(self::INTL_DATE_FORMAT[$format], self::INTL_DATE_FORMAT[$timeFormat] ?? null);
+    }
+
+    public function datetimeRange(DateTimeRangeInterface $range, ?string $format = null, ?string $timeFormat = null): ?string
+    {
+        if (null === $range) {
+            return null;
+        }
+
+        $string = $this->datetime($range->getStart(), $format, $timeFormat).' – ';
+
+        if ($range->isSameDay()) {
+            $string .= $this->time($range->getEnd(), $timeFormat);
+        } else {
+            $string .= $this->datetime($range->getEnd(), $format, $timeFormat);
+        }
+
+        return $string;
+    }
+
+    public function dateRange(DateTimeRangeInterface $range, ?string $format = null): ?string
+    {
+        if (null === $range) {
+            return null;
+        }
+
+
+        $string = $this->date($range->getStart(), $format);
+
+        if (!$range->isSameDay()) {
+            $string .= ' – '.$this->date($range->getEnd(), $format);
+        }
+
+        return $string;
     }
 
     public function bytes(int $bytes): string

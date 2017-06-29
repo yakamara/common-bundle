@@ -34,6 +34,8 @@ class FormatExtension extends \Twig_Extension
             new \Twig_Filter('date', [$this, 'date']),
             new \Twig_Filter('time', [$this, 'time']),
             new \Twig_Filter('datetime', [$this, 'datetime']),
+            new \Twig_Filter('datetimeRange', [$this, 'datetimeRange']),
+            new \Twig_Filter('dateRange', [$this, 'dateRange']),
             new \Twig_Filter('bytes', [$this, 'bytes']),
             new \Twig_Filter('break_on_slash', [$this, 'breakOnSlash'], ['pre_escape' => 'html', 'is_safe' => ['html']]),
             new \Twig_Filter('country', [$this, 'country']),
@@ -114,6 +116,16 @@ class FormatExtension extends \Twig_Extension
         $datetime = AbstractDateTime::createFromUnknown($datetime);
 
         return $this->format->datetime($datetime, $format, $timeFormat);
+    }
+
+    public function datetimeRange($range, ?string $format = null, ?string $timeFormat = null): ?string
+    {
+        return $this->format->datetimeRange($range, $format, $timeFormat);
+    }
+
+    public function dateRange($range, ?string $format = null): ?string
+    {
+        return $this->format->dateRange($range, $format);
     }
 
     public function bytes($bytes): ?string
