@@ -10,7 +10,7 @@
     "require": {
         "php": ">=7.1",
 
-        "symfony/symfony": "^3.3",
+        "symfony/symfony": "^3.3.3",
         "symfony/monolog-bundle": "^3.0",
         "sensio/framework-extra-bundle": "^3.0.19",
         "propel/propel": "^2.0@dev",

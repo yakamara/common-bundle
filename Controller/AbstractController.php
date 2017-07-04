@@ -18,19 +18,6 @@ use Yakamara\CommonBundle\Security\SecurityContext;
 
 abstract class AbstractController extends SymfonyAbstractController
 {
-    /** @var ContainerInterface */
-    protected $container;
-
-    /**
-     * @required
-     */
-    public function setContainer(ContainerInterface $container)
-    {
-        $this->container = $container;
-
-        return parent::setContainer($container);
-    }
-
     public static function getSubscribedServices()
     {
         return array_merge(parent::getSubscribedServices(), [
