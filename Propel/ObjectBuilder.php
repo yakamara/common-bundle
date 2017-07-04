@@ -20,7 +20,7 @@ use Propel\Generator\Platform\PlatformInterface;
 
 class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
 {
-    protected function addHydrateBody(&$script)
+    protected function addHydrateBody(&$script): void
     {
         $table = $this->getTable();
         $platform = $this->getPlatform();
@@ -152,7 +152,7 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
         return 'new \\Yakamara\\DateTime\\DateTime('.$var.')';
     }
 
-    protected function addDoInsertBodyRaw()
+    protected function addDoInsertBodyRaw(): string
     {
         $table = $this->getTable();
         $platform = $this->getPlatform();
@@ -226,7 +226,7 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
         return $script;
     }
 
-    protected function addTemporalMutator(&$script, Column $col)
+    protected function addTemporalMutator(&$script, Column $col): void
     {
         $clo = $col->getLowercasedName();
 
@@ -273,7 +273,7 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
         $this->addMutatorClose($script, $col);
     }
 
-    protected function getDateTimeClass(Column $column)
+    protected function getDateTimeClass(Column $column): string
     {
         if (PropelTypes::isPhpObjectType($column->getPhpType())) {
             return $column->getPhpType();

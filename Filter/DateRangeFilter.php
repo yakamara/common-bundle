@@ -21,11 +21,6 @@ class DateRangeFilter extends AbstractFilter
     /** @var DateRange */
     private $current;
 
-    public function __construct(string $key)
-    {
-        parent::__construct($key);
-    }
-
     public static function create(string $key = 'date'): self
     {
         return new static($key);

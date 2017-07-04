@@ -22,7 +22,7 @@ class SecurityExtension extends \Twig_Extension
         $this->security = $security;
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new \Twig_Function('switched_user', function () {
@@ -34,7 +34,7 @@ class SecurityExtension extends \Twig_Extension
         ];
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'yakamara_security_extension';
     }

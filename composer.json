@@ -2,6 +2,7 @@
     "name": "yakamara/common-bundle",
     "type": "symfony-bundle",
     "description": "Yakamara CommonBundle",
+    "license": "proprietary",
 
     "autoload": {
         "psr-4": { "Yakamara\\CommonBundle\\": "" }

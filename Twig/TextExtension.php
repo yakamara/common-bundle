@@ -22,7 +22,7 @@ class TextExtension extends \Twig_Extension
         $this->converter = new CamelCaseToSnakeCaseNameConverter();
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new \Twig_Filter('snake_case', [$this->converter, 'normalize']),
@@ -30,7 +30,7 @@ class TextExtension extends \Twig_Extension
         ];
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'yakamara_text_extension';
     }

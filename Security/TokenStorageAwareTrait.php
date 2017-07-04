@@ -22,11 +22,13 @@ trait TokenStorageAwareTrait
     /**
      * @required
      */
-    public function setTokenStorage(TokenStorageInterface $tokenStorage)
+    public function setTokenStorage(TokenStorageInterface $tokenStorage): void
     {
         $this->tokenStorage = $tokenStorage;
     }
 
+    /** @noinspection PhpUndefinedNamespaceInspection */
+    /** @noinspection PhpUndefinedClassInspection */
     /**
      * @return null|UserInterface|\AppBundle\Model\User
      */

@@ -13,11 +13,6 @@ namespace Yakamara\CommonBundle\Propel;
 
 class ObjectBuilderWithUtcTransformation extends ObjectBuilder
 {
-    protected function createDateFromDb($var): string
-    {
-        return 'new \\Yakamara\\DateTime\\Date('.$var.')';
-    }
-
     protected function createTimeFromDb($var): string
     {
         return '\\Yakamara\\DateTime\\DateTime::createUtc('.$var.')';

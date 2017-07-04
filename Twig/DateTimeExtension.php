@@ -26,7 +26,7 @@ class DateTimeExtension extends \Twig_Extension
         $this->format = $format;
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new \Twig_Function('descriptive_date', [$this, 'descriptiveDate'], [
@@ -52,7 +52,7 @@ class DateTimeExtension extends \Twig_Extension
         return $descriptiveDate;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'yakamara_datetime_extension';
     }

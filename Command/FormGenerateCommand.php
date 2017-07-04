@@ -19,7 +19,7 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 class FormGenerateCommand extends \Propel\Bundle\PropelBundle\Command\FormGenerateCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this
@@ -42,7 +42,7 @@ class FormGenerateCommand extends \Propel\Bundle\PropelBundle\Command\FormGenera
         return $kernel->getBundle('AppBundle');
     }
 
-    protected function writeFormType(BundleInterface $bundle, Table $table, \SplFileInfo $file, $force, OutputInterface $output)
+    protected function writeFormType(BundleInterface $bundle, Table $table, \SplFileInfo $file, $force, OutputInterface $output): void
     {
         $modelName = $table->getPhpName();
         $formTypeContent = file_get_contents(__DIR__.'/../Resources/skeleton/FormType.php.skeleton');
@@ -52,7 +52,7 @@ class FormGenerateCommand extends \Propel\Bundle\PropelBundle\Command\FormGenera
         $formTypeContent = str_replace('##MODEL##', $modelName, $formTypeContent);
         $formTypeContent = $this->addFields($table, $formTypeContent);
 
-        file_put_contents($file->getPathName(), $formTypeContent);
+        file_put_contents($file->getPathname(), $formTypeContent);
         $this->writeNewFile($output, $this->getRelativeFileName($file).($force ? ' (forced)' : ''));
     }
 
@@ -60,7 +60,7 @@ class FormGenerateCommand extends \Propel\Bundle\PropelBundle\Command\FormGenera
     {
         $buildCode = '';
         foreach ($table->getColumns() as $column) {
-            if (!$column->isPrimaryKey() && !in_array($column->getName(), ['created_at', 'updated_at'])) {
+            if (!$column->isPrimaryKey() && !in_array($column->getName(), ['created_at', 'updated_at'], true)) {
                 $buildCode .= sprintf("\n            ->add('%s')", lcfirst($column->getPhpName()));
             }
         }

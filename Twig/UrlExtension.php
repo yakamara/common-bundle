@@ -25,14 +25,14 @@ class UrlExtension extends \Twig_Extension
         $this->router = $router;
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new \Twig_Filter('url_decode', [$this, 'urlDecode']),
         ];
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new \Twig_Function('current_url', [$this, 'currentUrl']),
@@ -73,7 +73,7 @@ class UrlExtension extends \Twig_Extension
         return $this->router->generate($request->attributes->get('_route'), $parameters);
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'yakamara_url_extension';
     }

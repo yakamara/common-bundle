@@ -21,7 +21,7 @@ use Yakamara\DateTime\DateTimeInterface;
 
 class DateTimeParamConverter implements ParamConverterInterface
 {
-    public function apply(Request $request, ParamConverter $configuration)
+    public function apply(Request $request, ParamConverter $configuration): bool
     {
         $param = $configuration->getName();
 
@@ -60,7 +60,7 @@ class DateTimeParamConverter implements ParamConverterInterface
         return true;
     }
 
-    public function supports(ParamConverter $configuration)
+    public function supports(ParamConverter $configuration): bool
     {
         if (null === $configuration->getClass()) {
             return false;

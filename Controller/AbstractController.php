@@ -11,7 +11,6 @@
 
 namespace Yakamara\CommonBundle\Controller;
 
-use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as SymfonyAbstractController;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -19,7 +18,7 @@ use Yakamara\CommonBundle\Security\SecurityContext;
 
 abstract class AbstractController extends SymfonyAbstractController
 {
-    public static function getSubscribedServices()
+    public static function getSubscribedServices(): array
     {
         return array_merge(parent::getSubscribedServices(), [
             'kernel' => '?'.KernelInterface::class,
@@ -73,7 +72,7 @@ abstract class AbstractController extends SymfonyAbstractController
     /** @noinspection PhpUndefinedClassInspection */
 
     /**
-     * @return null|\AppBundle\Model\User
+     * @return null|UserInterface|\AppBundle\Model\User
      */
     protected function getUser()
     {

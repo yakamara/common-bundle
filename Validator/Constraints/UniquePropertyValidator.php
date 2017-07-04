@@ -15,11 +15,16 @@ use Propel\Runtime\Map\TableMap;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class UniquePropertyValidator extends ConstraintValidator
 {
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
+        if (!$constraint instanceof UniqueProperty) {
+            throw new UnexpectedTypeException($constraint, UniqueProperty::class);
+        }
+
         $object = $this->context->getRoot()->getData();
         $class = get_class($object);
         $queryClass = $class.'Query';

@@ -21,7 +21,7 @@ trait TranslatorTrait
     /**
      * @required
      */
-    public function setTranslator(TranslatorInterface $translator)
+    public function setTranslator(TranslatorInterface $translator): void
     {
         $this->translator = $translator;
     }
@@ -38,7 +38,7 @@ trait TranslatorTrait
      *
      * @return string The translated string
      */
-    protected function trans(string $id, array $parameters = [], string $domain = null, string $locale = null)
+    protected function trans(string $id, array $parameters = [], string $domain = null, string $locale = null): string
     {
         return $this->translator->trans($id, $parameters, $domain, $locale);
     }
@@ -56,7 +56,7 @@ trait TranslatorTrait
      *
      * @return string The translated string
      */
-    protected function transChoice(string $id, int $number, array $parameters = [], string $domain = null, string $locale = null)
+    protected function transChoice(string $id, int $number, array $parameters = [], string $domain = null, string $locale = null): string
     {
         return $this->translator->transChoice($id, $number, $parameters, $domain, $locale);
     }

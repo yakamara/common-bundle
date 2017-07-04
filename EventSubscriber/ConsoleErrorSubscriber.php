@@ -25,6 +25,13 @@ class ConsoleErrorSubscriber implements EventSubscriberInterface
         $this->logger = $logger;
     }
 
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            ConsoleEvents::ERROR => 'onConsoleError',
+        ];
+    }
+
     public function onConsoleError(ConsoleErrorEvent $event): void
     {
         if (!getenv('SYMFONY_CONSOLE_LOG_EXCEPTION')) {
@@ -44,12 +51,5 @@ class ConsoleErrorSubscriber implements EventSubscriberInterface
         );
 
         $this->logger->critical($message, ['error' => $error]);
-    }
-
-    public static function getSubscribedEvents()
-    {
-        return [
-            ConsoleEvents::ERROR => 'onConsoleError',
-        ];
     }
 }

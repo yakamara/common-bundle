@@ -26,7 +26,7 @@ abstract class AbstractVoter implements VoterInterface
         $this->decisionManager = $decisionManager;
     }
 
-    public function vote(TokenInterface $token, $subject, array $attributes)
+    public function vote(TokenInterface $token, $subject, array $attributes): int
     {
         if (null === $subject) {
             return self::ACCESS_ABSTAIN;

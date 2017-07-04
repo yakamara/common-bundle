@@ -17,7 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DateTimeExtension extends AbstractTypeExtension
 {
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'date_widget' => 'single_text',
@@ -26,7 +26,7 @@ class DateTimeExtension extends AbstractTypeExtension
         ]);
     }
 
-    public function getExtendedType()
+    public function getExtendedType(): string
     {
         return DateTimeType::class;
     }

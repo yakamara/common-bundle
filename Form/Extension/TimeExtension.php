@@ -17,7 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TimeExtension extends AbstractTypeExtension
 {
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'widget' => 'single_text',
@@ -25,7 +25,7 @@ class TimeExtension extends AbstractTypeExtension
         ]);
     }
 
-    public function getExtendedType()
+    public function getExtendedType(): string
     {
         return TimeType::class;
     }

@@ -18,7 +18,7 @@ use Yakamara\CommonBundle\DependencyInjection\Compiler\BaseModelFakerPass;
 
 class YakamaraCommonBundle extends Bundle
 {
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         parent::build($container);
 

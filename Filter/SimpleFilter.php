@@ -50,14 +50,14 @@ class SimpleFilter extends AbstractFilter
         return $this->choices;
     }
 
-    public function setTranslationPrefix($prefix): self
+    public function setTranslationPrefix(string $prefix): self
     {
         $this->translationPrefix = $prefix;
 
         return $this;
     }
 
-    public function getTranslationPrefix()
+    public function getTranslationPrefix(): string
     {
         return $this->translationPrefix;
     }
@@ -69,7 +69,7 @@ class SimpleFilter extends AbstractFilter
         return $this;
     }
 
-    public function getCurrent()
+    public function getCurrent(): string
     {
         return $this->current;
     }

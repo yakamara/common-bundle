@@ -16,12 +16,12 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class BaseModelFakerPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         spl_autoload_register([$this, 'loadClass'], true, true);
     }
 
-    private function loadClass($class)
+    private function loadClass($class): void
     {
         if ('AppBundle\\Model\\' !== substr($class, 0, 16)) {
             return;

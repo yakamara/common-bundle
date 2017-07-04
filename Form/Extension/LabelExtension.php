@@ -18,7 +18,7 @@ use Symfony\Component\Form\FormView;
 
 class LabelExtension extends AbstractTypeExtension
 {
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         if (null === $view->vars['label']) {
             $label = $view->vars['name'];
@@ -28,7 +28,7 @@ class LabelExtension extends AbstractTypeExtension
         }
     }
 
-    public function getExtendedType()
+    public function getExtendedType(): string
     {
         return FormType::class;
     }

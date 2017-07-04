@@ -13,7 +13,6 @@ namespace Yakamara\CommonBundle\Util;
 
 use Symfony\Component\Translation\TranslatorInterface;
 use Yakamara\DateTime\DateTimeInterface;
-use Yakamara\DateTime\Range\DateRange;
 use Yakamara\DateTime\Range\DateTimeRangeInterface;
 
 class FormatUtil

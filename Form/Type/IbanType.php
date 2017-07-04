@@ -17,13 +17,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IbanType extends AbstractType
 {
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
         ]);
     }
 
-    public function getParent()
+    public function getParent(): ?string
     {
         return TextType::class;
     }

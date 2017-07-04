@@ -24,7 +24,7 @@ class FormatExtension extends \Twig_Extension
         $this->format = $format;
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new \Twig_Filter('number', [$this, 'number']),
@@ -43,7 +43,7 @@ class FormatExtension extends \Twig_Extension
         ];
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new \Twig_Function('icon', [$this, 'icon'], [
@@ -182,6 +182,8 @@ class FormatExtension extends \Twig_Extension
         if (!$address) {
             return null;
         }
+
+        /** @noinspection PhpUndefinedMethodInspection */
         return $address->getStreet().'<br>'.$address->getZip().' '.$address->getCity();
     }
 
@@ -208,7 +210,7 @@ class FormatExtension extends \Twig_Extension
         return '<span class="iban">'.$iban.'</span>';
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'yakamara_format_extension';
     }
