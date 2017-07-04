@@ -158,7 +158,6 @@ class FormatUtil
             return null;
         }
 
-
         $string = $this->date($range->getStart(), $format);
 
         if (!$range->isSameDay()) {

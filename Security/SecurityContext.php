@@ -53,6 +53,7 @@ class SecurityContext
 
     /** @noinspection PhpUndefinedNamespaceInspection */
     /** @noinspection PhpUndefinedClassInspection */
+
     /**
      * Returns a user representation.
      *
@@ -90,6 +91,7 @@ class SecurityContext
 
     /** @noinspection PhpUndefinedNamespaceInspection */
     /** @noinspection PhpUndefinedClassInspection */
+
     /**
      * Returns the orignal user.
      *

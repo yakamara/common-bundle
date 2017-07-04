@@ -29,6 +29,7 @@ trait TokenStorageAwareTrait
 
     /** @noinspection PhpUndefinedNamespaceInspection */
     /** @noinspection PhpUndefinedClassInspection */
+
     /**
      * @return null|UserInterface|\AppBundle\Model\User
      */

@@ -36,6 +36,7 @@ class DateTimeUtil
 
         if ($diff->days > 1 || $diff->days == 1 && $dateTime->getDay() !== Date::yesterday()->getDay()) {
             $descriptive = false;
+
             return $this->format->datetime($dateTime);
         }
 
@@ -49,6 +50,7 @@ class DateTimeUtil
             if ($day === Date::today()->getDay()) {
                 return $this->translator->trans('descriptive_datetime.today', ['%time%' => $this->format->time($dateTime)]);
             }
+
             return null;
         }
 

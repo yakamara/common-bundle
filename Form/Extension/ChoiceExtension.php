@@ -25,6 +25,7 @@ class ChoiceExtension extends AbstractTypeExtension
                 if (!$options['multiple'] && !$options['expanded']) {
                     return 'select.placeholder';
                 }
+
                 return false;
             },
         ]);

@@ -67,6 +67,7 @@ class UrlExtension extends \Twig_Extension
             if ($removePattern && preg_match($removePattern, $key)) {
                 return false;
             }
+
             return true;
         }, ARRAY_FILTER_USE_BOTH);
 

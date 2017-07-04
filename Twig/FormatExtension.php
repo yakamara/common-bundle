@@ -174,6 +174,7 @@ class FormatExtension extends \Twig_Extension
         if (!$email) {
             return '';
         }
+
         return '<a href="mailto:'.$email.'">'.$email.'</a>';
     }
 
@@ -183,7 +184,7 @@ class FormatExtension extends \Twig_Extension
             return null;
         }
 
-        /** @noinspection PhpUndefinedMethodInspection */
+        /* @noinspection PhpUndefinedMethodInspection */
         return $address->getStreet().'<br>'.$address->getZip().' '.$address->getCity();
     }
 
