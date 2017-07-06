@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 class SimpleFilter extends AbstractFilter
 {
     protected $choices;
+    /** @var null|int|string */
     private $current;
     /** @var bool|string */
     private $translationPrefix = 'label.';
@@ -73,7 +74,7 @@ class SimpleFilter extends AbstractFilter
         return $this;
     }
 
-    public function getCurrent(): string
+    public function getCurrent()
     {
         return $this->current;
     }
