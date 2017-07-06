@@ -18,6 +18,7 @@ class SimpleFilter extends AbstractFilter
 {
     protected $choices;
     private $current;
+    /** @var bool|string */
     private $translationPrefix = 'label.';
 
     public function __construct(string $key, $choices)
@@ -50,14 +51,17 @@ class SimpleFilter extends AbstractFilter
         return $this->choices;
     }
 
-    public function setTranslationPrefix(string $prefix): self
+    /**
+     * @param bool|string $prefix
+     */
+    public function setTranslationPrefix($prefix): self
     {
         $this->translationPrefix = $prefix;
 
         return $this;
     }
 
-    public function getTranslationPrefix(): string
+    public function getTranslationPrefix()
     {
         return $this->translationPrefix;
     }
