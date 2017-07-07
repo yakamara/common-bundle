@@ -60,7 +60,7 @@
         data-uri-template="{{ current_url({(filter.key): '{range}'})|url_decode }}">
         <small>{{ label ?: ('label.' ~ filter.key)|trans }}:</small>
         {% if current %}
-            {{ current.start|date }} – {{ current.end|date }}
+            {{ current|dateRange }}
         {% else %}
             {{ 'label.all'|trans }}
         {% endif %}
