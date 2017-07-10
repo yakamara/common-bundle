@@ -33,9 +33,4 @@ class SecurityExtension extends \Twig_Extension
             }),
         ];
     }
-
-    public function getName(): string
-    {
-        return 'yakamara_security_extension';
-    }
 }

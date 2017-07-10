@@ -29,9 +29,4 @@ class TextExtension extends \Twig_Extension
             new \Twig_Filter('camel_case', [$this->converter, 'denormalize']),
         ];
     }
-
-    public function getName(): string
-    {
-        return 'yakamara_text_extension';
-    }
 }

@@ -51,9 +51,4 @@ class DateTimeExtension extends \Twig_Extension
 
         return $descriptiveDate;
     }
-
-    public function getName(): string
-    {
-        return 'yakamara_datetime_extension';
-    }
 }

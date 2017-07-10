@@ -210,9 +210,4 @@ class FormatExtension extends \Twig_Extension
 
         return '<span class="iban">'.$iban.'</span>';
     }
-
-    public function getName(): string
-    {
-        return 'yakamara_format_extension';
-    }
 }

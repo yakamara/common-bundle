@@ -73,9 +73,4 @@ class UrlExtension extends \Twig_Extension
 
         return $this->router->generate($request->attributes->get('_route'), $parameters);
     }
-
-    public function getName(): string
-    {
-        return 'yakamara_url_extension';
-    }
 }
