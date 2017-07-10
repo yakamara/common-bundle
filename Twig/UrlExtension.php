@@ -11,18 +11,21 @@
 
 namespace Yakamara\CommonBundle\Twig;
 
+use Symfony\Component\DependencyInjection\ServiceSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
+use Yakamara\CommonBundle\DependencyInjection\ServiceLocatorAwareTrait;
 
-class UrlExtension extends \Twig_Extension
+class UrlExtension extends \Twig_Extension implements ServiceSubscriberInterface
 {
-    private $requestStack;
-    private $router;
+    use ServiceLocatorAwareTrait;
 
-    public function __construct(RequestStack $requestStack, RouterInterface $router)
+    public static function getSubscribedServices(): array
     {
-        $this->requestStack = $requestStack;
-        $this->router = $router;
+        return [
+            '?'.RequestStack::class,
+            '?'.RouterInterface::class,
+        ];
     }
 
     public function getFilters(): array
@@ -46,7 +49,7 @@ class UrlExtension extends \Twig_Extension
 
     public function currentUrl(array $parameters = [], ?string $removePattern = null): string
     {
-        $request = $this->requestStack->getMasterRequest();
+        $request = $this->container->get(RequestStack::class)->getMasterRequest();
 
         $parameters = array_merge(
             $request->attributes->get('_route_params'),
@@ -71,6 +74,8 @@ class UrlExtension extends \Twig_Extension
             return true;
         }, ARRAY_FILTER_USE_BOTH);
 
-        return $this->router->generate($request->attributes->get('_route'), $parameters);
+        $router = $this->container->get(RouterInterface::class);
+
+        return $router->generate($request->attributes->get('_route'), $parameters);
     }
 }

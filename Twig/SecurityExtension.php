@@ -11,25 +11,29 @@
 
 namespace Yakamara\CommonBundle\Twig;
 
+use Symfony\Component\DependencyInjection\ServiceSubscriberInterface;
+use Yakamara\CommonBundle\DependencyInjection\ServiceLocatorAwareTrait;
 use Yakamara\CommonBundle\Security\SecurityContext;
 
-class SecurityExtension extends \Twig_Extension
+class SecurityExtension extends \Twig_Extension implements ServiceSubscriberInterface
 {
-    protected $security;
+    use ServiceLocatorAwareTrait;
 
-    public function __construct(SecurityContext $security)
+    public static function getSubscribedServices(): array
     {
-        $this->security = $security;
+        return [
+            '?'.SecurityContext::class,
+        ];
     }
 
     public function getFunctions(): array
     {
         return [
             new \Twig_Function('switched_user', function () {
-                return $this->security->isUserSwitched();
+                return $this->container->get(SecurityContext::class)->isUserSwitched();
             }),
             new \Twig_Function('switched_user_source', function () {
-                return $this->security->getSwitchedUserSource();
+                return $this->container->get(SecurityContext::class)->getSwitchedUserSource();
             }),
         ];
     }

@@ -11,17 +11,21 @@
 
 namespace Yakamara\CommonBundle\Twig;
 
+use Symfony\Component\DependencyInjection\ServiceSubscriberInterface;
 use Symfony\Component\Intl\Intl;
+use Yakamara\CommonBundle\DependencyInjection\ServiceLocatorAwareTrait;
 use Yakamara\CommonBundle\Util\FormatUtil;
 use Yakamara\DateTime\AbstractDateTime;
 
-class FormatExtension extends \Twig_Extension
+class FormatExtension extends \Twig_Extension implements ServiceSubscriberInterface
 {
-    protected $format;
+    use ServiceLocatorAwareTrait;
 
-    public function __construct(FormatUtil $format)
+    public static function getSubscribedServices(): array
     {
-        $this->format = $format;
+        return [
+            '?'.FormatUtil::class,
+        ];
     }
 
     public function getFilters(): array
@@ -67,22 +71,22 @@ class FormatExtension extends \Twig_Extension
 
     public function number($number, int $decimals = 2): ?string
     {
-        return $this->format->number($number, $decimals);
+        return $this->getFormat()->number($number, $decimals);
     }
 
     public function decimal($number, int $decimals = 2): ?string
     {
-        return $this->format->decimal($number, $decimals);
+        return $this->getFormat()->decimal($number, $decimals);
     }
 
     public function percent($number, int $decimals = 2): ?string
     {
-        return $this->format->percent($number, $decimals);
+        return $this->getFormat()->percent($number, $decimals);
     }
 
     public function currency($number, int $decimals = 2, string $currency = 'EUR'): ?string
     {
-        return $this->format->currency($number, $decimals, $currency);
+        return $this->getFormat()->currency($number, $decimals, $currency);
     }
 
     public function date($date, ?string $format = null): ?string
@@ -93,7 +97,7 @@ class FormatExtension extends \Twig_Extension
 
         $date = AbstractDateTime::createFromUnknown($date);
 
-        return $this->format->date($date, $format);
+        return $this->getFormat()->date($date, $format);
     }
 
     public function time($time, ?string $format = null): ?string
@@ -104,7 +108,7 @@ class FormatExtension extends \Twig_Extension
 
         $time = AbstractDateTime::createFromUnknown($time);
 
-        return $this->format->time($time, $format);
+        return $this->getFormat()->time($time, $format);
     }
 
     public function datetime($datetime, ?string $format = null, ?string $timeFormat = null): ?string
@@ -115,17 +119,17 @@ class FormatExtension extends \Twig_Extension
 
         $datetime = AbstractDateTime::createFromUnknown($datetime);
 
-        return $this->format->datetime($datetime, $format, $timeFormat);
+        return $this->getFormat()->datetime($datetime, $format, $timeFormat);
     }
 
     public function datetimeRange($range, ?string $format = null, ?string $timeFormat = null): ?string
     {
-        return $this->format->datetimeRange($range, $format, $timeFormat);
+        return $this->getFormat()->datetimeRange($range, $format, $timeFormat);
     }
 
     public function dateRange($range, ?string $format = null): ?string
     {
-        return $this->format->dateRange($range, $format);
+        return $this->getFormat()->dateRange($range, $format);
     }
 
     public function bytes($bytes): ?string
@@ -134,7 +138,7 @@ class FormatExtension extends \Twig_Extension
             return null;
         }
 
-        return $this->format->bytes($bytes);
+        return $this->getFormat()->bytes($bytes);
     }
 
     public function breakOnSlash($text): string
@@ -190,12 +194,12 @@ class FormatExtension extends \Twig_Extension
 
     public function gender($person): ?string
     {
-        return $this->format->gender($person);
+        return $this->getFormat()->gender($person);
     }
 
     public function genderName($person): ?string
     {
-        return $this->format->genderName($person);
+        return $this->getFormat()->genderName($person);
     }
 
     public function iban($iban): ?string
@@ -209,5 +213,10 @@ class FormatExtension extends \Twig_Extension
         }, str_split($iban, 4)));
 
         return '<span class="iban">'.$iban.'</span>';
+    }
+
+    private function getFormat(): FormatUtil
+    {
+        return $this->container->get(FormatUtil::class);
     }
 }

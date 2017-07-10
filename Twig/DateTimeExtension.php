@@ -11,19 +11,22 @@
 
 namespace Yakamara\CommonBundle\Twig;
 
+use Symfony\Component\DependencyInjection\ServiceSubscriberInterface;
+use Yakamara\CommonBundle\DependencyInjection\ServiceLocatorAwareTrait;
 use Yakamara\CommonBundle\Util\DateTimeUtil;
 use Yakamara\CommonBundle\Util\FormatUtil;
 use Yakamara\DateTime\AbstractDateTime;
 
-class DateTimeExtension extends \Twig_Extension
+class DateTimeExtension extends \Twig_Extension implements ServiceSubscriberInterface
 {
-    private $dateTimeUtil;
-    private $format;
+    use ServiceLocatorAwareTrait;
 
-    public function __construct(DateTimeUtil $dateTimeUtil, FormatUtil $format)
+    public static function getSubscribedServices(): array
     {
-        $this->dateTimeUtil = $dateTimeUtil;
-        $this->format = $format;
+        return [
+            '?'.DateTimeUtil::class,
+            '?'.FormatUtil::class,
+        ];
     }
 
     public function getFunctions(): array
@@ -43,10 +46,12 @@ class DateTimeExtension extends \Twig_Extension
 
         $datetime = AbstractDateTime::createFromUnknown($datetime);
 
-        $descriptiveDate = $this->dateTimeUtil->descriptiveDateTime($datetime, $descriptive);
+        $descriptiveDate = $this->container->get(DateTimeUtil::class)->descriptiveDateTime($datetime, $descriptive);
 
         if ($descriptive) {
-            $descriptiveDate = '<span data-toggle="tooltip" title="'.$this->format->date($datetime).'&nbsp;'.$this->format->time($datetime).'">'.$descriptiveDate.'</span>';
+            $format = $this->container->get(FormatUtil::class);
+
+            $descriptiveDate = '<span data-toggle="tooltip" title="'.$format->date($datetime).'&nbsp;'.$format->time($datetime).'">'.$descriptiveDate.'</span>';
         }
 
         return $descriptiveDate;
