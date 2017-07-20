@@ -44,7 +44,7 @@ class SecurityContext
     /**
      * Returns the current security token.
      *
-     * @return TokenInterface|null A TokenInterface instance or null if no authentication information is available
+     * @return null|TokenInterface A TokenInterface instance or null if no authentication information is available
      */
     public function getToken(): ?TokenInterface
     {
@@ -57,7 +57,7 @@ class SecurityContext
     /**
      * Returns a user representation.
      *
-     * @return UserInterface|\AppBundle\Model\User|null
+     * @return null|UserInterface|\AppBundle\Model\User
      */
     public function getUser()
     {
@@ -95,7 +95,7 @@ class SecurityContext
     /**
      * Returns the orignal user.
      *
-     * @return UserInterface|\AppBundle\Model\User|null
+     * @return null|UserInterface|\AppBundle\Model\User
      */
     public function getSwitchedUserSource()
     {

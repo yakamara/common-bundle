@@ -21,6 +21,7 @@ return PhpCsFixer\Config::create()
     ->setRules([
         '@Symfony' => true,
         '@Symfony:risky' => true,
+        '@PHP71Migration' => true,
         'array_syntax' => ['syntax' => 'short'],
         'blank_line_after_opening_tag' => false,
         'braces' => ['allow_single_line_closure' => false],
@@ -34,6 +35,7 @@ return PhpCsFixer\Config::create()
         'ordered_class_elements' => true,
         'ordered_imports' => true,
         'phpdoc_order' => true,
+        'phpdoc_types_order' => ['sort_algorithm' => 'none'],
     ])
     ->setFinder($finder)
 ;

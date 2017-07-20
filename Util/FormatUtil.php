@@ -17,7 +17,7 @@ use Yakamara\DateTime\Range\DateTimeRangeInterface;
 
 class FormatUtil
 {
-    const INTL_DATE_FORMAT = [
+    public const INTL_DATE_FORMAT = [
         'none' => \IntlDateFormatter::NONE,
         'full' => \IntlDateFormatter::FULL,
         'long' => \IntlDateFormatter::LONG,

@@ -75,7 +75,7 @@ abstract class AbstractFilter
     /**
      * @param self[]             $filters
      * @param Request            $request
-     * @param ModelCriteria|null $query
+     * @param null|ModelCriteria $query
      */
     public static function handleAll(array $filters, Request $request, ModelCriteria $query = null): void
     {

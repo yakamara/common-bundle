@@ -31,8 +31,8 @@ trait TranslatorTrait
      *
      * @param string      $id         #TranslationKey The message id (may also be an object that can be cast to string)
      * @param array       $parameters An array of parameters for the message
-     * @param string|null $domain     #TranslationDomain The domain for the message or null to use the default
-     * @param string|null $locale     The locale or null to use the default
+     * @param null|string $domain     #TranslationDomain The domain for the message or null to use the default
+     * @param null|string $locale     The locale or null to use the default
      *
      * @throws \InvalidArgumentException If the locale contains invalid characters
      *
@@ -49,8 +49,8 @@ trait TranslatorTrait
      * @param string      $id         The #TranslationKey (may also be an object that can be cast to string)
      * @param int         $number     The number to use to find the indice of the message
      * @param array       $parameters An array of parameters for the message
-     * @param string|null $domain     The #TranslationDomain for the message or null to use the default
-     * @param string|null $locale     The locale or null to use the default
+     * @param null|string $domain     The #TranslationDomain for the message or null to use the default
+     * @param null|string $locale     The locale or null to use the default
      *
      * @throws \InvalidArgumentException If the locale contains invalid characters
      *
