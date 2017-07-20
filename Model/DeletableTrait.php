@@ -11,26 +11,12 @@
 
 namespace Yakamara\CommonBundle\Model;
 
-use Propel\Runtime\ActiveQuery\ModelCriteria;
-
 trait DeletableTrait
 {
+    use VirtualColumnTrait;
+
     public function isDeletable(): bool
     {
-        if (!$this->hasVirtualColumn('isDeletable')) {
-            $class = __CLASS__.'Query';
-            /** @var ModelCriteria $query */
-            $query = new $class();
-
-            $isDeletable = (bool) $query
-                ->filterByPrimaryKey($this->getPrimaryKey())
-                ->withIsDeletable()
-                ->select('isDeletable')
-                ->findOne();
-
-            $this->setVirtualColumn('isDeletable', $isDeletable);
-        }
-
-        return (bool) $this->getVirtualColumn('isDeletable');
+        return (bool) $this->getOrFetchVirtualColumn(__FUNCTION__);
     }
 }
