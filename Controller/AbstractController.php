@@ -72,7 +72,7 @@ abstract class AbstractController extends SymfonyAbstractController
     /** @noinspection PhpUndefinedClassInspection */
 
     /**
-     * @return null|UserInterface|\AppBundle\Model\User
+     * @return null|UserInterface|\App\Model\User
      */
     protected function getUser()
     {

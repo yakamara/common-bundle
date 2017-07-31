@@ -2,7 +2,7 @@
 
 namespace ##NAMESPACE##;
 
-use AppBundle\Model\##MODEL##;
+use App\Model\##MODEL##;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

@@ -57,7 +57,7 @@ class SecurityContext
     /**
      * Returns a user representation.
      *
-     * @return null|UserInterface|\AppBundle\Model\User
+     * @return null|UserInterface|\App\Model\User
      */
     public function getUser()
     {
@@ -95,7 +95,7 @@ class SecurityContext
     /**
      * Returns the orignal user.
      *
-     * @return null|UserInterface|\AppBundle\Model\User
+     * @return null|UserInterface|\App\Model\User
      */
     public function getSwitchedUserSource()
     {

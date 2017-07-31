@@ -23,17 +23,17 @@ class BaseModelFakerPass implements CompilerPassInterface
 
     private function loadClass($class): void
     {
-        if ('AppBundle\\Model\\' !== substr($class, 0, 16)) {
+        if ('App\\Model\\' !== substr($class, 0, 10)) {
             return;
         }
 
-        $class = substr($class, 16);
+        $class = substr($class, 10);
         $dir = __DIR__.'/../../../../../src/Model';
 
         if (file_exists($dir.'/Base/'.$class.'.php') || !file_exists($dir.'/'.$class.'.php') || !file_exists($dir.'/'.$class.'Query.php')) {
             return;
         }
 
-        eval('namespace AppBundle\\Model; class '.$class.' {}');
+        eval('namespace App\\Model; class '.$class.' {}');
     }
 }

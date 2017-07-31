@@ -80,7 +80,7 @@ abstract class AbstractVoter implements VoterInterface
     /** @noinspection PhpUndefinedClassInspection */
 
     /**
-     * @return null|UserInterface|\AppBundle\Model\User
+     * @return null|UserInterface|\App\Model\User
      */
     public function getUser(TokenInterface $token)
     {
@@ -91,7 +91,7 @@ abstract class AbstractVoter implements VoterInterface
 
     protected function getSupportedClass(): string
     {
-        return 'AppBundle\\Model\\'.ucfirst($this->getSupportedName());
+        return 'App\\Model\\'.ucfirst($this->getSupportedName());
     }
 
     protected function getSupportedName(): string

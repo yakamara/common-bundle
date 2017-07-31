@@ -31,7 +31,7 @@ trait TokenStorageAwareTrait
     /** @noinspection PhpUndefinedClassInspection */
 
     /**
-     * @return null|UserInterface|\AppBundle\Model\User
+     * @return null|UserInterface|\App\Model\User
      */
     public function getUser()
     {
