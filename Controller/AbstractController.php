@@ -27,8 +27,9 @@ abstract class AbstractController extends SymfonyAbstractController
         ]);
     }
 
+    /** @noinspection PhpUndefinedNamespaceInspection */
     /** @noinspection PhpUndefinedClassInspection */
-    protected function getKernel(): \AppKernel
+    protected function getKernel(): \App\Kernel
     {
         return $this->container->get('kernel');
     }
