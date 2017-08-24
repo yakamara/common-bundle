@@ -16,10 +16,10 @@ class SearchQueryConverter
     public static function convert(string $query): ?string
     {
         $parts = [];
-        foreach (str_getcsv($query, ' ') as $part) {
+        foreach (str_getcsv(trim($query), ' ') as $part) {
             $op = '-' === $part[0] ? '-' : '+';
             $part = ltrim($part, '+- ');
-            $part = str_replace(['"', '+', '-', '(', ')'], '', $part);
+            $part = str_replace(['"', '+', '-', '~', '(', ')', '<', '>'], ' ', $part);
 
             if (mb_strlen($part) <= 2) {
                 continue;
