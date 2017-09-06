@@ -11,6 +11,7 @@
 
 namespace Yakamara\CommonBundle\Validator\Constraints;
 
+use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Map\TableMap;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -39,8 +40,21 @@ class UniquePropertyValidator extends ConstraintValidator
         $colname = $tableMapClass::translateFieldname($property, TableMap::TYPE_CAMELNAME, TableMap::TYPE_COLNAME);
         $property = $tableMapClass::translateFieldname($property, TableMap::TYPE_CAMELNAME, TableMap::TYPE_PHPNAME);
 
-        if ($object->isColumnModified($colname) && $queryClass::create()->filterBy($property, $value)->exists()) {
-            $this->context->buildViolation($constraint->message)->addViolation();
+        if (!$object->isColumnModified($colname)) {
+            return;
         }
+
+        /** @var ObjectCollection $objects */
+        $objects = $queryClass::create()->filterBy($property, $value)->find();
+
+        if ($objects->isEmpty()) {
+            return;
+        }
+
+        if (1 === $objects->count() && $object->equals($objects->getFirst())) {
+            return;
+        }
+
+        $this->context->buildViolation($constraint->message)->addViolation();
     }
 }
