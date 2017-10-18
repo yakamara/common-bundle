@@ -22,7 +22,7 @@
         "symfony/serializer": "^3.3.3",
         "symfony/translation": "^3.3.3",
         "symfony/validator": "^3.3.3",
-        "sensio/framework-extra-bundle": "^3.0.19",
+        "sensio/framework-extra-bundle": "^3.0.19 || ^5.0",
         "propel/propel": "^2.0@dev",
         "propel/propel-bundle": "^3.0@dev",
         "twig/twig": "^2.4",
