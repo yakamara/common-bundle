@@ -13,9 +13,17 @@ namespace Yakamara\CommonBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as SymfonyAbstractController;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Yakamara\CommonBundle\Security\SecurityContext;
 
+/** @noinspection PhpUndefinedNamespaceInspection */
+/** @noinspection PhpUnnecessaryFullyQualifiedNameInspection */
+/** @noinspection PhpUndefinedClassInspection */
+
+/**
+ * @method null|UserInterface|\App\Model\User getUser()
+ */
 abstract class AbstractController extends SymfonyAbstractController
 {
     public static function getSubscribedServices(): array
@@ -67,17 +75,6 @@ abstract class AbstractController extends SymfonyAbstractController
     protected function transChoice(string $id, int $number, array $parameters = [], string $domain = null, string $locale = null): string
     {
         return $this->container->get('translator')->transChoice($id, $number, $parameters, $domain, $locale);
-    }
-
-    /** @noinspection PhpUndefinedNamespaceInspection */
-    /** @noinspection PhpUndefinedClassInspection */
-
-    /**
-     * @return null|UserInterface|\App\Model\User
-     */
-    protected function getUser()
-    {
-        return $this->container->get(SecurityContext::class)->getUser();
     }
 
     protected function isUserSwitched(): bool
