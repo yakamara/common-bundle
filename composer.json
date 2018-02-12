@@ -24,7 +24,7 @@
         "symfony/validator": "^3.3.3",
         "sensio/framework-extra-bundle": "^3.0.19 || ^5.0",
         "propel/propel": "^2.0@dev",
-        "propel/propel-bundle": "^3.0@dev",
+        "propel/propel-bundle": "^3.0@dev || ^4.0@dev",
         "twig/twig": "^2.4",
         "yakamara/datetime": "^1.0"
     }
