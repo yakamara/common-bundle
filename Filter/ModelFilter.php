@@ -12,12 +12,15 @@
 namespace Yakamara\CommonBundle\Filter;
 
 use Propel\Runtime\ActiveQuery\ModelCriteria;
+use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Propel\Runtime\Collection\Collection;
 use Symfony\Component\HttpFoundation\Request;
 
 class ModelFilter extends SimpleFilter
 {
     private $emptyChoice = false;
+
+    private $default = null;
 
     public function __construct(string $key, $choices)
     {
@@ -63,11 +66,23 @@ class ModelFilter extends SimpleFilter
         return $this->emptyChoice;
     }
 
+    public function setDefault(?ActiveRecordInterface $default): self
+    {
+        $this->default = $default;
+
+        return $this;
+    }
+
+    public function getDefault(): ?ActiveRecordInterface
+    {
+        return $this->default;
+    }
+
     public function handleRequest(Request $request)
     {
         $current = $request->query->get($this->getKey());
 
-        if (null === $current) {
+        if ('all' === $current || !$this->default && null === $current) {
             return $this->setCurrent(null);
         }
 
@@ -77,7 +92,7 @@ class ModelFilter extends SimpleFilter
             return $this->setCurrent($current);
         }
 
-        return $this->setCurrent(null);
+        return $this->setCurrent($this->default ? $this->default->getId() : null);
     }
 
     public function handleQuery(ModelCriteria $query)
@@ -86,8 +101,15 @@ class ModelFilter extends SimpleFilter
             return $this;
         }
 
-        $column = ucfirst($this->getDbKey()).'Id';
-        $query->filterBy($column, $this->getCurrent() ?: null);
+        $method = 'filterBy'.ucfirst($this->getDbKey()).'Id';
+        if (method_exists($query, $method)) {
+            $query->$method($this->getCurrent() ?: null);
+        }
+
+        $method = 'filterBy'.ucfirst($this->getDbKey());
+        if (method_exists($query, $method)) {
+            $query->$method($this->getCurrentData() ?: null);
+        }
 
         return $this;
     }

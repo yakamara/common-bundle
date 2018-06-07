@@ -33,7 +33,7 @@
         </button>
         <ul class="dropdown-menu">
             <li{% if filter.current is null %} class="active"{% endif %}>
-                <a href="{{ current_url({(filter.key): null}) }}">{{ 'label.all'|trans }}</a>
+                <a href="{{ current_url({(filter.key): filter.default|default(null) ? 'all' : null}) }}">{{ 'label.all'|trans }}</a>
             </li>
             <li class="divider"></li>
             {% if filter.hasEmptyChoice|default(false) %}
