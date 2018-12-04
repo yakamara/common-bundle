@@ -33,7 +33,7 @@ class FormatUtil
         $this->translator = $translator;
     }
 
-    public function number($number, int $decimals = 2): ?string
+    public function number($number, int $decimals = 2, ?int $maxDecimals = null): ?string
     {
         if (null === $number) {
             return null;
@@ -46,7 +46,8 @@ class FormatUtil
             $formatter->setSymbol(\NumberFormatter::MINUS_SIGN_SYMBOL, '−');
         }
 
-        $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, $decimals);
+        $formatter->setAttribute(\NumberFormatter::MIN_FRACTION_DIGITS, $decimals);
+        $formatter->setAttribute(\NumberFormatter::MAX_FRACTION_DIGITS, null === $maxDecimals ? $decimals : $maxDecimals);
 
         return $formatter->format((float) $number);
     }
@@ -60,7 +61,7 @@ class FormatUtil
         return number_format((float) $number, $decimals, '.', '');
     }
 
-    public function percent($number, int $decimals = 2): ?string
+    public function percent($number, int $decimals = 2, ?int $maxDecimals = null): ?string
     {
         if (null === $number) {
             return null;
@@ -73,7 +74,8 @@ class FormatUtil
             $formatter->setSymbol(\NumberFormatter::MINUS_SIGN_SYMBOL, '−');
         }
 
-        $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, $decimals);
+        $formatter->setAttribute(\NumberFormatter::MIN_FRACTION_DIGITS, $decimals);
+        $formatter->setAttribute(\NumberFormatter::MAX_FRACTION_DIGITS, null === $maxDecimals ? $decimals : $maxDecimals);
 
         return $formatter->format((float) $number);
     }

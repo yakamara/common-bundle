@@ -69,9 +69,9 @@ class FormatExtension extends \Twig_Extension implements ServiceSubscriberInterf
         ];
     }
 
-    public function number($number, int $decimals = 2): ?string
+    public function number($number, int $decimals = 2, ?int $maxDecimals = null): ?string
     {
-        return $this->getFormat()->number($number, $decimals);
+        return $this->getFormat()->number($number, $decimals, $maxDecimals);
     }
 
     public function decimal($number, int $decimals = 2): ?string
@@ -79,9 +79,9 @@ class FormatExtension extends \Twig_Extension implements ServiceSubscriberInterf
         return $this->getFormat()->decimal($number, $decimals);
     }
 
-    public function percent($number, int $decimals = 2): ?string
+    public function percent($number, int $decimals = 2, ?int $maxDecimals = null): ?string
     {
-        return $this->getFormat()->percent($number, $decimals);
+        return $this->getFormat()->percent($number, $decimals, $maxDecimals);
     }
 
     public function currency($number, int $decimals = 2, string $currency = 'EUR'): ?string
