@@ -11,7 +11,7 @@
 
 namespace Yakamara\CommonBundle\Twig;
 
-use Symfony\Component\DependencyInjection\ServiceSubscriberInterface;
+use Symfony\Contracts\Service\ServiceSubscriberInterface;
 use Symfony\Component\Intl\Intl;
 use Yakamara\CommonBundle\DependencyInjection\ServiceLocatorAwareTrait;
 use Yakamara\CommonBundle\Util\FormatUtil;

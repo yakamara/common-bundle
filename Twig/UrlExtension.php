@@ -11,7 +11,7 @@
 
 namespace Yakamara\CommonBundle\Twig;
 
-use Symfony\Component\DependencyInjection\ServiceSubscriberInterface;
+use Symfony\Contracts\Service\ServiceSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 use Yakamara\CommonBundle\DependencyInjection\ServiceLocatorAwareTrait;

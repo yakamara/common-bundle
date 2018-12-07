@@ -25,8 +25,8 @@ class TimeExtension extends AbstractTypeExtension
         ]);
     }
 
-    public function getExtendedType(): string
+    public static function getExtendedTypes(): iterable
     {
-        return TimeType::class;
+        return [TimeType::class];
     }
 }

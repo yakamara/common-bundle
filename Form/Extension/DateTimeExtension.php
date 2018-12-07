@@ -26,8 +26,8 @@ class DateTimeExtension extends AbstractTypeExtension
         ]);
     }
 
-    public function getExtendedType(): string
+    public static function getExtendedTypes(): iterable
     {
-        return DateTimeType::class;
+        return [DateTimeType::class];
     }
 }
