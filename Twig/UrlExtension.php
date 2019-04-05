@@ -14,9 +14,12 @@ namespace Yakamara\CommonBundle\Twig;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 use Yakamara\CommonBundle\DependencyInjection\ServiceLocatorAwareTrait;
 
-class UrlExtension extends \Twig_Extension implements ServiceSubscriberInterface
+class UrlExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
     use ServiceLocatorAwareTrait;
 
@@ -31,14 +34,14 @@ class UrlExtension extends \Twig_Extension implements ServiceSubscriberInterface
     public function getFilters(): array
     {
         return [
-            new \Twig_Filter('url_decode', [$this, 'urlDecode']),
+            new TwigFilter('url_decode', [$this, 'urlDecode']),
         ];
     }
 
     public function getFunctions(): array
     {
         return [
-            new \Twig_Function('current_url', [$this, 'currentUrl']),
+            new TwigFunction('current_url', [$this, 'currentUrl']),
         ];
     }
 

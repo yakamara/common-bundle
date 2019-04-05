@@ -12,12 +12,14 @@
 namespace Yakamara\CommonBundle\Twig;
 
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 use Yakamara\CommonBundle\DependencyInjection\ServiceLocatorAwareTrait;
 use Yakamara\CommonBundle\Util\DateTimeUtil;
 use Yakamara\CommonBundle\Util\FormatUtil;
 use Yakamara\DateTime\AbstractDateTime;
 
-class DateTimeExtension extends \Twig_Extension implements ServiceSubscriberInterface
+class DateTimeExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
     use ServiceLocatorAwareTrait;
 
@@ -32,7 +34,7 @@ class DateTimeExtension extends \Twig_Extension implements ServiceSubscriberInte
     public function getFunctions(): array
     {
         return [
-            new \Twig_Function('descriptive_date', [$this, 'descriptiveDate'], [
+            new TwigFunction('descriptive_date', [$this, 'descriptiveDate'], [
                 'is_safe' => ['html'],
             ]),
         ];

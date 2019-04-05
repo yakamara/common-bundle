@@ -12,10 +12,12 @@
 namespace Yakamara\CommonBundle\Twig;
 
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 use Yakamara\CommonBundle\DependencyInjection\ServiceLocatorAwareTrait;
 use Yakamara\CommonBundle\Security\SecurityContext;
 
-class SecurityExtension extends \Twig_Extension implements ServiceSubscriberInterface
+class SecurityExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
     use ServiceLocatorAwareTrait;
 
@@ -29,10 +31,10 @@ class SecurityExtension extends \Twig_Extension implements ServiceSubscriberInte
     public function getFunctions(): array
     {
         return [
-            new \Twig_Function('switched_user', function () {
+            new TwigFunction('switched_user', function () {
                 return $this->container->get(SecurityContext::class)->isUserSwitched();
             }),
-            new \Twig_Function('switched_user_source', function () {
+            new TwigFunction('switched_user_source', function () {
                 return $this->container->get(SecurityContext::class)->getSwitchedUserSource();
             }),
         ];

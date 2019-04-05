@@ -13,11 +13,14 @@ namespace Yakamara\CommonBundle\Twig;
 
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
 use Symfony\Component\Intl\Intl;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 use Yakamara\CommonBundle\DependencyInjection\ServiceLocatorAwareTrait;
 use Yakamara\CommonBundle\Util\FormatUtil;
 use Yakamara\DateTime\AbstractDateTime;
 
-class FormatExtension extends \Twig_Extension implements ServiceSubscriberInterface
+class FormatExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
     use ServiceLocatorAwareTrait;
 
@@ -31,39 +34,39 @@ class FormatExtension extends \Twig_Extension implements ServiceSubscriberInterf
     public function getFilters(): array
     {
         return [
-            new \Twig_Filter('number', [$this, 'number']),
-            new \Twig_Filter('decimal', [$this, 'decimal']),
-            new \Twig_Filter('percent', [$this, 'percent']),
-            new \Twig_Filter('currency', [$this, 'currency']),
-            new \Twig_Filter('date', [$this, 'date']),
-            new \Twig_Filter('time', [$this, 'time']),
-            new \Twig_Filter('datetime', [$this, 'datetime']),
-            new \Twig_Filter('datetimeRange', [$this, 'datetimeRange']),
-            new \Twig_Filter('dateRange', [$this, 'dateRange']),
-            new \Twig_Filter('bytes', [$this, 'bytes']),
-            new \Twig_Filter('break_on_slash', [$this, 'breakOnSlash'], ['pre_escape' => 'html', 'is_safe' => ['html']]),
-            new \Twig_Filter('country', [$this, 'country']),
-            new \Twig_Filter('locale', [$this, 'locale']),
+            new TwigFilter('number', [$this, 'number']),
+            new TwigFilter('decimal', [$this, 'decimal']),
+            new TwigFilter('percent', [$this, 'percent']),
+            new TwigFilter('currency', [$this, 'currency']),
+            new TwigFilter('date', [$this, 'date']),
+            new TwigFilter('time', [$this, 'time']),
+            new TwigFilter('datetime', [$this, 'datetime']),
+            new TwigFilter('datetimeRange', [$this, 'datetimeRange']),
+            new TwigFilter('dateRange', [$this, 'dateRange']),
+            new TwigFilter('bytes', [$this, 'bytes']),
+            new TwigFilter('break_on_slash', [$this, 'breakOnSlash'], ['pre_escape' => 'html', 'is_safe' => ['html']]),
+            new TwigFilter('country', [$this, 'country']),
+            new TwigFilter('locale', [$this, 'locale']),
         ];
     }
 
     public function getFunctions(): array
     {
         return [
-            new \Twig_Function('icon', [$this, 'icon'], [
+            new TwigFunction('icon', [$this, 'icon'], [
                 'pre_escape' => 'html',
                 'is_safe' => ['html'],
             ]),
-            new \Twig_Function('email', [$this, 'email'], [
+            new TwigFunction('email', [$this, 'email'], [
                 'pre_escape' => 'html',
                 'is_safe' => ['html'],
             ]),
-            new \Twig_Function('address', [$this, 'address'], [
+            new TwigFunction('address', [$this, 'address'], [
                 'is_safe' => ['html'],
             ]),
-            new \Twig_Function('gender', [$this, 'gender']),
-            new \Twig_Function('gender_name', [$this, 'genderName']),
-            new \Twig_Function('iban', [$this, 'iban'], [
+            new TwigFunction('gender', [$this, 'gender']),
+            new TwigFunction('gender_name', [$this, 'genderName']),
+            new TwigFunction('iban', [$this, 'iban'], [
                 'is_safe' => ['html'],
             ]),
         ];

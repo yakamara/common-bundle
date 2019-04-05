@@ -12,8 +12,10 @@
 namespace Yakamara\CommonBundle\Twig;
 
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 
-class TextExtension extends \Twig_Extension
+class TextExtension extends AbstractExtension
 {
     private $converter;
 
@@ -25,8 +27,8 @@ class TextExtension extends \Twig_Extension
     public function getFilters(): array
     {
         return [
-            new \Twig_Filter('snake_case', [$this->converter, 'normalize']),
-            new \Twig_Filter('camel_case', [$this->converter, 'denormalize']),
+            new TwigFilter('snake_case', [$this->converter, 'normalize']),
+            new TwigFilter('camel_case', [$this->converter, 'denormalize']),
         ];
     }
 }
