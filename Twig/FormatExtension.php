@@ -11,8 +11,9 @@
 
 namespace Yakamara\CommonBundle\Twig;
 
+use Symfony\Component\Intl\Countries;
+use Symfony\Component\Intl\Locales;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
-use Symfony\Component\Intl\Intl;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -159,7 +160,7 @@ class FormatExtension extends AbstractExtension implements ServiceSubscriberInte
             return null;
         }
 
-        return Intl::getRegionBundle()->getCountryName($country, $displayLocale);
+        return Countries::getName($country, $displayLocale);
     }
 
     public function locale($locale, ?string $displayLocale = null): ?string
@@ -168,7 +169,7 @@ class FormatExtension extends AbstractExtension implements ServiceSubscriberInte
             return null;
         }
 
-        return Intl::getLocaleBundle()->getLocaleName($locale, $displayLocale);
+        return Locales::getName($locale, $displayLocale);
     }
 
     public function icon(string $icon): string

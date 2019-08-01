@@ -12,9 +12,9 @@
 namespace Yakamara\CommonBundle\Security;
 
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\SwitchUserToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\Role\SwitchUserRole;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class SecurityContext
@@ -86,7 +86,7 @@ class SecurityContext
      */
     public function isUserSwitched(): bool
     {
-        return $this->isGranted('ROLE_PREVIOUS_ADMIN');
+        return $this->getToken() instanceof SwitchUserToken;
     }
 
     /** @noinspection PhpUndefinedNamespaceInspection */
@@ -99,10 +99,12 @@ class SecurityContext
      */
     public function getSwitchedUserSource()
     {
-        foreach ($this->getToken()->getRoles() as $role) {
-            if ($role instanceof SwitchUserRole) {
-                return $role->getSource()->getUser();
-            }
+        $token = $this->getToken();
+
+        if (!$token instanceof SwitchUserToken) {
+            return null;
         }
+
+        return $token->getOriginalToken()->getUser();
     }
 }
