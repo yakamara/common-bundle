@@ -11,7 +11,7 @@
 
 namespace Yakamara\CommonBundle\Util;
 
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Yakamara\DateTime\Date;
 use Yakamara\DateTime\DateTime;
 use Yakamara\DateTime\DateTimeInterface;
@@ -45,21 +45,21 @@ class DateTimeUtil
         if ($diff->days || $diff->h > 5) {
             $day = $dateTime->getDay();
             if ($day === Date::yesterday()->getDay()) {
-                return $this->translator->trans('descriptive_datetime.yesterday', ['%time%' => $this->format->time($dateTime)]);
+                return $this->translator->trans('descriptive_datetime.yesterday', ['time' => $this->format->time($dateTime)]);
             }
             if ($day === Date::today()->getDay()) {
-                return $this->translator->trans('descriptive_datetime.today', ['%time%' => $this->format->time($dateTime)]);
+                return $this->translator->trans('descriptive_datetime.today', ['time' => $this->format->time($dateTime)]);
             }
 
             return null;
         }
 
         if ($diff->h) {
-            return $this->translator->transChoice('descriptive_datetime.diff.hour', $diff->h, ['%count%' => $diff->h]);
+            return $this->translator->trans('descriptive_datetime.diff.hour', ['count' => $diff->h]);
         }
 
         if ($diff->i) {
-            return $this->translator->transChoice('descriptive_datetime.diff.minute', $diff->i, ['%count%' => $diff->i]);
+            return $this->translator->trans('descriptive_datetime.diff.minute', ['count' => $diff->i]);
         }
 
         return $this->translator->trans('descriptive_datetime.justNow');

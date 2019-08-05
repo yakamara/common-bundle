@@ -11,7 +11,7 @@
 
 namespace Yakamara\CommonBundle\Util;
 
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 trait TranslatorTrait
 {
@@ -55,9 +55,12 @@ trait TranslatorTrait
      * @throws \InvalidArgumentException If the locale contains invalid characters
      *
      * @return string The translated string
+     *
+     * @deprecated
      */
     protected function transChoice(string $id, int $number, array $parameters = [], string $domain = null, string $locale = null): string
     {
+        /** @noinspection PhpUndefinedMethodInspection */
         return $this->translator->transChoice($id, $number, $parameters, $domain, $locale);
     }
 }

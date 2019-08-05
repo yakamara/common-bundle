@@ -14,7 +14,7 @@ namespace Yakamara\CommonBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as SymfonyAbstractController;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Yakamara\CommonBundle\Security\SecurityContext;
 
 /** @noinspection PhpUndefinedNamespaceInspection */
@@ -71,6 +71,8 @@ abstract class AbstractController extends SymfonyAbstractController
      * @throws \InvalidArgumentException If the locale contains invalid characters
      *
      * @return string The translated string
+     *
+     * @deprecated
      */
     protected function transChoice(string $id, int $number, array $parameters = [], string $domain = null, string $locale = null): string
     {
