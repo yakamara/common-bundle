@@ -132,4 +132,15 @@ abstract class AbstractVoter implements VoterInterface
     {
         return $this->decisionManager->decide($token, (array) $attributes, $subject);
     }
+
+    protected function isGrantedAny(TokenInterface $token, array $roles): bool
+    {
+        foreach ($roles as $role) {
+            if ($this->decisionManager->decide($token, [$role])) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

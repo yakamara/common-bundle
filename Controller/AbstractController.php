@@ -79,6 +79,20 @@ abstract class AbstractController extends SymfonyAbstractController
         return $this->container->get('translator')->transChoice($id, $number, $parameters, $domain, $locale);
     }
 
+    /**
+     * Checks if any given role is granted.
+     */
+    protected function isGrantedAny(array $roles): bool
+    {
+        foreach ($roles as $role) {
+            if ($this->isGranted($role)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     protected function isUserSwitched(): bool
     {
         return $this->container->get(SecurityContext::class)->isUserSwitched();

@@ -80,6 +80,20 @@ class SecurityContext
     }
 
     /**
+     * Checks if any given role is granted.
+     */
+    public function isGrantedAny(array $roles): bool
+    {
+        foreach ($roles as $role) {
+            if ($this->authorizationChecker->isGranted($role)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Checks if the user is switched.
      *
      * @return bool
