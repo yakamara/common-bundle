@@ -104,6 +104,8 @@ class ModelFilter extends SimpleFilter
         $method = 'filterBy'.ucfirst($this->getDbKey()).'Id';
         if (method_exists($query, $method)) {
             $query->$method($this->getCurrent() ?: null);
+
+            return $this;
         }
 
         $method = 'filterBy'.ucfirst($this->getDbKey());
