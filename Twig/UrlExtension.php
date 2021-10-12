@@ -52,7 +52,8 @@ class UrlExtension extends AbstractExtension implements ServiceSubscriberInterfa
 
     public function currentUrl(array $parameters = [], ?string $removePattern = null): string
     {
-        $request = $this->container->get(RequestStack::class)->getMasterRequest();
+        $requestStack = $this->container->get(RequestStack::class);
+        $request = method_exists($requestStack, 'getMainRequest') ? $requestStack->getMainRequest() : $requestStack->getMasterRequest();
 
         $parameters = array_merge(
             $request->attributes->get('_route_params'),
