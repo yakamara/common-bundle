@@ -21,6 +21,15 @@ abstract class AbstractVoter implements VoterInterface
     /** @var AccessDecisionManagerInterface */
     private $decisionManager;
 
+    /** @var string|null */
+    private $class;
+
+    /** @var string|null */
+    private $name;
+
+    /** @var array|null */
+    private $methods;
+
     public function __construct(AccessDecisionManagerInterface $decisionManager)
     {
         $this->decisionManager = $decisionManager;
@@ -32,22 +41,17 @@ abstract class AbstractVoter implements VoterInterface
             return self::ACCESS_ABSTAIN;
         }
 
-        static $class;
-        static $name;
-
-        if (null === $class) {
-            $class = $this->getSupportedClass();
-            $name = $this->getSupportedName();
+        if (null === $this->class) {
+            $this->class = $this->getSupportedClass();
+            $this->name = $this->getSupportedName();
         }
 
-        if (!$subject instanceof $class && $subject !== $class && $subject !== $name) {
+        if (!$subject instanceof $this->class && $subject !== $this->class && $subject !== $this->name) {
             return self::ACCESS_ABSTAIN;
         }
 
-        static $methods;
-
-        if (null === $methods) {
-            $methods = $this->getSupportedMethods();
+        if (null === $this->methods) {
+            $this->methods = $this->getSupportedMethods();
         }
 
         // abstain vote by default in case none of the attributes are supported
@@ -59,14 +63,14 @@ abstract class AbstractVoter implements VoterInterface
         }
 
         foreach ($attributes as $attribute) {
-            if (!isset($methods[$attribute])) {
+            if (!isset($this->methods[$attribute])) {
                 continue;
             }
 
             // as soon as at least one attribute is supported, default is to deny access
             $vote = self::ACCESS_DENIED;
 
-            $method = $methods[$attribute];
+            $method = $this->methods[$attribute];
             if ($token->getUser() instanceof UserInterface && $this->$method(...$arguments)) {
                 // grant access as soon as at least one voter returns a positive response
                 return self::ACCESS_GRANTED;
