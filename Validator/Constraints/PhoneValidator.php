@@ -33,7 +33,7 @@ class PhoneValidator extends ConstraintValidator
 
         $value = (string) $value;
 
-        if (!preg_match('@^\+?[ \d]+(?:/[ \d]+)?(?:-[ \d]+)?$@', $value)) {
+        if (!preg_match('@^\+?[ \d]+(?:/[ \d]+)?(?:-[ \d]+)*$@', $value)) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ value }}', $this->formatValue($value))
                 ->addViolation();
