@@ -26,6 +26,10 @@ class UniquePropertyValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, UniqueProperty::class);
         }
 
+        if (null === $value) {
+            return;
+        }
+
         $object = $this->context->getRoot()->getData();
         $class = get_class($object);
         $queryClass = $class.'Query';
