@@ -15,6 +15,7 @@ use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Yakamara\CommonBundle\DependencyInjection\Compiler\BaseModelFakerPass;
+use Yakamara\CommonBundle\DependencyInjection\Compiler\PropelConfigurationPass;
 
 class YakamaraCommonBundle extends Bundle
 {
@@ -23,5 +24,6 @@ class YakamaraCommonBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new BaseModelFakerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 100);
+        $container->addCompilerPass(new PropelConfigurationPass());
     }
 }

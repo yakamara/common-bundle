@@ -86,6 +86,10 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
                     }
                     $script .= '
             }';
+                } elseif ($col->isEnumType()) {
+                    $enum = $this->declareClass($col->getPhpType());
+                    $script .= "
+            \$this->$clo = (null !== \$col) ? $enum::from(\$col) : null;";
                 } elseif ($col->isPhpPrimitiveType()) {
                     $script .= "
             \$this->$clo = (null !== \$col) ? (".$col->getPhpType().') $col : null;';
@@ -135,6 +139,21 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
         } catch (Exception \$e) {
             throw new PropelException(sprintf('Error populating %s object', ".var_export($this->getStubObjectBuilder()->getClassName(), true).'), 0, $e);
         }';
+    }
+
+    protected function addBuildCriteriaBody(&$script)
+    {
+        $script .= "
+        \$criteria = new Criteria(" . $this->getTableMapClass() . "::DATABASE_NAME);
+";
+        foreach ($this->getTable()->getColumns() as $col) {
+            $clo = $col->getLowercasedName();
+            $suffix = $col->isEnumType() ? '->value' : '';
+            $script .= "
+        if (\$this->isColumnModified(" . $this->getColumnConstant($col) . ")) {
+            \$criteria->add(" . $this->getColumnConstant($col) . ", \$this->{$clo}{$suffix});
+        }";
+        }
     }
 
     protected function createDateFromDb($var): string
@@ -284,5 +303,137 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
         }
 
         return '\\Yakamara\\DateTime\\DateTime';
+    }
+
+    public function addEnumAccessorComment(&$script, Column $column)
+    {
+        $clo = $column->getLowercasedName();
+
+        $enum = $column->getPhpType();
+        $orNull = $column->isNotNull() ? '' : '|null';
+
+        $script .= "
+    /**
+     * Get the [$clo] column value.
+     * " . $column->getDescription();
+        if ($column->isLazyLoad()) {
+            $script .= "
+     * @param      ConnectionInterface An optional ConnectionInterface connection to use for fetching this lazy-loaded column.";
+        }
+        $script .= "
+     * @return {$this->declareClass($enum)}{$orNull}
+     */";
+    }
+
+    protected function addEnumAccessorBody(&$script, Column $column)
+    {
+        $this->addDefaultAccessorBody($script, $column);
+    }
+
+    protected function addEnumMutator(&$script, Column $col)
+    {
+        $clo = $col->getLowercasedName();
+
+        $type = ($col->isNotNull() ? '' : '?').$this->declareClass($col->getPhpType());
+
+        $script .= "
+    /**
+     * Set the value of [$clo] column.
+     * " . $col->getDescription() . "
+     * @param  {$type} \$v new value
+     * @return \$this|" . $this->getObjectClassName(true) . " The current object (for fluent API support)
+     */";
+
+        $cfc = $col->getPhpName();
+        $visibility = $this->getTable()->isReadOnly() ? 'protected' : $col->getMutatorVisibility();
+
+        $null = $col->isNotNull() ? '' : ' = null';
+
+        $script .= "
+    " . $visibility . " function set$cfc($type \$v$null)
+    {";
+
+        $this->addMutatorOpenBody($script, $col);
+
+        $script .= "
+        if (\$this->$clo !== \$v) {
+            \$this->$clo = \$v;
+            \$this->modifiedColumns[" . $this->getColumnConstant($col) . "] = true;
+        }
+";
+
+        $this->addMutatorClose($script, $col);
+    }
+
+    public function addSetAccessorComment(&$script, Column $column)
+    {
+        $clo = $column->getLowercasedName();
+
+        $enum = $this->declareClass($column->getPhpType());
+
+        $script .= "
+    /**
+     * Get the [$clo] column value.
+     * " . $column->getDescription();
+        if ($column->isLazyLoad()) {
+            $script .= "
+     * @param      ConnectionInterface An optional ConnectionInterface connection to use for fetching this lazy-loaded column.";
+        }
+        $script .= "
+     * @return list<$enum>
+     */";
+    }
+
+    protected function addSetAccessorBody(&$script, Column $column)
+    {
+        $clo = $column->getLowercasedName();
+        $cloConverted = $clo . '_converted';
+        if ($column->isLazyLoad()) {
+            $script .= $this->getAccessorLazyLoadSnippet($column);
+        }
+
+        $enum = $this->declareClass($column->getPhpType());
+
+        $script .= "
+        if (null === \$this->$cloConverted) {
+            \$this->$cloConverted = array();
+        }
+        if (!\$this->$cloConverted && null !== \$this->$clo) {
+            \$this->$cloConverted = array_map(function (string \$value) {
+                return $enum::from(\$value);
+            }, explode(',', \$this->$clo));
+        }
+
+        return \$this->$cloConverted;";
+    }
+
+    protected function addSetMutator(&$script, Column $col)
+    {
+        $clo = $col->getLowercasedName();
+        $enum = $this->declareClass($col->getPhpType());
+
+        $script .= "
+    /**
+     * Set the value of [$clo] column.
+     * " . $col->getDescription() . "
+     * @param  array<$enum> \$v new value
+     * @return \$this|" . $this->getObjectClassName(true) . " The current object (for fluent API support)
+     */";
+
+        $this->addMutatorOpenOpen($script, $col);
+        $this->addMutatorOpenBody($script, $col);
+        $cloConverted = $clo . '_converted';
+
+        $script .= "
+        \$v = !\$v ? null : implode(',', array_map(function ($enum \$value) {
+            return \$value->value;
+        }, \$v));
+        if (\$this->$clo !== \$v) {
+            \$this->$cloConverted = null;
+            \$this->$clo = \$v;
+            \$this->modifiedColumns[" . $this->getColumnConstant($col) . "] = true;
+        }
+";
+        $this->addMutatorClose($script, $col);
     }
 }
