@@ -20,7 +20,7 @@ use Propel\Generator\Platform\PlatformInterface;
 
 class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
 {
-    protected function addHydrateBody(&$script): void
+    protected function addHydrateBody(string &$script): void
     {
         $table = $this->getTable();
         $platform = $this->getPlatform();
@@ -52,10 +52,9 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
                 \$this->$clo = null;
             }";
                 } elseif ($col->isTemporalType()) {
-                    $dateTimeClass = $this->getDateTimeClass($col);
                     $handleMysqlDate = false;
                     if ($this->getPlatform() instanceof MysqlPlatform) {
-                        if ($col->getType() === PropelTypes::TIMESTAMP) {
+                        if (in_array($col->getType(), [PropelTypes::TIMESTAMP, PropelTypes::DATETIME], true)) {
                             $handleMysqlDate = true;
                             $mysqlInvalidDateString = '0000-00-00 00:00:00';
                         } elseif ($col->getType() === PropelTypes::DATE) {
@@ -114,8 +113,8 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
             \$this->$clo = \$col;";
                 }
                 ++$n;
-            } // if col->isLazyLoad()
-        } /* foreach */
+            }
+        }
 
         if ($this->getBuildProperty('generator.objectModel.addSaveMethod')) {
             $script .= '
@@ -141,7 +140,7 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
         }';
     }
 
-    protected function addBuildCriteriaBody(&$script)
+    protected function addBuildCriteriaBody(string &$script): void
     {
         $script .= "
         \$criteria = new Criteria(" . $this->getTableMapClass() . "::DATABASE_NAME);
@@ -245,7 +244,7 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
         return $script;
     }
 
-    protected function addTemporalMutator(&$script, Column $col): void
+    protected function addTemporalMutator(string &$script, Column $col): void
     {
         $clo = $col->getLowercasedName();
 
@@ -305,7 +304,7 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
         return '\\Yakamara\\DateTime\\DateTime';
     }
 
-    public function addEnumAccessorComment(&$script, Column $column)
+    public function addEnumAccessorComment(string &$script, Column $column): void
     {
         $clo = $column->getLowercasedName();
 
@@ -325,12 +324,12 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
      */";
     }
 
-    protected function addEnumAccessorBody(&$script, Column $column)
+    protected function addEnumAccessorBody(string &$script, Column $column): void
     {
         $this->addDefaultAccessorBody($script, $column);
     }
 
-    protected function addEnumMutator(&$script, Column $col)
+    protected function addEnumMutator(string &$script, Column $col): void
     {
         $clo = $col->getLowercasedName();
 
@@ -365,7 +364,7 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
         $this->addMutatorClose($script, $col);
     }
 
-    public function addSetAccessorComment(&$script, Column $column)
+    public function addSetAccessorComment(string &$script, Column $column): void
     {
         $clo = $column->getLowercasedName();
 
@@ -384,7 +383,7 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
      */";
     }
 
-    protected function addSetAccessorBody(&$script, Column $column)
+    protected function addSetAccessorBody(string &$script, Column $column): void
     {
         $clo = $column->getLowercasedName();
         $cloConverted = $clo . '_converted';
@@ -407,7 +406,7 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
         return \$this->$cloConverted;";
     }
 
-    protected function addSetMutator(&$script, Column $col)
+    protected function addSetMutator(string &$script, Column $col): void
     {
         $clo = $col->getLowercasedName();
         $enum = $this->declareClass($col->getPhpType());

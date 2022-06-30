@@ -16,7 +16,25 @@ use Propel\Generator\Model\PropelTypes;
 
 class QueryBuilder extends \Propel\Generator\Builder\Om\QueryBuilder
 {
-    protected function addFilterByCol(&$script, Column $col)
+    protected function addClassOpen(string &$script): void
+    {
+        parent::addClassOpen($script);
+
+        $this->declareClasses('\Propel\Runtime\Collection\ObjectCollection');
+
+        $script = str_replace('|Collection find', '|ObjectCollection find', $script);
+        $script = str_replace('@psalm-method Collection&\Traversable', '@psalm-method ObjectCollection&\Traversable', $script);
+    }
+
+    protected function addFindPks(string &$script): void
+    {
+        $findPks = '';
+        parent::addFindPks($findPks);
+
+        $script .= str_replace('@return Collection|', '@return ObjectCollection|', $findPks);
+    }
+
+    protected function addFilterByCol(string &$script, Column $col): void
     {
         if ($col->isEnumType()) {
             $this->addFilterByEnumCol($script, $col);
@@ -32,7 +50,7 @@ class QueryBuilder extends \Propel\Generator\Builder\Om\QueryBuilder
         parent::addFilterByCol($script, $col);
     }
 
-    private function addFilterByEnumCol(&$script, Column $col): void
+    private function addFilterByEnumCol(string &$script, Column $col): void
     {
         $colPhpName = $col->getPhpName();
         $colName = $col->getName();
@@ -76,7 +94,7 @@ class QueryBuilder extends \Propel\Generator\Builder\Om\QueryBuilder
 ";
     }
 
-    private function addFilterBySetCol2(&$script, Column $col): void
+    private function addFilterBySetCol2(string &$script, Column $col): void
     {
         $colPhpName = $col->getPhpName();
         $colName = $col->getName();

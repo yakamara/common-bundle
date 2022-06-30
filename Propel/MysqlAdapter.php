@@ -18,12 +18,8 @@ use Yakamara\DateTime\DateTime;
 
 class MysqlAdapter extends \Propel\Runtime\Adapter\Pdo\MysqlAdapter
 {
-    public function formatTemporalValue($value, ColumnMap $cMap)
+    public function formatTemporalValue($value, ColumnMap $cMap): string
     {
-        if (empty($value)) {
-            return null;
-        }
-
         switch ($cMap->getType()) {
             case PropelTypes::TIMESTAMP:
             case PropelTypes::BU_TIMESTAMP:

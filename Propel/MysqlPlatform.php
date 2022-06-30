@@ -19,7 +19,7 @@ use Yakamara\DateTime\DateTime;
 
 class MysqlPlatform extends \Propel\Generator\Platform\MysqlPlatform
 {
-    public function getColumnDDL(Column $col)
+    public function getColumnDDL(Column $col): string
     {
         if ($col->isEnumType() || $col->isSetType()) {
             $class = $col->getPhpType();
