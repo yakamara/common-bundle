@@ -23,6 +23,7 @@ class MysqlAdapter extends \Propel\Runtime\Adapter\Pdo\MysqlAdapter
         switch ($cMap->getType()) {
             case PropelTypes::TIMESTAMP:
             case PropelTypes::BU_TIMESTAMP:
+            case PropelTypes::DATETIME:
                 $dateTime = DateTime::createFromUnknown($value);
                 $value = $dateTime->toUtc()->formatIso();
                 break;
