@@ -23,9 +23,9 @@ class PropelConfigurationPass implements CompilerPassInterface
     {
         $config = $container->getParameter('propel.configuration');
 
-        $config['generator']['platformClass'] = MysqlPlatform::class;
-        $config['generator']['objectModel']['builders']['object'] = ObjectBuilder::class;
-        $config['generator']['objectModel']['builders']['query'] = QueryBuilder::class;
+        $config['generator']['platformClass'] ??= MysqlPlatform::class;
+        $config['generator']['objectModel']['builders']['object'] ??= ObjectBuilder::class;
+        $config['generator']['objectModel']['builders']['query'] ??= QueryBuilder::class;
 
         $container->setParameter('propel.configuration', $config);
     }
