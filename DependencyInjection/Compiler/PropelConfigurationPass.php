@@ -11,6 +11,7 @@
 
 namespace Yakamara\CommonBundle\DependencyInjection\Compiler;
 
+use Propel\Generator\Builder\Om as PropelBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Yakamara\CommonBundle\Propel\MysqlPlatform;
@@ -24,8 +25,14 @@ class PropelConfigurationPass implements CompilerPassInterface
         $config = $container->getParameter('propel.configuration');
 
         $config['generator']['platformClass'] ??= MysqlPlatform::class;
-        $config['generator']['objectModel']['builders']['object'] ??= ObjectBuilder::class;
-        $config['generator']['objectModel']['builders']['query'] ??= QueryBuilder::class;
+        $config['generator']['objectModel']['addClassLevelComment'] = false;
+
+        if (PropelBuilder\ObjectBuilder::class === ltrim($config['generator']['objectModel']['builders']['object'], '\\')) {
+            $config['generator']['objectModel']['builders']['object'] = ObjectBuilder::class;
+        }
+        if (PropelBuilder\QueryBuilder::class === ltrim($config['generator']['objectModel']['builders']['query'], '\\')) {
+            $config['generator']['objectModel']['builders']['query'] = QueryBuilder::class;
+        }
 
         $container->setParameter('propel.configuration', $config);
     }
