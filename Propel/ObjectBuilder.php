@@ -147,7 +147,7 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
 ";
         foreach ($this->getTable()->getColumns() as $col) {
             $clo = $col->getLowercasedName();
-            $suffix = $col->isEnumType() ? '->value' : '';
+            $suffix = $col->isEnumType() ? '?->value' : '';
             $script .= "
         if (\$this->isColumnModified(" . $this->getColumnConstant($col) . ")) {
             \$criteria->add(" . $this->getColumnConstant($col) . ", \$this->{$clo}{$suffix});
