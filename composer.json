@@ -22,7 +22,6 @@
         "symfony/serializer": "^4.4 || ^5.4 || ^6.1",
         "symfony/translation": "^4.4 || ^5.4 || ^6.1",
         "symfony/validator": "^4.4 || ^5.4 || ^6.1",
-        "sensio/framework-extra-bundle": "^5.0 || ^6.0",
         "propel/propel": "^2.0.0-beta2@beta",
         "propel/propel-bundle": "^4.0@dev",
         "twig/twig": "^2.4 || ^3.0",
