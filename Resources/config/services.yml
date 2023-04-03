@@ -11,4 +11,4 @@ services:
 
     Yakamara\CommonBundle\ValueResolver\DateTimeValueResolver:
         tags:
-            - { name: controller.argument_value_resolver }
+            - { name: controller.argument_value_resolver, priority: 105 }
