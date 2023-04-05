@@ -15,7 +15,6 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authentication\Token\SwitchUserToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class SecurityContext
 {
@@ -57,7 +56,7 @@ class SecurityContext
     /**
      * Returns a user representation.
      *
-     * @return null|UserInterface|\App\Model\User
+     * @return null|\App\Model\User
      */
     public function getUser()
     {
@@ -109,7 +108,7 @@ class SecurityContext
     /**
      * Returns the orignal user.
      *
-     * @return null|UserInterface|\App\Model\User
+     * @return null|\App\Model\User
      */
     public function getSwitchedUserSource()
     {

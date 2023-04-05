@@ -14,7 +14,6 @@ namespace Yakamara\CommonBundle\Security;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 abstract class AbstractVoter implements VoterInterface
 {
@@ -71,7 +70,7 @@ abstract class AbstractVoter implements VoterInterface
             $vote = self::ACCESS_DENIED;
 
             $method = $this->methods[$attribute];
-            if ($token->getUser() instanceof UserInterface && $this->$method(...$arguments)) {
+            if ($token->getUser() instanceof \App\Model\User && $this->$method(...$arguments)) {
                 // grant access as soon as at least one voter returns a positive response
                 return self::ACCESS_GRANTED;
             }
@@ -84,13 +83,13 @@ abstract class AbstractVoter implements VoterInterface
     /** @noinspection PhpUndefinedClassInspection */
 
     /**
-     * @return null|UserInterface|\App\Model\User
+     * @return null|\App\Model\User
      */
     public function getUser(TokenInterface $token)
     {
         $user = $token->getUser();
 
-        return $user instanceof UserInterface ? $user : null;
+        return $user instanceof \App\Model\User ? $user : null;
     }
 
     protected function getSupportedClass(): string

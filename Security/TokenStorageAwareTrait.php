@@ -12,7 +12,6 @@
 namespace Yakamara\CommonBundle\Security;
 
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 trait TokenStorageAwareTrait
 {
@@ -31,7 +30,7 @@ trait TokenStorageAwareTrait
     /** @noinspection PhpUndefinedClassInspection */
 
     /**
-     * @return null|UserInterface|\App\Model\User
+     * @return null|\App\Model\User
      */
     public function getUser()
     {
@@ -43,6 +42,6 @@ trait TokenStorageAwareTrait
 
         $user = $token->getUser();
 
-        return $user instanceof UserInterface ? $user : null;
+        return $user instanceof \App\Model\User ? $user : null;
     }
 }

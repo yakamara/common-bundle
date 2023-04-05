@@ -13,7 +13,6 @@ namespace Yakamara\CommonBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as SymfonyAbstractController;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Yakamara\CommonBundle\Security\SecurityContext;
 
@@ -22,7 +21,7 @@ use Yakamara\CommonBundle\Security\SecurityContext;
 /** @noinspection PhpUndefinedClassInspection */
 
 /**
- * @method null|UserInterface|\App\Model\User getUser()
+ * @method null|\App\Model\User getUser()
  */
 abstract class AbstractController extends SymfonyAbstractController
 {
