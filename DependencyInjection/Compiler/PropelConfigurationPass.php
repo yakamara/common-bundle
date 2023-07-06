@@ -20,7 +20,7 @@ use Yakamara\CommonBundle\Propel\QueryBuilder;
 
 class PropelConfigurationPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $config = $container->getParameter('propel.configuration');
 
