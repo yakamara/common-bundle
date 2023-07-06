@@ -12,15 +12,14 @@
 namespace Yakamara\CommonBundle\Security;
 
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Contracts\Service\Attribute\Required;
 
 trait TokenStorageAwareTrait
 {
     /** @var TokenStorageInterface */
     protected $tokenStorage;
 
-    /**
-     * @required
-     */
+    #[Required]
     public function setTokenStorage(TokenStorageInterface $tokenStorage): void
     {
         $this->tokenStorage = $tokenStorage;

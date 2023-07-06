@@ -11,6 +11,7 @@
 
 namespace Yakamara\CommonBundle\Util;
 
+use Symfony\Contracts\Service\Attribute\Required;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 trait TranslatorTrait
@@ -18,9 +19,7 @@ trait TranslatorTrait
     /** @var TranslatorInterface */
     private $translator;
 
-    /**
-     * @required
-     */
+    #[Required]
     public function setTranslator(TranslatorInterface $translator): void
     {
         $this->translator = $translator;

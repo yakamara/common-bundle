@@ -12,6 +12,7 @@
 namespace Yakamara\CommonBundle\DependencyInjection;
 
 use Psr\Container\ContainerInterface;
+use Symfony\Contracts\Service\Attribute\Required;
 
 trait ServiceLocatorAwareTrait
 {
@@ -20,9 +21,7 @@ trait ServiceLocatorAwareTrait
      */
     protected $container;
 
-    /**
-     * @required
-     */
+    #[Required]
     public function setContainer(ContainerInterface $container): void
     {
         $this->container = $container;
