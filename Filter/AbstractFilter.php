@@ -30,12 +30,7 @@ abstract class AbstractFilter
         return $this->key;
     }
 
-    /**
-     * @param string $key
-     *
-     * @return $this
-     */
-    public function setDbKey(string $key): self
+    public function setDbKey(string $key): static
     {
         $this->dbKey = $key;
 
@@ -47,37 +42,17 @@ abstract class AbstractFilter
         return $this->dbKey;
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return $this
-     */
-    abstract public function handleRequest(Request $request);
+    abstract public function handleRequest(Request $request): static;
 
-    /**
-     * @param ModelCriteria $query
-     *
-     * @return $this
-     */
-    abstract public function handleQuery(ModelCriteria $query);
+    abstract public function handleQuery(ModelCriteria $query): static;
 
-    /**
-     * @param Request       $request
-     * @param ModelCriteria $query
-     *
-     * @return $this
-     */
-    public function handle(Request $request, ModelCriteria $query): self
+    public function handle(Request $request, ModelCriteria $query): static
     {
         return $this->handleRequest($request)->handleQuery($query);
     }
 
-    /**
-     * @param self[]             $filters
-     * @param Request            $request
-     * @param null|ModelCriteria $query
-     */
-    public static function handleAll(array $filters, Request $request, ModelCriteria $query = null): void
+    /** @param self[] $filters */
+    public static function handleAll(array $filters, Request $request, ?ModelCriteria $query = null): void
     {
         foreach ($filters as $filter) {
             $filter->handleRequest($request);

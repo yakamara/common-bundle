@@ -29,18 +29,13 @@ class SimpleFilter extends AbstractFilter
         $this->setChoices($choices);
     }
 
-    /**
-     * @param string $key
-     * @param array  $choices
-     *
-     * @return static
-     */
-    public static function create(string $key, $choices)
+    /** @param array $choices */
+    public static function create(string $key, $choices): static
     {
         return new static($key, $choices);
     }
 
-    public function setChoices($choices)
+    public function setChoices($choices): static
     {
         $this->choices = array_combine($choices, $choices);
 
@@ -55,7 +50,7 @@ class SimpleFilter extends AbstractFilter
     /**
      * @param bool|string $prefix
      */
-    public function setTranslationPrefix($prefix): self
+    public function setTranslationPrefix($prefix): static
     {
         $this->translationPrefix = $prefix;
 
@@ -67,7 +62,7 @@ class SimpleFilter extends AbstractFilter
         return $this->translationPrefix;
     }
 
-    public function setCurrent($current): self
+    public function setCurrent($current): static
     {
         $this->current = $current;
 
@@ -84,7 +79,7 @@ class SimpleFilter extends AbstractFilter
         return $this->choices[$this->current] ?? $this->current;
     }
 
-    public function handleRequest(Request $request)
+    public function handleRequest(Request $request): static
     {
         $current = $request->query->get($this->getKey());
 
@@ -95,7 +90,7 @@ class SimpleFilter extends AbstractFilter
         return $this->setCurrent($current);
     }
 
-    public function handleQuery(ModelCriteria $query)
+    public function handleQuery(ModelCriteria $query): static
     {
         if (null === $this->current) {
             return $this;

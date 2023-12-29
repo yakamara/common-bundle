@@ -21,12 +21,12 @@ class DateRangeFilter extends AbstractFilter
     /** @var DateRange */
     private $current;
 
-    public static function create(string $key = 'date'): self
+    public static function create(string $key = 'date'): static
     {
         return new static($key);
     }
 
-    public function setCurrent(?DateRange $current): self
+    public function setCurrent(?DateRange $current): static
     {
         $this->current = $current;
 
@@ -38,7 +38,7 @@ class DateRangeFilter extends AbstractFilter
         return $this->current;
     }
 
-    public function handleRequest(Request $request): self
+    public function handleRequest(Request $request): static
     {
         $current = $request->query->get($this->getKey());
 
@@ -52,7 +52,7 @@ class DateRangeFilter extends AbstractFilter
         ));
     }
 
-    public function handleQuery(ModelCriteria $query): self
+    public function handleQuery(ModelCriteria $query): static
     {
         if (null === $this->current) {
             return $this;

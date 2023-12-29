@@ -18,12 +18,12 @@ class SearchFilter extends AbstractFilter
 {
     private $current;
 
-    public static function create(string $key = 'search'): self
+    public static function create(string $key = 'search'): static
     {
         return new static($key);
     }
 
-    public function setCurrent(?string $current): self
+    public function setCurrent(?string $current): static
     {
         $this->current = $current;
 
@@ -35,20 +35,19 @@ class SearchFilter extends AbstractFilter
         return $this->current;
     }
 
-    public function handleRequest(Request $request): self
+    public function handleRequest(Request $request): static
     {
         $current = $request->query->get($this->getKey());
 
         return $this->setCurrent($current ?: null);
     }
 
-    public function handleQuery(ModelCriteria $query): self
+    public function handleQuery(ModelCriteria $query): static
     {
         if (null === $this->current) {
             return $this;
         }
 
-        /* @noinspection PhpUndefinedMethodInspection */
         $query->search($this->current);
 
         return $this;

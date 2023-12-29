@@ -28,18 +28,13 @@ class ModelFilter extends SimpleFilter
         $this->setTranslationPrefix(false);
     }
 
-    /**
-     * @param string                         $key
-     * @param ModelCriteria|Collection|array $choices
-     *
-     * @return static
-     */
-    public static function create(string $key, $choices)
+    /** @param ModelCriteria|Collection|array $choices */
+    public static function create(string $key, $choices): static
     {
         return new static($key, $choices);
     }
 
-    public function setChoices($choices)
+    public function setChoices($choices): static
     {
         if ($choices instanceof ModelCriteria) {
             $choices = $choices->find();
@@ -54,7 +49,7 @@ class ModelFilter extends SimpleFilter
         return $this;
     }
 
-    public function setEmptyChoice(bool $emptyChoice): self
+    public function setEmptyChoice(bool $emptyChoice): static
     {
         $this->emptyChoice = $emptyChoice;
 
@@ -66,7 +61,7 @@ class ModelFilter extends SimpleFilter
         return $this->emptyChoice;
     }
 
-    public function setDefault(?ActiveRecordInterface $default): self
+    public function setDefault(?ActiveRecordInterface $default): static
     {
         $this->default = $default;
 
@@ -78,7 +73,7 @@ class ModelFilter extends SimpleFilter
         return $this->default;
     }
 
-    public function handleRequest(Request $request)
+    public function handleRequest(Request $request): static
     {
         $current = $request->query->get($this->getKey());
 
@@ -95,7 +90,7 @@ class ModelFilter extends SimpleFilter
         return $this->setCurrent($this->default ? $this->default->getId() : null);
     }
 
-    public function handleQuery(ModelCriteria $query)
+    public function handleQuery(ModelCriteria $query): static
     {
         if (null === $this->getCurrent()) {
             return $this;
