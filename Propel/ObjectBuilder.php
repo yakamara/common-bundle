@@ -140,6 +140,25 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
         }';
     }
 
+    protected function addBuildPkeyCriteriaBody(string &$script): void
+    {
+        if (!$this->getTable()->getPrimaryKey()) {
+            $script .= "
+        throw new LogicException('The {$this->getObjectName()} object has no primary key');";
+
+            return;
+        }
+
+        $script .= "
+        \$criteria = " . $this->getQueryClassName() . '::create();';
+        foreach ($this->getTable()->getPrimaryKey() as $col) {
+            $clo = $col->getLowercasedName();
+            $suffix = $col->isEnumType() ? '?->value' : '';
+            $script .= "
+        \$criteria->add(" . $this->getColumnConstant($col) . ", \$this->{$clo}{$suffix});";
+        }
+    }
+
     protected function addBuildCriteriaBody(string &$script): void
     {
         $script .= "
