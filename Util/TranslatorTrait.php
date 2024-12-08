@@ -37,7 +37,7 @@ trait TranslatorTrait
      *
      * @return string The translated string
      */
-    protected function trans(string $id, array $parameters = [], string $domain = null, string $locale = null): string
+    protected function trans(string $id, array $parameters = [], ?string $domain = null, ?string $locale = null): string
     {
         return $this->translator->trans($id, $parameters, $domain, $locale);
     }
@@ -57,7 +57,7 @@ trait TranslatorTrait
      *
      * @deprecated
      */
-    protected function transChoice(string $id, int $number, array $parameters = [], string $domain = null, string $locale = null): string
+    protected function transChoice(string $id, int $number, array $parameters = [], ?string $domain = null, ?string $locale = null): string
     {
         /** @noinspection PhpUndefinedMethodInspection */
         return $this->translator->transChoice($id, $number, $parameters, $domain, $locale);
