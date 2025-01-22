@@ -21,16 +21,21 @@ class BaseModelFakerPass implements CompilerPassInterface
         spl_autoload_register([$this, 'loadClass'], true, true);
     }
 
-    private function loadClass($class): void
+    public function loadClass($class): void
     {
-        if ('App\\Model\\' !== substr($class, 0, 10)) {
+        if (!str_starts_with($class, 'App\\Model\\')) {
             return;
         }
 
         $class = substr($class, 10);
+
+        if (str_contains($class, '\\') || class_exists('App\\Model\\Base\\'.$class)) {
+            return;
+        }
+
         $dir = __DIR__.'/../../../../../src/Model';
 
-        if (file_exists($dir.'/Base/'.$class.'.php') || !file_exists($dir.'/'.$class.'.php') || !file_exists($dir.'/'.$class.'Query.php')) {
+        if (!file_exists($dir.'/'.$class.'.php') || !file_exists($dir.'/'.$class.'Query.php')) {
             return;
         }
 
