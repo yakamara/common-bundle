@@ -53,7 +53,7 @@ abstract class AbstractController extends SymfonyAbstractController
      *
      * @return string The translated string
      */
-    protected function trans(string $id, array $parameters = [], string $domain = null, string $locale = null): string
+    protected function trans(string $id, array $parameters = [], ?string $domain = null, ?string $locale = null): string
     {
         return $this->container->get('translator')->trans($id, $parameters, $domain, $locale);
     }
@@ -73,7 +73,7 @@ abstract class AbstractController extends SymfonyAbstractController
      *
      * @deprecated
      */
-    protected function transChoice(string $id, int $number, array $parameters = [], string $domain = null, string $locale = null): string
+    protected function transChoice(string $id, int $number, array $parameters = [], ?string $domain = null, ?string $locale = null): string
     {
         return $this->container->get('translator')->transChoice($id, $number, $parameters, $domain, $locale);
     }
