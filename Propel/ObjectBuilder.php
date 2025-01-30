@@ -263,6 +263,39 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
         return $script;
     }
 
+    protected function addColumnAttributeComment(string &$script, Column $column): void
+    {
+        if ($column->isTemporalType()) {
+            $cptype = $this->getDateTimeClass($column);
+        } else {
+            $cptype = $column->getPhpType();
+        }
+        if (str_contains($cptype, '\\')) {
+            $cptype = $this->declareClass($cptype);
+        }
+
+        $clo = $column->getLowercasedName();
+
+        $orNull = $column->isNotNull() ? '' : '|null';
+
+        $script .= "
+    /**
+     * The value for the $clo field.
+     * " . $column->getDescription();
+        if ($column->getDefaultValue()) {
+            if ($column->getDefaultValue()->isExpression()) {
+                $script .= "
+     * Note: this column has a database default value of: (expression) " . $column->getDefaultValue()->getValue();
+            } else {
+                $script .= "
+     * Note: this column has a database default value of: " . $this->getDefaultValueString($column);
+            }
+        }
+        $script .= "
+     * @var        $cptype{$orNull}
+     */";
+    }
+
     protected function addTemporalMutator(string &$script, Column $col): void
     {
         $clo = $col->getLowercasedName();
