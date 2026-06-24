@@ -23,9 +23,16 @@
         "symfony/service-contracts": "^3.3 || ^7.2",
         "symfony/translation": "^4.4 || ^5.4 || ^6.1 || ^7.2",
         "symfony/validator": "^4.4 || ^5.4 || ^6.1 || ^7.2",
-        "propel/propel": "^2.0.0-beta2@beta",
+        "propel/propel": "^2.0.0",
         "propel/propel-bundle": "^4.0@dev",
         "twig/twig": "^2.4 || ^3.0",
         "yakamara/datetime": "^1.0 || ^2.0"
-    }
+    },
+
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/gharlan/PropelBundle"
+        }
+    ]
 }

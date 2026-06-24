@@ -302,6 +302,8 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
 
         $dateTimeClass = $this->getDateTimeClass($col);
 
+        $this->declareClasses($dateTimeClass, '\Propel\Runtime\Util\PropelDateTime');
+
         $this->addTemporalMutatorComment($script, $col);
         $this->addMutatorOpenOpen($script, $col);
         $this->addMutatorOpenBody($script, $col);
@@ -343,7 +345,7 @@ class ObjectBuilder extends \Propel\Generator\Builder\Om\ObjectBuilder
         $this->addMutatorClose($script, $col);
     }
 
-    protected function getDateTimeClass(Column $column): string
+    public function getDateTimeClass(Column $column): string
     {
         if (PropelTypes::isPhpObjectType($column->getPhpType())) {
             return $column->getPhpType();
