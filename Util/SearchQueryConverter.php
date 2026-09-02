@@ -17,8 +17,6 @@ class SearchQueryConverter
     {
         $parts = [];
         foreach (str_getcsv(trim($query), ' ', escape: '') as $part) {
-            // str_getcsv() returns [null] for an empty string and empty entries for repeated
-            // separators, both of which would make the offset access below emit a warning.
             if (null === $part || '' === $part) {
                 continue;
             }
