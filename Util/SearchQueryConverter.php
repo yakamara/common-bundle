@@ -17,6 +17,10 @@ class SearchQueryConverter
     {
         $parts = [];
         foreach (str_getcsv(trim($query), ' ') as $part) {
+            if (null === $part || '' === $part) {
+                continue;
+            }
+
             $op = '-' === $part[0] ? '-' : '+';
             $part = str_replace(['"', '+', '-', '~', '(', ')', '<', '>', '?'], ' ', $part);
             $part = trim($part);
