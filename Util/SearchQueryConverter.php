@@ -16,7 +16,7 @@ class SearchQueryConverter
     public static function convert(string $query): ?string
     {
         $parts = [];
-        foreach (str_getcsv(trim($query), ' ') as $part) {
+        foreach (str_getcsv(trim($query), ' ', escape: '') as $part) {
             if (null === $part || '' === $part) {
                 continue;
             }
